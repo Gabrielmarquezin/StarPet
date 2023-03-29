@@ -44,6 +44,10 @@ class ComposerStaticInit985a3b2edadc949a92e2bd7482ac9a02
         array (
             'GrahamCampbell\\ResultType\\' => 26,
         ),
+        'F' => 
+        array (
+            'Faker\\' => 6,
+        ),
         'D' => 
         array (
             'Dotenv\\' => 7,
@@ -125,6 +129,10 @@ class ComposerStaticInit985a3b2edadc949a92e2bd7482ac9a02
         'GrahamCampbell\\ResultType\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
+        ),
+        'Faker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fakerphp/faker/src/Faker',
         ),
         'Dotenv\\' => 
         array (
