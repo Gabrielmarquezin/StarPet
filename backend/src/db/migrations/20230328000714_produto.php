@@ -22,7 +22,7 @@ final class Produto extends AbstractMigration
         $produto->addColumn('photo', 'binary', ['null' => false])
                 ->addColumn('cod_fichatec', 'integer', ["signed" => false])
                 ->addColumn('cod_categoria', 'integer', ["signed" => false])
-                ->addColumn('desc', 'string', ['limit' => '160'])
+                ->addColumn('desc', 'string', ['limit' => '600'])
                 ->addColumn('preco', 'decimal', ['null' => false, 'scale' => '2', 'precision' => '7'] )
                 ->addColumn('quantidade', 'integer', ['null' => false])
                 ->addColumn('nome', 'string', ['limit' => '45'])
