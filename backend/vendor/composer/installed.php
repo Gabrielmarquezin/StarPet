@@ -3,7 +3,7 @@
         'name' => 'boringue/backend',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '1ec6a2b12871ab38181f3d58829fb00d7d28cba9',
+        'reference' => 'ecf07a53f46725469825ae659f2dd3549be045b5',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'boringue/backend' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '1ec6a2b12871ab38181f3d58829fb00d7d28cba9',
+            'reference' => 'ecf07a53f46725469825ae659f2dd3549be045b5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

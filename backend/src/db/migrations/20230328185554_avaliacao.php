@@ -20,7 +20,7 @@ final class Avaliacao extends AbstractMigration
     {
         $produto_avalicao = $this->table('avaliacao', ['id' => 'cod']);
         $produto_avalicao->addColumn('quantidade_stars', 'integer', ['null' => false ])
-                         ->addColumn('mensagem', 'string', ['null' => false,'limit' => '150'])
+                         ->addColumn('mensagem', 'string', ['null' => false,'limit' => '650'])
 
                          ->addColumn('cod_user', 'integer', ["signed" => false])
                          ->addColumn('cod_produto', 'integer', ["signed" => false])
