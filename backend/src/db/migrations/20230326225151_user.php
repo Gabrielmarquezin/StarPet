@@ -19,7 +19,7 @@ final class User extends AbstractMigration
     public function change(): void
     {
         $user = $this->table('users', ['id' => 'cod']);
-        $user->addColumn('name', 'string', ['null' => false,'limit' => '45'])
+        $user->addColumn('nome', 'string', ['null' => false,'limit' => '45'])
              ->addColumn('email', 'string', ['null' => false, 'limit' => '60'])
              ->addColumn('photo', 'binary')
              ->addIndex(['email'], ['unique' => true])

@@ -1,7 +1,7 @@
 <?php
-
 namespace Boringue\Backend\routes\framework;
-use Boringue\Backend\routes\framework;
+
+use Boringue\Backend\routes\framework\Middleware;
 
 class Router{
     public $routes = [];
@@ -48,6 +48,11 @@ class Router{
         }
 
         return false;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
     }
 
     private function checkUrl(string $route, $path)

@@ -3,7 +3,7 @@
 
 use Phinx\Seed\AbstractSeed;
 
-class Produto extends AbstractSeed
+class Pet extends AbstractSeed
 {
     /**
      * Run Method.
@@ -16,22 +16,21 @@ class Produto extends AbstractSeed
     public function run(): void
     {
         $faker = \Faker\Factory::create('pt_BR');
-        $produto = $this->table('produto');
+        $pet = $this->table('pet');
 
         $data = [];
 
         for($i = 1; $i<= 3; $i++){
             $data[] = [
                 'photo' => $faker->image(null, 360, 360, 'animals', true),
-                'desc' =>  $faker->paragraph(3),
-                'preco' =>  $faker->randomFloat(2, 1, 100),
-                'cod_fichatec' => $i,
-                'cod_categoria' => $i,
-                'quantidade' => $faker->numerify(),
-                'nome' => $faker->name()
+                'desc' => $faker->paragraph(2),
+                'quantidade' => $faker->numberBetween(0, 15),
+                'preco' => $faker->randomFloat(2, 1, 100),
+                'cod_fichapet' => 4,
+                'cod_categoria' => 2
             ];
         }
 
-        $produto->insert($data)->save();
+        $pet->insert($data)->save();
     }
 }

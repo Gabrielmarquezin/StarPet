@@ -25,6 +25,7 @@ final class Pet extends AbstractMigration
 
             ->addColumn('cod_categoria', 'integer',["signed" => false])
             ->addColumn('cod_fichapet', 'integer',["signed" => false])
+            ->addColumn('preco', 'decimal', ['precision' => '9', 'scale' => '2'])
 
             ->addForeignKey('cod_categoria', 'produto_categoria', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
             ->addForeignKey('cod_fichapet', 'ficha_pet', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])

@@ -19,8 +19,8 @@ final class ProdutoCategoria extends AbstractMigration
     public function change(): void
     {
         $produto_categoria = $this->table('produto_categoria', ['id' => 'cod']);
-        $produto_categoria->addColumn('nome', 'string', ['null' => false,'limit' => '45'])
-                          ->addIndex(['nome'], ['unique' => true])
+        $produto_categoria->addColumn('nome_categoria', 'string', ['null' => false,'limit' => '45'])
+                          ->addIndex(['nome_categoria'], ['unique' => true])
                           ->create();
     }
 }

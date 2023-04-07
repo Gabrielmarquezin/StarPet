@@ -3,7 +3,7 @@
 
 use Phinx\Seed\AbstractSeed;
 
-class ProdutoPedido extends AbstractSeed
+class AdocaoPedido extends AbstractSeed
 {
     /**
      * Run Method.
@@ -16,24 +16,23 @@ class ProdutoPedido extends AbstractSeed
     public function run(): void
     {
         $faker = \Faker\Factory::create('pt_BR');
-        $produto_pedido = $this->table('produto_pedido');
+        $adocao_pedido = $this->table('adocao_pedido');
 
         $data = [];
 
         for($i = 1; $i<= 3; $i++){
             $data[] = [
-                'cod_user' => 1,
-                'cod_produto' => $i + 1,
-                'data_payment' =>date("Y-m-d H:i:s"),
-                'preco_total' => $faker->randomFloat(1, 20, 30),
+                'cod_user' => $i,
+                'cod_pet' => $i,
+                'data_pedido' =>date("Y-m-d H:i:s"),
+                'email' => $faker->email(),
                 'cpf' => $faker->cpf,
                 'rua' => $faker->streetName(),
                 'bairro' => $faker->city(),
-                'telefone' => $faker->phoneNumber(),
-                'cod_pagamento' => $i
+                'telefone' => '(85) 991022800'
             ]; 
         }
 
-        $produto_pedido->insert($data)->save();
+        $adocao_pedido->insert($data)->save();
     }
 }
