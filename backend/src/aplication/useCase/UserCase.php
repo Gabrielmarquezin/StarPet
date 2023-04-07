@@ -22,10 +22,9 @@ class UserCase{
              ->setBairro($dados['bairro'])
              ->setCasaN($dados['casa_numero']);
 
-        $cont = $UserRepository->findUser($UserEntity);
-        if($cont < 1){
-            
-        }
+        $r = $UserRepository->findUser($UserEntity);
+        // $UserRepository->addUser($UserEntity);
+
         return $r;
     }
 }
