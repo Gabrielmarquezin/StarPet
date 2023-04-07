@@ -43,8 +43,8 @@ class UserRepository implements UserRepositoryInterface{
             $query = $db->prepare($sql);
             
             $query->execute($data);
-
-            return $query->fetchAll();
+            
+            return $query->rowCount();
 
         } catch(PDOException $e){
             echo $e->getMessage();

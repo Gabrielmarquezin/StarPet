@@ -17,11 +17,15 @@ class UserCase{
 
         $UserEntity->setNome($dados['nome'])
              ->setEmail($dados['email'])
-             ->setPhoto($dados['photo']);
+             ->setPhoto($dados['photo'])
+             ->setRua($dados['rua'])
+             ->setBairro($dados['bairro'])
+             ->setCasaN($dados['casa_numero']);
 
-        $r = $UserRepository->findUser($UserEntity);
-        // $UserRepository->addUser($UserEntity);
-
+        $cont = $UserRepository->findUser($UserEntity);
+        if($cont < 1){
+            
+        }
         return $r;
     }
 }
