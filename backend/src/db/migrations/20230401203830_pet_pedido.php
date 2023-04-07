@@ -23,10 +23,10 @@ final class PetPedido extends AbstractMigration
 
         $pet_pedido->addColumn('cod_user', 'integer')
                    ->addColumn('cod_pet', 'integer')
-                   ->addColumn('cpf', 'string', ['null' => false, 'limit' => '14'])
+                   ->addColumn('cpf', 'string', ['null' => false, 'limit' => '16'])
                    ->addColumn('rua', 'string', ['null' => false, 'limit' => '100'])
                    ->addColumn('bairro', 'string', ['null' => false, 'limit' => '100'])
-                   ->addColumn('telefone', 'string', ['limit' => '14'])
+                   ->addColumn('telefone', 'string', ['limit' => '16'])
                    ->addTimestamps('data_pedido', 'udpate_pedido')
                    ->addColumn('preco_total', 'decimal', ['null' => false, 'scale' => '2', 'precision' => '7'])
 

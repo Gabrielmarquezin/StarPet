@@ -24,10 +24,10 @@ final class AdocaoPedido extends AbstractMigration
         $adocao_pedido->addColumn('cod_user', 'integer')
                       ->addColumn('cod_pet', 'integer')
                       ->addColumn('email', 'string', ['null' => false, 'limit' => '150'])
-                      ->addColumn('cpf', 'string', ['null' => false, 'limit' => '14'])
+                      ->addColumn('cpf', 'string', ['null' => false, 'limit' => '16'])
                       ->addColumn('rua', 'string', ['null' => false, 'limit' => '100'])
                       ->addColumn('bairro', 'string', ['null' => false, 'limit' => '100'])
-                      ->addColumn('telefone', 'string', ['limit' => '14'])
+                      ->addColumn('telefone', 'string', ['limit' => '16'])
                       ->addTimestamps('data_pedido', 'update_pedido')
 
                       ->create();

@@ -20,7 +20,7 @@ final class Pet extends AbstractMigration
     {
         $pet = $this->table('pet', ['id' => 'cod']);
         $pet->addColumn('photo', 'binary')
-            ->addColumn('desc', 'string', ['limit' => '300'])
+            ->addColumn('desc', 'string', ['limit' => '1500'])
             ->addColumn('quantidade', 'integer', ['null' => false])
 
             ->addColumn('cod_categoria', 'integer',["signed" => false])

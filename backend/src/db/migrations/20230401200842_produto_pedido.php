@@ -24,7 +24,7 @@ final class ProdutoPedido extends AbstractMigration
                        ->addColumn('cod_produto', 'integer')
                        ->addTimestamps('data_payment', 'update_payment')
                        ->addColumn('preco_total', 'decimal', ['null' => false,'scale' => '2', 'precision' => '7'])
-                       ->addColumn('cpf', 'string', ['null' => false,'limit' => '14'])
+                       ->addColumn('cpf', 'string', ['null' => false,'limit' => '16'])
                        ->addColumn('rua', 'string', ['null' => false,'limit' => '100'])
                        ->addColumn('bairro', 'string', ['null' => false, 'limit' => '100'])
                        ->addColumn('telefone', 'string', ['limit' => '18'])

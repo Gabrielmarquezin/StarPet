@@ -21,8 +21,8 @@ final class BanhoAgenda extends AbstractMigration
         $agenda_banho = $this->table('banho_agenda', ['id' => 'cod']);
         $agenda_banho->addColumn('pet_name', 'string', ['null' => false, 'limit' => '45'])
                      ->addColumn('email', 'string', ['null' => false, 'limit' => '160'])
-                     ->addColumn('telefone', 'string', ['null' => false, 'limit' => '14'])
-                     ->addColumn('observacoes', 'string', ['limit' => '250'])
+                     ->addColumn('telefone', 'string', ['null' => false, 'limit' => '16'])
+                     ->addColumn('observacoes', 'string', ['limit' => '1500'])
                      ->addColumn('kit_banho', 'string', ['null' => false, 'limit' => '45'])
 
                      ->addColumn('cod_horario', 'integer', ["signed" => false])

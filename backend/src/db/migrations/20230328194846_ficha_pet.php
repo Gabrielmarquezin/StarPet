@@ -20,8 +20,8 @@ final class FichaPet extends AbstractMigration
     {
         $ficha_pet = $this->table('ficha_pet', ['id' => 'cod']);
         $ficha_pet ->addColumn('raca', 'string', ['limit' => '30'])
-                   ->addColumn('alergias', 'string', ['limit' => '45'])
-                   ->addColumn('observacoes', 'string', ['limit' => '150'])
+                   ->addColumn('alergias', 'string', ['limit' => '500'])
+                   ->addColumn('observacoes', 'string', ['limit' => '1000'])
                    ->addColumn('tamanho', 'string', ['limit' => '45'])
                    ->addColumn('estoque', 'string', ['limit' => '20'])
 
