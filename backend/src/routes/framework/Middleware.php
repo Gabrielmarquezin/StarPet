@@ -3,13 +3,13 @@
 namespace Boringue\Backend\routes\framework;
 
 class Middleware{
-    private $action;
+    private $action = [];
     private $middlewareBefore = [];
     private $middlewareAfter = [];
 
-    public function __construct($action)
+    public function __construct(array $action)
     {
-        $this->$action = $action;
+        $this->action = $action;
     }
 
     public function before($middleware)
@@ -25,6 +25,7 @@ class Middleware{
     }
 
     public function getData(){
+
         return[
             'action' => $this->action,
             'before' => $this->middlewareBefore,

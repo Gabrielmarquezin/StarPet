@@ -10,6 +10,7 @@ class UserEntity implements UserInterface{
     private static $rua;
     private static $bairro;
     private static $casaNumber;
+    private static $id;
 
     public function setNome(string $nome)
     {
@@ -53,6 +54,12 @@ class UserEntity implements UserInterface{
         return $this;
     }
 
+    public function setId($id){
+        self::$id = $id;
+
+        return $this;
+    }
+
     public function getNome()
     {
         return self::$nome;
@@ -81,5 +88,9 @@ class UserEntity implements UserInterface{
     public function getCasaN()
     {
         return self::$casaNumber;
+    }
+
+    public function getId(){
+        return self::$id;
     }
 }

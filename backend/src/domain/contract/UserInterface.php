@@ -8,6 +8,7 @@ interface UserInterface{
     public function setRua(string $rua);
     public function setBairro(string $bairro);
     public function setCasaN(string $casaN);
+    public function setId($id);
 
     public function getNome();
     public function getEmail();
@@ -15,5 +16,5 @@ interface UserInterface{
     public function getRua();
     public function getBairro();
     public function getCasaN();
-
+    public function getId();
 }

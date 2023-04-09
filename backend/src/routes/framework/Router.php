@@ -15,8 +15,9 @@ class Router{
         $this->path = $path;
     }
 
-    public function get(string $route, $action)
+    public function get(string $route, array $action)
     {
+       
         return $this->add('GET', $route, $action);
     }
 
@@ -25,14 +26,16 @@ class Router{
         return $this->add('POST', $route, $action);
     }
 
-    private function add(string $method, $route, $action)
+    private function add(string $method, $route, array $action)
     {
+        
         return $this->routes[$method][$route] = new Middleware($action);
     }
 
     public function handler()
-    {
+    {   
         if (empty($this->routes[$this->method])) {
+            
             return false;
         }
 
@@ -40,13 +43,14 @@ class Router{
             return $this->routes[$this->method][$this->path];
         }
 
-        foreach ($this->routes[$this->method] as $route => $action) {
-            $result = $this->checkUrl($route, $this->path);
-            if ($result >= 1) {
-                return $action;
-            }
-        }
-
+         foreach ($this->routes[$this->method] as $route => $action) {
+             $result = $this->checkUrl($route, $this->path);
+           
+             if ($result >= 1) {
+                 return $action;
+             }
+         }
+        
         return false;
     }
 
