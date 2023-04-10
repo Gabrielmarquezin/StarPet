@@ -7,6 +7,7 @@ use Boringue\Backend\domain\entities\CategoriaEntity;
 use Boringue\Backend\domain\entities\FichaProduto;
 use Boringue\Backend\domain\entities\ProductEntity;
 use Exception;
+use Produto;
 
 class ProductRepository implements ProductRepositoryInterface{
     private $db;
@@ -95,7 +96,29 @@ class ProductRepository implements ProductRepositoryInterface{
 
     public function find(ProductEntity $produto)
     {
-        
+        $cnt = $this->db;
+        $data = [
+            "cod" => $produto->getCod()
+        ];
+        try{
+            $sql = "SELECT * FROM produto WHERE cod = :cod";
+            $query = $cnt->prepare($sql);
+            $query->execute($data);
+
+            $produto_retornado = $query->fetchAll();
+            $product = [];
+
+            foreach($produto_retornado as $p){
+                $produto->setCod($p['cod'])
+                        ->setPhoto($p['photo'])
+                        ->setCodFichaTec($p['cod_fichatec'])
+                        ->setCodCategoria($p['cod_categoria'])
+                        ->setDescricao($p['descricao']);
+                        
+            };
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
     }
 
     public function findAll()

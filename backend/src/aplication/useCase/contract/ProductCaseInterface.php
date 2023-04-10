@@ -8,7 +8,7 @@ use FichaProduto;
 
 interface ProductCaseInterface{
      public function addProduct(ProductEntity $product, ProductRepository $productRepository);
-     public function getProduct($idProduto);
+     public function getProduct(ProductEntity $product,ProductRepository $productRepository, $id);
      public function getAllProduct();
      public function deleteProduct($idProduto);
 }

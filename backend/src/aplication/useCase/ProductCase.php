@@ -53,9 +53,14 @@ class ProductCase implements ProductCaseInterface{
         return ["message" => "produto adicionado"];
      }
 
-     public function getProduct($idProduto)
+     public function getProduct(ProductEntity $product ,ProductRepository $productRepository, $id)
      {
-        
+        if($id == 0){
+
+        }else{
+            $product->setCod($id);
+            $getProdutos = $productRepository->find($product);
+        }
      }
 
      public function getAllProduct()

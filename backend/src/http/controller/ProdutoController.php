@@ -21,6 +21,8 @@ class ProdutoController implements ProdutoControllerInterface{
 
     public function get()
     {
-        
+        $id = empty($_GET['id$id']) == 1 ? 0 : $_GET['id$id'];
+        $product_case = new ProductCase(null);
+        $product_case->getProduct(new ProductEntity(), new ProductRepository(new Database()), $id);
     }
 }
