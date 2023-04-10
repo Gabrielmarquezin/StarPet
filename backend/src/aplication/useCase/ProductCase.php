@@ -60,6 +60,8 @@ class ProductCase implements ProductCaseInterface{
         }else{
             $product->setCod($id);
             $getProdutos = $productRepository->find($product);
+
+            return $getProdutos;
         }
      }
 

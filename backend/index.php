@@ -14,7 +14,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $RotasUser = new UserRoutes(new Router($method, $path[0]), new UserController());
 $RotasProducts = new ProdutoRoutes(new Router($method, $path[0]), new ProdutoController());
-
+echo $path[0];
 $RotasUser->initRoutes()
            ->execute();
 

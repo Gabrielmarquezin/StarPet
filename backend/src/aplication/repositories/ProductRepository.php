@@ -113,9 +113,25 @@ class ProductRepository implements ProductRepositoryInterface{
                         ->setPhoto($p['photo'])
                         ->setCodFichaTec($p['cod_fichatec'])
                         ->setCodCategoria($p['cod_categoria'])
-                        ->setDescricao($p['descricao']);
+                        ->setDescricao($p['descricao'])
+                        ->setPreco($p['preco'])
+                        ->setQuantidade($p['quantidade'])
+                        ->setNome($p['nome']);
+
+                $product[] = [
+                    "cod" => $produto->getCod(),
+                    "photo" => $produto->getPhoto(),
+                    "ficha_tec" => $produto->getCodFichaTec(),
+                    "categoria" => $produto->getCodCategoria(),
+                    "descricao" => $produto->getDescricao(),
+                    "preco" => $produto->getPreco(),
+                    "quantidade" => $produto->getQuantidade(),
+                    "nome" => $produto->getNome() 
+                ];
                         
-            };
+            }
+
+            return $product;
         }catch(Exception $e){
             echo $e->getMessage();
         }

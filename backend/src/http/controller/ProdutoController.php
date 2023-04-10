@@ -15,14 +15,16 @@ class ProdutoController implements ProdutoControllerInterface{
 
         $product_case = new ProductCase($dados);
         $response = $product_case->addProduct(new ProductEntity(), new ProductRepository(new Database()));
-
+       
         echo json_encode($response);
     }
 
     public function get()
     {
-        $id = empty($_GET['id$id']) == 1 ? 0 : $_GET['id$id'];
+        $id = empty($_GET['id']) == 1 ? 0 : $_GET['id'];
         $product_case = new ProductCase(null);
-        $product_case->getProduct(new ProductEntity(), new ProductRepository(new Database()), $id);
+        $produtos = $product_case->getProduct(new ProductEntity(), new ProductRepository(new Database()), $id);
+
+        echo json_encode($produtos);
     }
 }
