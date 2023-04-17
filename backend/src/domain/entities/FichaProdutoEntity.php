@@ -1,15 +1,22 @@
 <?php
 namespace Boringue\Backend\domain\entities;
 
-use Boringue\Backend\domain\contract\FichaProdutoInterface;
+use Boringue\Backend\domain\contract\FichaProdutoEntityInterface;
 
-class FichaProduto implements FichaProdutoInterface{
+class FichaProdutoEntity implements FichaProdutoEntityInterface{
+    private static $cod;
     private static $linha;
     private static $modelo;
     private static $marca;
     private static $tamanho;
     private static $cor;
     private static $estoque;
+
+    public function setCod($cod)
+    {
+        self::$cod = $cod;
+        return $this;
+    }
 
     public function setLinha(string $linha)
     {
@@ -45,6 +52,11 @@ class FichaProduto implements FichaProdutoInterface{
     {
         self::$estoque = $estoque;
         return $this;
+    }
+
+    public function getCod()
+    {
+        return self::$cod;
     }
 
     public function getLinha(): string

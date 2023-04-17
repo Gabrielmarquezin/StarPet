@@ -5,7 +5,9 @@ use Boringue\Backend\aplication\repositories\ProductRepository;
 use Boringue\Backend\aplication\useCase\contract\ProductCaseInterface;
 use Boringue\Backend\domain\entities\ProductEntity;
 use Boringue\Backend\domain\entities\CategoriaEntity;
+use Boringue\Backend\domain\entities\FichaProdutoEntity;
 use Boringue\Backend\domain\entities\UserEntity;
+use Exception;
 use FichaProduto;
 
 class ProductCase implements ProductCaseInterface{
@@ -16,39 +18,45 @@ class ProductCase implements ProductCaseInterface{
         $this->dados = $dados;
      }
 
-     public function addProduct(ProductEntity $product, ProductRepository $productRepository)
+     public function addProduct(ProductEntity $product, ProductRepository $productRepository, FichaProdutoEntity $ficha_tecnica)
      {
+        global $idCat;
         $dados = $this->dados;
+
         $product->setPhoto($dados['photo'])
                 ->setDescricao($dados['descricao'])
                 ->setPreco($dados['preco'])
                 ->setQuantidade($dados['quantidade'])
                 ->setNome($dados['nome']);
 
-        if(empty($dados['fichatecnica'])){
-            $nomeCategoria = $this->dados['categoria'];
-            global $idCat;
 
-            $getCategoria = $productRepository->findProductCategoria(new CategoriaEntity($nomeCategoria));
+        $nomeCategoria = $this->dados['categoria'];
+        
+    //verificando a existencia da categoria
+        $getCategoria = $productRepository->findCategoriaForName(new CategoriaEntity($nomeCategoria));
 
-            if(!empty($getCategoria[0])){
-                $idCat = $getCategoria[0]["codigo"];
+        if(!empty($getCategoria[0])){
+            $idCat = $getCategoria[0]["codigo"];
+            $product->setCodCategoria($idCat);
 
-                $product->setCodCategoria($idCat)
-                        ->setCodFichaTec(null);
+        }else{
 
-                $productRepository->add($product);
-            }else{
-
-                $idCat = $productRepository->addCategoria(new CategoriaEntity($nomeCategoria));
-
-                $product->setCodCategoria($idCat)
-                        ->setCodFichaTec(null);
-
-                $productRepository->add($product);
-            }
-
+            $idCat = $productRepository->addCategoria(new CategoriaEntity($nomeCategoria));
+            $product->setCodCategoria($idCat);
         }
+
+//adicionando ficha tecnica
+        $ficha_tecnica->setLinha($dados['fichatecnica']['linha'])
+                    ->setModelo($dados['fichatecnica']['modelo'])
+                    ->setMarca($dados['fichatecnica']['marca'])
+                    ->setTamanho($dados['fichatecnica']['tamanho'])
+                    ->setCor($dados['fichatecnica']['cor'])
+                    ->setEstoque($dados['fichatecnica']['estoque']);
+
+        $idFichatec = $productRepository->addFichaTec($ficha_tecnica);
+        $product->setCodFichaTec($idFichatec);
+        
+        $productRepository->add($product);
 
         return ["message" => "produto adicionado"];
      }
@@ -56,22 +64,36 @@ class ProductCase implements ProductCaseInterface{
      public function getProduct(ProductEntity $product ,ProductRepository $productRepository, $id)
      {
         if($id == 0){
-
+            $Allprodutos = $productRepository->findAll();
+           
+            return $Allprodutos;
         }else{
             $product->setCod($id);
-            $getProdutos = $productRepository->find($product);
+            $getProdutos = $productRepository->find($product, new FichaProdutoEntity());
 
             return $getProdutos;
         }
      }
 
-     public function getAllProduct()
+     public function getProductByCategoria(CategoriaEntity $categoria_entity, ProductRepository $productRepository)
      {
-        
+       try{
+         $respose_data = $productRepository->findByCategoria($categoria_entity);
+
+         return $respose_data;
+       }catch(Exception $e){
+         throw new Exception($e->getMessage());
+       }
      }
 
-     public function deleteProduct($idProduto)
+     public function deleteProduct(ProductRepository $productRepository,$idProduto)
      {
-        
+        try{
+           $respose = $productRepository->delete($idProduto);
+
+           return $respose;
+        }catch(Exception $e){
+           throw new Exception($e->getMessage());
+        }
      }
 }

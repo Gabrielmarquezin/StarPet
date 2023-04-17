@@ -21,6 +21,7 @@ final class Avaliacao extends AbstractMigration
         $produto_avalicao = $this->table('avaliacao', ['id' => 'cod']);
         $produto_avalicao->addColumn('quantidade_stars', 'integer', ['null' => false ])
                          ->addColumn('mensagem', 'string', ['null' => false,'limit' => '1500'])
+                         ->addTimestamps('data_mensagem', 'update_mensagem')
 
                          ->addColumn('cod_user', 'integer', ["signed" => false])
                          ->addColumn('cod_produto', 'integer', ["signed" => false])

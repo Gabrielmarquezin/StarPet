@@ -19,7 +19,7 @@ class ProdutoVerification implements ProdutoVerificationInterface{
         global $response;
 
         
-        if(empty($dados['photo']) || empty($dados['preco']) || empty($dados['quantidade'])){
+        if(empty($dados['photo']) || empty($dados['preco']) || empty($dados['quantidade']) || empty($dados['categoria'])){
             $response = false;
         }else{
             $response = true;

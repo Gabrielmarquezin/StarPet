@@ -31,22 +31,33 @@ class ProdutoRoutes implements RoutesInterface{
                     $lenght = $middlewarebefore->ValuesLength();
 
                     if(!$null){
-                        echo json_encode(["message" => "valores obrigatorios: photo, preco, quantidade"]);
-                
+                        echo json_encode(["message" => "valores obrigatorios: photo, preco, quantidade e categoria"]);       
                         return false;
                     }
-
-                    // if($lenght !== "ok" ){
-                        
-                    //    echo json_encode(["message" => $lenght]);
-
-                    //     return false;
-                    // }
+                    
+                     if($lenght != "ok" ){
+                        echo json_encode(["message" => $lenght]);
+                         return false; 
+                    }
 
                     return true;
                     
               });
+
         $route->get('/StarPet/backend/products', [$controller, "get"]);
+        $route->get('/StarPet/backend/products/categoria', [$controller, "getByCategoria"]);
+
+        $route->delete('/StarPet/backend/products/delete', [$controller, "delete"])
+        ->before(function(){
+            $body = file_get_contents('php://input');
+            $dados = json_decode($body, true);
+
+            if(empty($dados['idProduto'])){
+                echo json_encode(["message" => "campo idProduto nao identificado"]);
+                return false;
+            }
+            return true;
+        });
 
         return $this;
     }
@@ -60,7 +71,11 @@ class ProdutoRoutes implements RoutesInterface{
         }
 
         $data = $result->getData(); 
-        
+
+        if(empty($data['before'])){
+            call_user_func(array($data['action'][0], $data['action'][1]));
+            return;
+        }
 
         $this->middlewareBefore();
     }

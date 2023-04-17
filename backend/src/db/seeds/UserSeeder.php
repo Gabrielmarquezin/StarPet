@@ -22,7 +22,7 @@ class UserSeeder extends AbstractSeed
 
         for($i = 0; $i<= 3; $i++){
             $data[] = [
-                'name' => $faker->firstName(),
+                'nome' => $faker->firstName(),
                 'email' => $faker->email(),
                 'photo' => $faker->postcode()
             ];
