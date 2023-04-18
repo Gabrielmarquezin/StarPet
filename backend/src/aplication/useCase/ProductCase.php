@@ -86,6 +86,24 @@ class ProductCase implements ProductCaseInterface{
        }
      }
 
+     public function updateProduct(ProductEntity $product, ProductRepository $productRepository)
+     {
+         $dados = $this->dados;
+
+         $product->setCod($dados['cod'])
+                 ->setPhoto($dados['photo'])
+                 ->setDescricao($dados['descricao'])
+                 ->setPreco($dados['preco'])
+                 ->setNome($dados['nome']);
+         try{
+            $respose = $productRepository->update($product);
+
+            return $respose;
+         }catch(Exception $e){
+            throw new Exception($e->getMessage());
+         }
+     }
+
      public function deleteProduct(ProductRepository $productRepository,$idProduto)
      {
         try{

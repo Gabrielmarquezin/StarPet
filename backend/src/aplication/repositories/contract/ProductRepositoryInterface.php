@@ -15,5 +15,6 @@ interface ProductRepositoryInterface{
     public function findAll();
     public function findByCategoria(CategoriaEntity $categoria_entity);
     public function findCategoriaForName(CategoriaEntity $categoria);
+    public function update(ProductEntity $produto);
     public function delete($idProduto);
 }

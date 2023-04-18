@@ -68,6 +68,17 @@ class ProdutoController implements ProdutoControllerInterface{
 
     public function update()
     {
+        $body = file_get_contents('php://input');
+        $dados = json_decode($body, true);
         
+        $product_case = new ProductCase($dados);
+
+        try{
+            $response = $product_case->updateProduct(new ProductEntity(), new ProductRepository(new Database()));
+
+            echo json_encode(["message" => $response, "data_upadte" => date("Y-m-d H:i:s")]);
+        }catch(Exception $e){
+            echo json_encode(["message" => $e->getMessage()]);
+        }
     }
 }

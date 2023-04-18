@@ -11,5 +11,6 @@ interface ProductCaseInterface{
      public function addProduct(ProductEntity $product, ProductRepository $productRepository, FichaProdutoEntity $fichaTecnica);
      public function getProduct(ProductEntity $product,ProductRepository $productRepository, $id);
      public function getProductByCategoria(CategoriaEntity $categoria_entity, ProductRepository $productRepository);
+     public function updateProduct(ProductEntity $product,ProductRepository $productRepository);
      public function deleteProduct(ProductRepository $productRepository,$idProduto);
 }

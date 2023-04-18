@@ -82,7 +82,7 @@ class PetCase implements PetCaseInterface{
 
                 return $getpet;
             }catch(Exception $e){
-                echo json_encode($e->getMessage());
+                throw new Exception(json_encode($e->getMessage()));
             }
         }
     }

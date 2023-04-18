@@ -330,6 +330,32 @@ class ProductRepository implements ProductRepositoryInterface{
         }
     }
 
+    public function update(ProductEntity $produto)
+    {
+        $cnt = $this->db;
+        $data = [
+            'cod' => $produto->getCod(),
+            'photo' => $produto->getPhoto(),
+            'descricao' => $produto->getDescricao(),
+            'preco' => $produto->getPreco(),
+            'nome' => $produto->getNome()
+        ];
+        
+        try{
+            $sql = "UPDATE produto SET photo = :photo, descricao = :descricao, preco = :preco, nome = :nome WHERE cod = :cod";
+            $query = $cnt->prepare($sql);
+            $query->execute($data);
+
+            if(!$query->rowCount()){
+                throw new Exception("Produto nao existe ou produto nao tem o que atualizar");
+            }
+
+            return "atualizado";
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function delete($idProduto)
     {
         $cnt = $this->db;

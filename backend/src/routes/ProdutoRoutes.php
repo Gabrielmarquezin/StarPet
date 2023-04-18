@@ -2,9 +2,11 @@
 namespace Boringue\Backend\routes;
 
 use Boringue\Backend\http\controller\ProdutoController;
+use Boringue\Backend\http\middlewares\DataVerification;
 use Boringue\Backend\http\middlewares\ProdutoVerification;
 use Boringue\Backend\routes\contract\RoutesInterface;
 use Boringue\Backend\routes\framework\Router;
+use Exception;
 
 class ProdutoRoutes implements RoutesInterface{
     private $route;
@@ -46,6 +48,33 @@ class ProdutoRoutes implements RoutesInterface{
 
         $route->get('/StarPet/backend/products', [$controller, "get"]);
         $route->get('/StarPet/backend/products/categoria', [$controller, "getByCategoria"]);
+
+        $route->put('/StarPet/backend/products/update', [$controller, "update"])
+              ->before(function(){
+                $body = file_get_contents('php://input');
+                $dados = json_decode($body, true);
+
+                $middleware = new DataVerification();
+                $data_produto = [
+                    "photo" => $dados['photo'],
+                    "cod" => $dados['cod'],
+                    "descricao" => $dados['descricao'],
+                    "preco" => $dados['preco'],
+                    "nome" => $dados['nome']
+                ];
+
+                try{
+                    $middleware->EmptyValues($data_produto);
+                    $middleware->ValueLenght($data_produto['descricao'], 1500);
+                    $middleware->ValueLenght($data_produto['nome'], 45);
+
+                    return true;
+                }catch(Exception $e){
+                    http_response_code(400);
+                    echo json_encode(["message" => $e->getMessage()]);
+                    return false;
+                }
+              });
 
         $route->delete('/StarPet/backend/products/delete', [$controller, "delete"])
         ->before(function(){
