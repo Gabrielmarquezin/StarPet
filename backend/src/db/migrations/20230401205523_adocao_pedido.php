@@ -19,15 +19,16 @@ final class AdocaoPedido extends AbstractMigration
     public function change(): void
     {
         $adocao_pedido = $this->table('adocao_pedido', ['id' => false, 'primary_key' =>
-        ['cod_user', 'cod_pet']]);
+        ['cod_user', 'cod_pet_adocao']]);
 
         $adocao_pedido->addColumn('cod_user', 'integer')
-                      ->addColumn('cod_pet', 'integer')
+                      ->addColumn('cod_pet_adocao', 'integer')
                       ->addColumn('email', 'string', ['null' => false, 'limit' => '150'])
                       ->addColumn('cpf', 'string', ['null' => false, 'limit' => '16'])
                       ->addColumn('rua', 'string', ['null' => false, 'limit' => '100'])
                       ->addColumn('bairro', 'string', ['null' => false, 'limit' => '100'])
                       ->addColumn('telefone', 'string', ['limit' => '16'])
+                      ->addColumn("casa", "string", ["null" => false, "limit" => 10])
                       ->addTimestamps('data_pedido', 'update_pedido')
 
                       ->create();

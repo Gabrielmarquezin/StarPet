@@ -26,6 +26,21 @@ class PetController implements ProdutoControllerInterface{
         }
     }
 
+    public function addPetAdocao()
+    {
+        $body = file_get_contents('php://input');
+        $dados = json_decode($body, true);
+
+        $pet_case = new PetCase($dados);
+        try{
+            $response = $pet_case->addPetAdocao(new PetEntity(), new FichaPetEntity(),new PetRepository(new Database()));
+
+            echo json_encode(["idPet" => $response, "data" => date("Y-m-d H:i:s"), "status" => "adicionado"]);
+        }catch(Exception $e){
+            echo json_encode($e->getMessage());
+        }
+    }
+
     public function getByCategoria()
     {
         $dados = [
@@ -35,6 +50,22 @@ class PetController implements ProdutoControllerInterface{
 
         try{
             $pets = $pet_case->getByCategoria(new PetEntity, new PetRepository(new Database()));
+
+            echo json_encode($pets);
+        }catch(Exception $e){
+            echo json_encode(["message" => $e->getMessage()]);
+        }
+    }
+
+    public function getByCategoriaPetAdocao()
+    {
+        $dados = [
+            "categoria" => $_GET['nome']
+        ];
+        $pet_case = new PetCase($dados);
+
+        try{
+            $pets = $pet_case->getByCategoriaPetAdocao(new PetEntity, new PetRepository(new Database()));
 
             echo json_encode($pets);
         }catch(Exception $e){
@@ -59,9 +90,50 @@ class PetController implements ProdutoControllerInterface{
         }
     }
 
+    public function getPetAdocao()
+    {
+        $idPet = empty($_GET['id']) == 1 ? 0 : intval($_GET['id']);
+        $dados = [
+            "idPet" => $idPet
+        ];
+    
+        $pet_case = new PetCase($dados);
+
+        try{
+            $pets = $pet_case->getPetAdocao(new PetEntity, new PetRepository(new Database()));
+
+            echo json_encode($pets);
+        }catch(Exception $e){
+            echo json_encode(["message" => $e->getMessage()]);
+        }
+    }
+
     public function update()
     {
-        
+        $body = file_get_contents('php://input');
+        $dados = json_decode($body, true);
+
+        $pet_case = new PetCase($dados);
+        try{
+            $response = $pet_case->updatePet(new PetEntity(), new PetRepository(new Database()));
+            echo json_encode(["message" => $response, "data" => date("Y-m-d H:i:s")]);
+        }catch(Exception $e){
+            echo json_encode(["message" => $e->getMessage()]);
+        }
+    }
+
+    public function updatePetAdocao()
+    {
+        $body = file_get_contents('php://input');
+        $dados = json_decode($body, true);
+
+        $pet_case = new PetCase($dados);
+        try{
+            $response = $pet_case->updatePetAdocao(new PetEntity(), new PetRepository(new Database()));
+            echo json_encode(["message" => $response, "data" => date("Y-m-d H:i:s")]);
+        }catch(Exception $e){
+            echo json_encode(["message" => $e->getMessage()]);
+        }
     }
 
     public function delete()
@@ -76,6 +148,25 @@ class PetController implements ProdutoControllerInterface{
         $pet_case = new PetCase($data);
         try{
             $response = $pet_case->deletePet(new PetEntity, new PetRepository(new Database()));
+
+            echo json_encode(["message" => $response, "data" => date("Y-m-d H:i:s")]);
+        }catch(Exception $e){
+            echo json_encode(["message" => $e->getMessage()]);
+        }
+    }
+
+    public function deletePetAdocao()
+    {
+        $body = file_get_contents('php://input');
+        $dados = json_decode($body, true);
+
+        $data = [
+            "idPet" => $dados['idPet']
+        ];
+
+        $pet_case = new PetCase($data);
+        try{
+            $response = $pet_case->deletePetAdocao(new PetEntity, new PetRepository(new Database()));
 
             echo json_encode(["message" => $response, "data" => date("Y-m-d H:i:s")]);
         }catch(Exception $e){

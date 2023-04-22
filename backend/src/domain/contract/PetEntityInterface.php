@@ -9,7 +9,7 @@ interface PetEntityInterface{
     public function setNome(string $nome);
     public function setCodCategoria($cod);
     public function setCodFihcaTec($cod);
-    public function setPreco($preco);
+    public function setPreco(float $preco);
 
     public function getCod();
     public function getPhoto();

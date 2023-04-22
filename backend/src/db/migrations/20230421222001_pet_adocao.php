@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
-final class Pet extends AbstractMigration
+final class PetAdocao extends AbstractMigration
 {
     /**
      * Change Method.
@@ -18,20 +18,18 @@ final class Pet extends AbstractMigration
      */
     public function change(): void
     {
-        $pet = $this->table('pet', ['id' => 'cod']);
+        $pet = $this->table('pet_adocao', ['id' => 'cod']);
         $pet->addColumn('photo', 'binary')
             ->addColumn('descricao', 'string', ['limit' => '1500'])
-            ->addColumn('quantidade', 'integer', ['null' => false])
+            ->addColumn('adotado', 'boolean', ['null' => false])
             ->addColumn("nome", "string", ["limit" => '100', "null" => false])
 
             ->addColumn('cod_categoria', 'integer',["signed" => false])
             ->addColumn('cod_fichapet', 'integer',["signed" => false])
 
-            ->addColumn('preco', 'decimal', ['precision' => '9', 'scale' => '2'])
-
             ->addForeignKey('cod_categoria', 'produto_categoria', 'cod', ['delete' => 'CASCADE', 'update' => 'CASCADE'])
             ->addForeignKey('cod_fichapet', 'ficha_pet', 'cod', ['delete' => 'CASCADE', 'update' => 'CASCADE'])
-
+        
             ->create();
         }
 }

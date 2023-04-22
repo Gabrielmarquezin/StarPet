@@ -49,7 +49,33 @@ class PetRoutes implements RoutesInterface{
                 }
               });
 
+        $route->post('/StarPet/backend/products/pet/adocao/add', [$controller, "addPetAdocao"])
+              ->before(function(){
+                $body = file_get_contents('php://input');
+                $dados = json_decode($body, true);
+                $middleware = new DataVerification();
+
+                $verification = [
+                    "photo" => $dados['photo'],
+                    "nome" => $dados['nome']
+                ];
+
+                try{
+                    $middleware->ValueLenght($dados['descricao'], 1500);
+                    $middleware->ValueLenght($dados['nome'], 100);
+                    $middleware->ValueLenght($dados['ficha_pet']['alergias'], 500);
+                    $middleware->ValueLenght($dados['ficha_pet']['observacoes'], 1000);
+                    $middleware->EmptyValues($verification);
+
+                    return true;
+                }catch(Exception $e){
+                    echo json_encode(["message" => $e->getMessage()]);
+                    return false;
+                }
+              });
+
         $route->get('/StarPet/backend/products/pet', [$controller, "get"]);
+        $route->get('/StarPet/backend/products/pet/adocao', [$controller, "getPetAdocao"]);
 
         $route->get('/StarPet/backend/products/pet/categoria', [$controller, "getByCategoria"])
               ->before(function(){
@@ -62,8 +88,74 @@ class PetRoutes implements RoutesInterface{
                 
                 return true;
               });
+
+        $route->get('/StarPet/backend/products/pet/adocao/categoria', [$controller, "getByCategoriaPetAdocao"])
+              ->before(function(){
+                if(empty($_GET['nome'])){
+                    http_response_code(400);
+                    echo json_encode("Parametros obrigatorios");
+
+                    return false;
+                }
+                
+                return true;
+              });
         
         $route->delete('/StarPet/backend/products/pet/delete', [$controller, "delete"]);
+        $route->delete('/StarPet/backend/products/pet/adocao/delete', [$controller, "deletePetAdocao"]);
+
+        $route->put('/StarPet/backend/products/pet/update', [$controller, "update"])
+              ->before(function(){
+                $body = file_get_contents('php://input');
+                $dados = json_decode($body, true);
+                $middleware = new DataVerification();
+
+                $data_pet = [
+                    "cod" => $dados['cod'],
+                    "photo" => $dados['photo'],
+                    "descricao" => $dados['descricao'],
+                    "preco" => $dados['preco'],
+                    "nome" => $dados['nome']
+                ];
+
+                try{
+                    $middleware->EmptyValues($data_pet);
+                    $middleware->ValueLenght($data_pet['descricao'], 1500);
+                    $middleware->ValueLenght($data_pet['nome'], 100);
+
+                    return true;
+                }catch(Exception $e){
+                    http_response_code(400);
+                    echo json_encode(['message' => $e->getMessage()]);
+                    return false;
+                }
+              });
+        
+        $route->put('/StarPet/backend/products/pet/adocao/update', [$controller, "updatePetAdocao"])
+              ->before(function(){
+                $body = file_get_contents('php://input');
+                $dados = json_decode($body, true);
+                $middleware = new DataVerification();
+
+                $data_pet = [
+                    "cod" => $dados['cod'],
+                    "photo" => $dados['photo'],
+                    "descricao" => $dados['descricao'],
+                    "nome" => $dados['nome']
+                ];
+
+                try{
+                    $middleware->EmptyValues($data_pet);
+                    $middleware->ValueLenght($data_pet['descricao'], 1500);
+                    $middleware->ValueLenght($data_pet['nome'], 100);
+
+                    return true;
+                }catch(Exception $e){
+                    http_response_code(400);
+                    echo json_encode(['message' => $e->getMessage()]);
+                    return false;
+                }
+              });
         
         return $this;
     }

@@ -55,13 +55,13 @@ class PetEntity implements PetEntityInterface{
         return $this;
     }
 
-    public function setPreco($preco)
+    public function setPreco(float $preco)
     {
         self::$preco = $preco;
         return $this;
     }
 
-    public function getCod()
+    public function getCod() :float
     {
         return self::$cod;
     }

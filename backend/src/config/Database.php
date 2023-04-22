@@ -15,7 +15,7 @@ class Database{
         
         try {
             if(!isset(self::$instancia)){
-                self::$instancia = new PDO("mysql:host=$host;dbname=$dbname", 'root', getenv('PASSWORD'));
+                self::$instancia = new PDO("mysql:host=$host;dbname=$dbname", 'root', getenv('PASSWORD'), array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
                 self::$instancia->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
            
