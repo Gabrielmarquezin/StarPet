@@ -4,6 +4,7 @@ namespace Boringue\Backend\aplication\useCase;
 use Boringue\Backend\aplication\repositories\AdocaoRepository;
 use Boringue\Backend\aplication\useCase\contract\AdocaoCaseInterface;
 use Boringue\Backend\domain\entities\AdocaoEntity;
+use Boringue\Backend\domain\entities\CategoriaEntity;
 use Exception;
 
 /**
@@ -51,7 +52,68 @@ class AdocaoCase implements AdocaoCaseInterface{
 
     public function getPedidoAdocao(AdocaoEntity $adocao, AdocaoRepository $adocao_repository)
     {
+        $dados = $this->dados;
         
+        try{
+            $adocao->setCodProduto($dados['cod_pet_adocao'])
+                   ->setCodUser($dados['cod_user']);
+
+            $pedidos = $adocao_repository->find($adocao);
+            if(empty($pedidos)){
+                throw new Exception("nenhum pedido feito");
+            }
+
+            return $pedidos;
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function getPedidoAdocaoByCategoria(AdocaoEntity $adocao, AdocaoRepository $adocao_repository)
+    {
+        $dados = $this->dados;
+        try{
+            $pedidos = $adocao_repository->findByCategoriaProduto(new CategoriaEntity($dados['categoria']), new AdocaoEntity());
+            if(empty($pedidos)){
+                throw new Exception("nenhum pedido feito");
+            }
+
+            return $pedidos;
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function getPedidoAdocaoByPet(AdocaoEntity $adocao, AdocaoRepository $adocao_repository)
+    {
+        $dados = $this->dados;
+
+        $adocao->setCodProduto($dados['cod_pet_adocao']);
+        try{
+            $pedidos = $adocao_repository->findByPet($adocao);
+            if(empty($pedidos)){
+                throw new Exception("nenhum pedido feito");
+            }
+
+            return $pedidos;
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+
+    public function getAll(AdocaoRepository $adocao_repository)
+    {
+        try{
+            $pedidos = $adocao_repository->findAll();
+            if(empty($pedidos)){
+                throw new Exception("nenhum pedido feito");
+            }
+
+            return $pedidos;
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
     }
 
 }

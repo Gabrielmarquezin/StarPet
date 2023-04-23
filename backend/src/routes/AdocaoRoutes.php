@@ -25,15 +25,18 @@ class AdocaoRoutes implements RoutesInterface{
 
         $route->post('/StarPet/backend/pedido/adocao/add', [$controller, "addPedido"])
               ->before(function(){
+                $body = file_get_contents('php://input');
+                $post = json_decode($body, true);
+
                 $data = [
-                    "cod_user" => filter_input(INPUT_POST, 'cod_user', FILTER_DEFAULT),
-                    "cod_pet" => filter_input(INPUT_POST, 'cod_pet', FILTER_DEFAULT),
-                    "email" => filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
-                    "cpf" => filter_input(INPUT_POST, 'cpf', FILTER_DEFAULT),
-                    "rua" => filter_input(INPUT_POST, 'rua', FILTER_DEFAULT),
-                    "bairro" => filter_input(INPUT_POST, 'bairro', FILTER_DEFAULT),
-                    "telefone" => filter_input(INPUT_POST, 'telefone', FILTER_DEFAULT),
-                    "casa" => filter_input(INPUT_POST, 'casa', FILTER_DEFAULT)
+                    "cod_user" => !isset($post['cod_user']) ? null : $post['cod_user'],
+                    "cod_pet" => !isset($post['cod_pet']) ? null  : $post['cod_pet'],
+                    "email" => !isset($post['email']) ? null : $post['email'],
+                    "cpf" => !isset($post['cpf']) ? null : $post['cpf'],
+                    "rua" => !isset($post['rua']) ? null : $post['rua'],
+                    "bairro" => !isset($post['bairro']) ? null : $post['bairro'],
+                    "telefone" => !isset($post['telefone']) ? null : $post['telefone'],
+                    "casa_number" =>!isset($post['casa_number']) ? null : $post['casa_number']
                 ];
 
                 $middleware1 = new DataVerification();
@@ -46,6 +49,10 @@ class AdocaoRoutes implements RoutesInterface{
                     $middlewareCPF->lenghtCPF();
                     $middlewareCPF->isInvalid();
 
+                    if(!filter_var($post['email'], FILTER_VALIDATE_EMAIL)){
+                        throw new Exception("email invalido");
+                    }
+
                     return true;
                 }catch(Exception $e){
                     http_response_code(400);
@@ -53,7 +60,29 @@ class AdocaoRoutes implements RoutesInterface{
                     return false;
                 }
               });
-        //$route->get('/StarPet/backend/pedido/adocao', [$controller, "getPedido"]);
+        $route->get('/StarPet/backend/pedido/adocao', [$controller, "getPedido"]);
+              
+        $route->get('/StarPet/backend/pedido/adocao/pet', [$controller, "getPedidoByPet"])
+              ->before(function(){
+                if(!isset($_GET['cod'])){
+                    http_response_code(400);
+                    echo json_encode("falta parametros na url");
+                    return false;
+                }
+                return true;
+              });
+        
+        
+        $route->get('/StarPet/backend/pedido/adocao/pet/categoria', [$controller, "getPedidoByCategoria"])
+              ->before(function(){
+                if(!isset($_GET['nome'])){
+                    http_response_code(400);
+                    echo json_encode("falta parametros na url");
+                    return false;
+                }
+
+                return true;
+              });
 
         return $this;
     }

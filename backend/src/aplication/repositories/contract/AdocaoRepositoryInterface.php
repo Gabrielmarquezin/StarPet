@@ -9,6 +9,6 @@ interface AdocaoRepositoryInterface{
     public function add(AdocaoEntity $adocao);
     public function find(AdocaoEntity $adocao);
     public function findByPet(AdocaoEntity $adocao);
-    public function findByCategoriaProduto(CategoriaEntity $categoria, UserEntity $user);
+    public function findByCategoriaProduto(CategoriaEntity $categoria, AdocaoEntity $adocao);
     public function findAll();
 }
