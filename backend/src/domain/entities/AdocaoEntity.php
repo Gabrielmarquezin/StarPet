@@ -4,6 +4,7 @@ namespace Boringue\Backend\domain\entities;
 use Boringue\Backend\domain\contract\AdocaoEntityInterface;
 
 class AdocaoEntity implements AdocaoEntityInterface{
+    private static $cod_adocao;
     private static $cod_user;
     private static $cod_pet;
     private static $email;
@@ -13,6 +14,12 @@ class AdocaoEntity implements AdocaoEntityInterface{
     private static $bairro;
     private static $number_house;
     private static $data;
+
+    public function setCod($cod)
+    {
+        self::$cod_adocao = $cod;
+        return $this;
+    }
 
     public function setCodUser($cod)
     {
@@ -66,6 +73,11 @@ class AdocaoEntity implements AdocaoEntityInterface{
     {
         self::$data = $date;
         return $this;
+    }
+
+    public function getCod()
+    {
+        return self::$cod_adocao;
     }
 
     public function getCodUser()

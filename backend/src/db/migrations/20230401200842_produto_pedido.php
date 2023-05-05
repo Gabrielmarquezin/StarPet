@@ -28,7 +28,10 @@ final class ProdutoPedido extends AbstractMigration
                        ->addColumn('rua', 'string', ['null' => false,'limit' => '100'])
                        ->addColumn('bairro', 'string', ['null' => false, 'limit' => '100'])
                        ->addColumn('telefone', 'string', ['limit' => '18'])
-
+                       ->addColumn('cep', 'string', ['null' => false, 'limit' => '9'])
+                       ->addColumn('nome', 'string', ['null' => false, 'limit' => '50'])
+                       ->addColumn('email', 'string', ['null' => false, 'limit' => '100'])
+                       ->addColumn("casa_number", "string", ["limit" => "5"])
                        ->addColumn('cod_pagamento', 'integer', ["signed" => false])
                        ->addForeignKey('cod_pagamento', 'forma_pagamento', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
 

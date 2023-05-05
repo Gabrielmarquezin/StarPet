@@ -55,7 +55,6 @@ class AdocaoRepository implements AdocaoRepositoryInterface{
             $query = $cnt->prepare($sql);
             $query->execute($dados);
 
-
             $id = $cnt->lastInsertId();
 
             return $id;

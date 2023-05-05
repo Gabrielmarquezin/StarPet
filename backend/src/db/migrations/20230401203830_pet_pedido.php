@@ -27,6 +27,9 @@ final class PetPedido extends AbstractMigration
                    ->addColumn('rua', 'string', ['null' => false, 'limit' => '100'])
                    ->addColumn('bairro', 'string', ['null' => false, 'limit' => '100'])
                    ->addColumn('telefone', 'string', ['limit' => '16'])
+                   ->addColumn('cep', 'string', ['null' => false, 'limit' => '9'])
+                   ->addColumn('nome', 'string', ['null' => false, 'limit' => '50'])
+                   ->addColumn('email', 'string', ['null' => false, 'limit' => '100'])
                    ->addTimestamps('data_pedido', 'udpate_pedido')
                    ->addColumn('preco_total', 'decimal', ['null' => false, 'scale' => '2', 'precision' => '7'])
 

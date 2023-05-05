@@ -19,8 +19,9 @@ final class FormaPagamento extends AbstractMigration
     public function change(): void
     {
         $forma_pagamento = $this->table('forma_pagamento', ['id' => 'cod']);
-        $forma_pagamento->addColumn('forma_payment', 'string',['limit' => '45'])
-                        ->addColumn('parcelas', 'integer', ['precision' => '2'])
+        $forma_pagamento->addColumn('method', 'string',['limit' => '45'])
+                        ->addColumn('cod_transaction', 'biginteger')
+                        ->addColumn('estado', 'string', ['null' => false, 'limit' => '30'])
                         ->create();
     }
 }
