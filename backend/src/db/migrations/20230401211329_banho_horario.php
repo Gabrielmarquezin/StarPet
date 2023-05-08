@@ -20,6 +20,8 @@ final class BanhoHorario extends AbstractMigration
     {
         $banho_horario = $this->table('banho_horario', ['id' => 'cod']);
         $banho_horario->addColumn('horario', 'datetime')
-                      ->create();  
+                      ->create();
+
+        $banho_horario->insert(["horario" => "0000-00-00"])->save();
     }
 }

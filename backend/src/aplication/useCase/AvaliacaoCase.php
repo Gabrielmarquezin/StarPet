@@ -42,7 +42,8 @@ class AvaliacaoCase implements AvaliacaoCaseInterface{
         $dados = $this->dados;
         $avaliacao->setStar($dados['stars'])
                   ->setMessage($dados['message'])
-                  ->setCodUser($dados['cod_user']);
+                  ->setCodUser($dados['cod_user'])
+                  ->setCodProduto($dados['cod_produto']);
 
         try{
             if(isset($dados['cod_pet'])){

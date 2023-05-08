@@ -19,7 +19,7 @@ final class Produto extends AbstractMigration
     public function change(): void
     {
         $produto = $this->table('produto', ['id' => 'cod']);
-        $produto->addColumn('photo', 'binary', ['null' => false])
+        $produto->addColumn('photo', 'binary', ['null' => false, "length" => 1000000])
                 ->addColumn('cod_fichatec', 'integer', ["signed" => false])
                 ->addColumn('cod_categoria', 'integer', ["signed" => false])
                 ->addColumn('descricao', 'string', ['limit' => '1500'])
@@ -27,8 +27,8 @@ final class Produto extends AbstractMigration
                 ->addColumn('quantidade', 'integer', ['null' => false])
                 ->addColumn('nome', 'string', ['limit' => '45'])
 
-                ->addForeignKey('cod_fichatec', 'ficha_tecnica', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
-                ->addForeignKey('cod_categoria', 'produto_categoria', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
+                ->addForeignKey('cod_fichatec', 'ficha_tecnica', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
+                ->addForeignKey('cod_categoria', 'produto_categoria', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
                 
                 ->create();
     }

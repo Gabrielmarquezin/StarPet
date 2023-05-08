@@ -7,4 +7,5 @@ use Boringue\Backend\domain\entities\UserEntity;
 interface UserCaseInterface{
     public function add(UserEntity $UserEntity, UserRepository $UserRepository);
     public function find(UserEntity $UserEntity, UserRepository $UserRepository, $email);
+    public function addAdm(UserEntity $UserEntity ,UserRepository $UserRepository);
 }

@@ -22,7 +22,7 @@ final class User extends AbstractMigration
         $user->addColumn('nome', 'string', ['null' => false,'limit' => '45'])
              ->addColumn('email', 'string', ['null' => false, 'limit' => '60'])
              ->addColumn('senha', 'string', ['limit' => '30'])
-             ->addColumn('photo', 'binary')
+             ->addColumn('photo', 'binary', ["length" => 1000000])
              ->addColumn('rua', 'string', ['limit' => '100'])
              ->addColumn('bairro', 'string', ['limit' => '100'])
              ->addColumn('casa', 'string', ['limit' => '10'])

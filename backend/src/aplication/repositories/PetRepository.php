@@ -126,6 +126,12 @@ class PetRepository implements PetRepositoryInterface{
                     ->setCodCategoria($p['cod_categoria'])
                     ->setCodFihcaTec($p['cod_fichapet']);
 
+                 if (ctype_xdigit(bin2hex($pet->getPhoto()))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($pet->getPhoto());
+                    $pet->setPhoto($base64Image);
+                }
+
                  $pets[] = [
                     "cod" => $pet->getCod(),
                     "photo" => $pet->getPhoto(),
@@ -179,6 +185,12 @@ class PetRepository implements PetRepositoryInterface{
                     ->setPreco($p['preco'])
                     ->setCodCategoria($p['cod_categoria'])
                     ->setCodFihcaTec($p['cod_fichapet']);
+
+                 if (ctype_xdigit(bin2hex($pet->getPhoto()))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($pet->getPhoto());
+                    $pet->setPhoto($base64Image);
+                }
 
                  $pets[] = [
                     "cod" => $pet->getCod(),
@@ -234,6 +246,12 @@ class PetRepository implements PetRepositoryInterface{
                     ->setPreco($p['preco'])
                     ->setCodCategoria($p['cod_categoria'])
                     ->setCodFihcaTec($p['cod_fichapet']);
+
+                 if (ctype_xdigit(bin2hex($pet->getPhoto()))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($pet->getPhoto());
+                    $pet->setPhoto($base64Image);
+                }
 
                  $pets[] = [
                     "cod" => $pet->getCod(),
@@ -292,6 +310,12 @@ class PetRepository implements PetRepositoryInterface{
                     ->setCodCategoria($p['cod_categoria'])
                     ->setCodFihcaTec($p['cod_fichapet']);
 
+                 if (ctype_xdigit(bin2hex($pet->getPhoto()))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($pet->getPhoto());
+                    $pet->setPhoto($base64Image);
+                }
+
                  $pets[] = [
                     "cod" => $pet->getCod(),
                     "photo" => $pet->getPhoto(),
@@ -342,6 +366,12 @@ class PetRepository implements PetRepositoryInterface{
                     ->setNome($p['nome'])
                     ->setCodCategoria($p['cod_categoria'])
                     ->setCodFihcaTec($p['cod_fichapet']);
+
+                 if (ctype_xdigit(bin2hex($pet->getPhoto()))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($pet->getPhoto());
+                    $pet->setPhoto($base64Image);
+                }
 
                  $pets[] = [
                     "cod" => $pet->getCod(),
@@ -394,6 +424,12 @@ class PetRepository implements PetRepositoryInterface{
                     ->setCodCategoria($p['cod_categoria'])
                     ->setCodFihcaTec($p['cod_fichapet']);
 
+                if (ctype_xdigit(bin2hex($pet->getPhoto()))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($pet->getPhoto());
+                    $pet->setPhoto($base64Image);
+                }
+                
                  $pets[] = [
                     "cod" => $pet->getCod(),
                     "photo" => $pet->getPhoto(),

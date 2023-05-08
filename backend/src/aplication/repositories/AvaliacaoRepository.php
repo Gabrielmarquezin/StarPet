@@ -114,6 +114,13 @@ class AvaliacaoRepository implements AvaliacaoRepositoryInterface{
                               ->setMessage($m['mensagem'])
                               ->setStar($m['quantidade_stars']);
                     
+
+                if (ctype_xdigit(bin2hex($m["photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($m["photo"]);
+                    $m["photo"] = $base64Image;
+                }
+
                     $mensagens[] = [
                         "cod" => $avaliacao->getCod(),
                         "cod_user" => $avaliacao->getCodUser(),
@@ -160,6 +167,12 @@ class AvaliacaoRepository implements AvaliacaoRepositoryInterface{
                               ->setCodUser($m['cod'])
                               ->setMessage($m['mensagem'])
                               ->setStar($m['quantidade_stars']);
+                        
+                if (ctype_xdigit(bin2hex($m["photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($m["photo"]);
+                    $m["photo"] = $base64Image;
+                }
                     
                     $mensagens[] = [
                         "cod" => $avaliacao->getCod(),
@@ -207,6 +220,12 @@ class AvaliacaoRepository implements AvaliacaoRepositoryInterface{
                               ->setCodUser($m['cod'])
                               ->setMessage($m['mensagem'])
                               ->setStar($m['quantidade_stars']);
+
+                if (ctype_xdigit(bin2hex($m["photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($m["photo"]);
+                    $m["photo"] = $base64Image;
+                }
                     
                     $mensagens[] = [
                         "cod" => $avaliacao->getCod(),

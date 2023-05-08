@@ -19,7 +19,7 @@ final class Pet extends AbstractMigration
     public function change(): void
     {
         $pet = $this->table('pet', ['id' => 'cod']);
-        $pet->addColumn('photo', 'binary')
+        $pet->addColumn('photo', 'binary',  ["length" => 1000000])
             ->addColumn('descricao', 'string', ['limit' => '1500'])
             ->addColumn('quantidade', 'integer', ['null' => false])
             ->addColumn("nome", "string", ["limit" => '100', "null" => false])
@@ -30,7 +30,7 @@ final class Pet extends AbstractMigration
             ->addColumn('preco', 'decimal', ['precision' => '9', 'scale' => '2'])
 
             ->addForeignKey('cod_categoria', 'produto_categoria', 'cod', ['delete' => 'CASCADE', 'update' => 'CASCADE'])
-            ->addForeignKey('cod_fichapet', 'ficha_pet', 'cod', ['delete' => 'CASCADE', 'update' => 'CASCADE'])
+            ->addForeignKey('cod_fichapet', 'ficha_pet', 'cod', ['delete' => 'NO_ACTION', 'update' => 'CASCADE'])
 
             ->create();
         }

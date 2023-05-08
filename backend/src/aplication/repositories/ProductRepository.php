@@ -197,7 +197,14 @@ class ProductRepository implements ProductRepositoryInterface{
                         ->setPreco($p['preco'])
                         ->setQuantidade($p['quantidade'])
                         ->setNome($p['nome']);
-                
+
+                if (ctype_xdigit(bin2hex($produto->getPhoto()))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($produto->getPhoto());
+                    $produto->setPhoto($base64Image);
+                }
+
+        
                 $ficha_tecnica->setCod($p['cod_fichatec'])
                               ->setLinha($p['linha'])
                               ->setModelo($p['modelo'])
@@ -251,6 +258,12 @@ class ProductRepository implements ProductRepositoryInterface{
 
            foreach($datas as $p){
 
+                if (ctype_xdigit(bin2hex($p["photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["photo"]);
+                    $p["photo"] = $base64Image;
+                }
+
                 $produtos[] = [
                     "cod" => $p["cod"],
                     "photo" => $p["photo"],
@@ -302,6 +315,11 @@ class ProductRepository implements ProductRepositoryInterface{
             $produtos = [];
 
             foreach($dados as $p){
+                if (ctype_xdigit(bin2hex($p["photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["photo"]);
+                    $p["photo"] = $base64Image;
+                }
 
                 $produtos[] = [
                     "cod" => $p["cod"],

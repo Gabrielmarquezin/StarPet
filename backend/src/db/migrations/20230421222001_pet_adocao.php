@@ -19,7 +19,7 @@ final class PetAdocao extends AbstractMigration
     public function change(): void
     {
         $pet = $this->table('pet_adocao', ['id' => 'cod']);
-        $pet->addColumn('photo', 'binary')
+        $pet->addColumn('photo', 'binary',  ["length" => 1000000])
             ->addColumn('descricao', 'string', ['limit' => '1500'])
             ->addColumn('adotado', 'boolean', ['null' => false])
             ->addColumn("nome", "string", ["limit" => '100', "null" => false])

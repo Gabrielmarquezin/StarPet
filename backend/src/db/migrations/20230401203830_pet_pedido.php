@@ -32,7 +32,7 @@ final class PetPedido extends AbstractMigration
                    ->addColumn('email', 'string', ['null' => false, 'limit' => '100'])
                    ->addTimestamps('data_pedido', 'udpate_pedido')
                    ->addColumn('preco_total', 'decimal', ['null' => false, 'scale' => '2', 'precision' => '7'])
-
+                   ->addColumn('casa_number', 'string', ['limit' => '10'])
                    ->addColumn('cod_pagamento', 'integer', ["signed" => false])
                    ->addForeignKey('cod_pagamento', 'forma_pagamento', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
 

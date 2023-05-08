@@ -5,7 +5,7 @@ use Boringue\Backend\aplication\repositories\AdocaoRepository;
 use Boringue\Backend\aplication\useCase\AdocaoCase;
 use Boringue\Backend\config\Database;
 use Boringue\Backend\domain\entities\AdocaoEntity;
-use Boringue\Backend\http\controller\contract\PedidoInterface;
+use Boringue\Backend\http\controller\contract\pedido\PedidoInterface;
 use Exception;
 
 class AdocaoController implements PedidoInterface{
@@ -14,6 +14,22 @@ class AdocaoController implements PedidoInterface{
     {
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
+
+        $headers = getallheaders();
+        $contentType = $headers["Content-Type"];
+
+        if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $dados = [
+                "cod_user" => $_POST["cod_user"],
+                "cod_pet" => $_POST["cod_pet"],
+                "cpf" => $_POST["cpf"],
+                "rua" => $_POST["rua"],
+                "bairro" => $_POST["bairro"],
+                "casa_number" => $_POST["casa_number"],
+                "telefone" => $_POST["telefone"],
+                "email" => $_POST["email"]
+            ];
+        }
         
         $adocao_case = new AdocaoCase($dados);
         try{

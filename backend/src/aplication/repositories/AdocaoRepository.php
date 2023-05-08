@@ -97,6 +97,18 @@ class AdocaoRepository implements AdocaoRepositoryInterface{
                        ->setTelefone($p['telefone'])
                        ->setDataAdocao($p['data_pedido']);
 
+                if (ctype_xdigit(bin2hex($p["user_photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["user_photo"]);
+                    $p["user_photo"] = $base64Image;
+                }
+
+                if (ctype_xdigit(bin2hex($p["photo_pet"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["photo_pet"]);
+                    $p["photo_pet"] = $base64Image;
+                }
+
                 $pedido[] = [
                     "cod_user" => $adocao->getCodUser(),
                     "photo_user" => $p['user_photo'],
@@ -157,6 +169,18 @@ class AdocaoRepository implements AdocaoRepositoryInterface{
                        ->setCasaN($p['casa'])
                        ->setTelefone($p['telefone'])
                        ->setDataAdocao($p['data_pedido']);
+
+                if (ctype_xdigit(bin2hex($p["user_photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["user_photo"]);
+                    $p["user_photo"] = $base64Image;
+                }
+
+                if (ctype_xdigit(bin2hex($p["photo_pet"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["photo_pet"]);
+                    $p["photo_pet"] = $base64Image;
+                }
 
                 $nota_pedido[] = [
                     "cod_user" => $adocao->getCodUser(),
@@ -220,6 +244,18 @@ class AdocaoRepository implements AdocaoRepositoryInterface{
                        ->setTelefone($p['telefone'])
                        ->setDataAdocao($p['data_pedido']);
 
+                if (ctype_xdigit(bin2hex($p["user_photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["user_photo"]);
+                    $p["user_photo"] = $base64Image;
+                }
+
+                if (ctype_xdigit(bin2hex($p["photo_pet"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["photo_pet"]);
+                    $p["photo_pet"] = $base64Image;
+                }
+
                 $pedidos[] = [
                     "cod_user" => $adocao->getCodUser(),
                     "photo_user" => $p['user_photo'],
@@ -268,6 +304,18 @@ class AdocaoRepository implements AdocaoRepositoryInterface{
 
             $pedidos = [];
             foreach($dados as $p){
+                if (ctype_xdigit(bin2hex($p["user_photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["user_photo"]);
+                    $p["user_photo"] = $base64Image;
+                }
+
+                if (ctype_xdigit(bin2hex($p["photo_pet"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["photo_pet"]);
+                    $p["photo_pet"] = $base64Image;
+                }
+
                 $pedidos[] = [
                     "cod_user" => $p['cod_user'],
                     "photo_user" => $p['user_photo'],

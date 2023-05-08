@@ -26,7 +26,7 @@ final class BanhoAgenda extends AbstractMigration
                      ->addColumn('kit_banho', 'string', ['null' => false, 'limit' => '45'])
 
                      ->addColumn('cod_horario', 'integer', ["signed" => false])
-                     ->addForeignKey('cod_horario', 'banho_horario', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
+                     ->addForeignKey('cod_horario', 'banho_horario', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
 
                      ->create();
     }

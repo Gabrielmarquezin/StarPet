@@ -21,7 +21,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
     private array $dados;
     private $repository;
     
-    public function __construct(array $dados, ProdutoPedidoRepository $repository)
+    public function __construct(array $dados, $repository)
     {
         $this->dados = $dados;
         $this->repository = $repository;
@@ -34,7 +34,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
         $method_payment = new MethodPaymentEntity();
 
         $pedido->setCodUser($dados["cod_user"])
-               ->setCodProduto($dados["cod_produto"])
+               ->setCodProduto(isset($dados["cod_produto"]) ? $dados["cod_produto"] : $dados['cod_pet'])
                ->setCPF($dados["cpf"])
                ->setRua($dados["rua"])
                ->setBairro($dados["bairro"])
@@ -55,7 +55,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
         $payment->transaction_amount = $pedido->getPreco();
         $payment->description = "Produto comprado";
         $payment->payment_method_id = "pix";
-        $payment->notification_url = "https://806c-200-36-133-243.ngrok-free.app/StarPet/backend/src/webhook/notification.php";
+        $payment->notification_url = NGROK."/StarPet/backend/src/webhook/notification.php";
 
         $payment->payer = array(
             "email" => $pedido->getEmail(),
@@ -87,7 +87,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
                            ->setState("approved");
 
             $qr_code = $dados['qr_code_base64'];
-            //echo "<img src=data:image/jpeg;base64,$qr_code style='width: 350px; height:350px'/>";
+            echo "<img src=data:image/jpeg;base64,$qr_code style='width: 350px; height:350px'/>";
             try{
                 if(empty($repository_pedido->findPedido($pedido))){
                     $repository_pedido->addPedido($pedido, $method_payment);
@@ -96,7 +96,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
                     $repository_pedido->addPedido($pedido, $method_payment);
                 }
 
-                return $qr_code;
+                return $dados;
             }catch(Exception $e){
                 throw new Exception($e->getMessage());
             }

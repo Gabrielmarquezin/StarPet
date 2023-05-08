@@ -27,7 +27,7 @@ final class BanhoPedido extends AbstractMigration
                      ->addColumn('valor_total', 'decimal', ['null' => false, 'scale' => '2', 'precision' => '9'])
 
                      ->addColumn('cod_payment', 'integer', ["signed" => false])
-                     ->addForeignKey('cod_payment', 'forma_pagamento', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
+                     ->addForeignKey('cod_payment', 'forma_pagamento', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
 
                      ->create();
     }

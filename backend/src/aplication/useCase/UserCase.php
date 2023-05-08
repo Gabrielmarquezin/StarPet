@@ -4,6 +4,7 @@ namespace Boringue\Backend\aplication\useCase;
 use Boringue\Backend\aplication\repositories\UserRepository;
 use Boringue\Backend\aplication\useCase\contract\UserCaseInterface;
 use Boringue\Backend\domain\entities\UserEntity;
+use Boringue\Backend\file\RenderFile;
 use Exception;
 
 class UserCase implements UserCaseInterface{
@@ -17,6 +18,14 @@ class UserCase implements UserCaseInterface{
     public function add(UserEntity $UserEntity ,UserRepository $UserRepository){
         $dados = $this->dados;
 
+        // Verifica se o arquivo foi enviado com sucesso
+        if(!empty($dados['photo'])) {
+            $arquivo = $dados['photo'];
+            $file = new RenderFile($arquivo);
+            $dados['photo'] = $file->Render();            
+        }
+
+        
         $UserEntity->setNome($dados['nome'])
              ->setEmail($dados['email'])
              ->setPhoto($dados['photo'])
@@ -35,6 +44,36 @@ class UserCase implements UserCaseInterface{
         throw new Exception("user have been exist");
     }
 
+    public function addAdm(UserEntity $userEntity, UserRepository $UserRepository)
+    {
+        $dados = $this->dados;
+
+        if(!empty($dados['photo'])) {
+            $arquivo = $dados['photo'];
+            $file = new RenderFile($arquivo);
+            $dados['photo'] = $file->Render();            
+        }
+
+        $userEntity->setNome($dados['nome'])
+                    ->setEmail($dados['email'])
+                    ->setPhoto($dados['photo'])
+                    ->setBairro($dados['bairro'])
+                    ->setRua($dados['rua'])
+                    ->setCasaN($dados['casa_numero'])
+                    ->setSenha($dados['senha']);
+        try{
+            $adm = $UserRepository->findAdm($userEntity);
+            if(empty($adm)){
+               return $UserRepository->addUserAdm($userEntity);
+            }else{
+                throw new Exception("ADM ja existe");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        
+    }
+
     public function find(UserEntity $userEntity, UserRepository $userRepository, $email){
         if($email == 0){
             $users = $userRepository->findAll($userEntity);
@@ -46,6 +85,30 @@ class UserCase implements UserCaseInterface{
             $user = $userRepository->findUser($userEntity);
 
             return $user;
+        }
+    }
+
+    public function updateUser(UserEntity $userEntity, UserRepository $userRepository)
+    {
+        $dados = $this->dados;
+        
+        if(!empty($dados['photo'])) {
+            $arquivo = $dados['photo'];
+            $file = new RenderFile($arquivo);
+            $dados['photo'] = $file->Render();            
+        }
+
+        $userEntity->setPhoto($dados['photo'])
+                    ->setBairro($dados['bairro'])
+                    ->setRua($dados['rua'])
+                    ->setCasaN($dados['casa_number'])
+                    ->setId($dados['cod_user']);
+
+        try{
+            $response = $userRepository->update($userEntity);
+            return $response;
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
         }
     }
 }

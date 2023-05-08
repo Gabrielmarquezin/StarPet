@@ -11,6 +11,7 @@ class UserEntity implements UserInterface{
     private static $bairro;
     private static $casaNumber;
     private static $id;
+    private static $senha;
 
     public function setNome(string $nome)
     {
@@ -60,6 +61,12 @@ class UserEntity implements UserInterface{
         return $this;
     }
 
+    public function setSenha($senha)
+    {
+        self::$senha = $senha;
+        return $this;
+    }
+
     public function getNome()
     {
         return self::$nome;
@@ -92,5 +99,10 @@ class UserEntity implements UserInterface{
 
     public function getId(){
         return self::$id;
+    }
+
+    public function getSenha()
+    {
+        return self::$senha;
     }
 }

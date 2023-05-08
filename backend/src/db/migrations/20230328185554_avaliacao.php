@@ -26,8 +26,8 @@ final class Avaliacao extends AbstractMigration
                          ->addColumn('cod_user', 'integer', ["signed" => false])
                          ->addColumn('cod_produto', 'integer', ["signed" => false])
 
-                         ->addForeignKey('cod_user', 'users', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
-                         ->addForeignKey('cod_produto', 'produto', 'cod', ['delete' => 'RESTRICT', 'update' => 'NO_ACTION'])
+                         ->addForeignKey('cod_user', 'users', 'cod', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])
+                         ->addForeignKey('cod_produto', 'produto', 'cod', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])
 
                          ->create();
     }

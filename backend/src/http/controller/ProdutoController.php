@@ -16,6 +16,28 @@ class ProdutoController implements ProdutoControllerInterface{
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
 
+        $headers = getallheaders();
+        $contentType = $headers["Content-Type"];
+
+        if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $dados = [
+                "nome" => $_POST["nome"],
+                "categoria" => $_POST["categoria"],
+                "photo" => isset($_FILES["photo"]) ? $_FILES["photo"] : "",
+                "descricao" => $_POST["descricao"],
+                "preco" => $_POST["preco"],
+                "quantidade" => $_POST["quantidade"],
+                "fichatecnica" => [
+                    "linha" => $_POST["linha"],
+                    "modelo" => $_POST["modelo"],
+                    "marca" => $_POST["marca"],
+                    "tamanho" => $_POST["tamanho"],
+                    "cor" => $_POST["cor"],
+                    "estoque" => $_POST["estoque"]
+                ]
+            ];
+        }
+
         $product_case = new ProductCase($dados);
         $response = $product_case->addProduct(new ProductEntity(), new ProductRepository(new Database()), new FichaProdutoEntity());
        
@@ -70,6 +92,19 @@ class ProdutoController implements ProdutoControllerInterface{
     {
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
+
+        $headers = getallheaders();
+        $contentType = $headers["Content-Type"];
+
+        if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $dados = [
+                "nome" => $_POST["nome"],
+                "photo" => isset($_FILES["photo"]) ? $_FILES["photo"] : "",
+                "descricao" => $_POST["descricao"],
+                "preco" => $_POST["preco"],
+                "cod" => $_POST["cod"],
+            ];
+        }
         
         $product_case = new ProductCase($dados);
 

@@ -2,8 +2,10 @@
 namespace Boringue\Backend\routes;
 
 use Boringue\Backend\http\controller\UserController;
+use Boringue\Backend\http\middlewares\DataVerification;
 use Boringue\Backend\routes\contract\RoutesInterface;
 use Boringue\Backend\routes\framework\Router;
+use Exception;
 
 class UserRoutes implements RoutesInterface{
     private $route;
@@ -21,7 +23,31 @@ class UserRoutes implements RoutesInterface{
         $controller = $this->UserController;
 
         $route->post('/StarPet/backend/login', [$controller, "createUser"]);
+
+        $route->post('/StarPet/backend/adm/login', [$controller, "createADM"])
+        ->before(function(){
+            $body = file_get_contents('php://input');
+            $dados = json_decode($body, true);
+            $user_data = [
+                "email" => !isset($dados['email']) ? null : $dados['email']
+            ];
+
+            $middleware = new DataVerification();
+            try{
+                $middleware->EmptyValues($user_data);
+                return true;
+            }catch(Exception $e){
+                echo json_encode(["message" => $e->getMessage()]);
+                http_response_code(400);
+                return false;
+            }
+          });
+
         $route->get('/StarPet/backend/users', [$controller, "getUser"]);
+
+        $route->put('/StarPet/backend/users/update', [$controller, "updateUser"]);
+
+        $route->put('/StarPet/backend/users/adm/update', [$controller, "updateUser"]);
 
         return $this;
     }
@@ -31,13 +57,18 @@ class UserRoutes implements RoutesInterface{
     {
         $result = $this->route->handler();
 
-        if(!$result){
+        if(!$result){    
             return;
         }
 
         $data = $result->getData(); 
-        
-        call_user_func(array($data['action'][0], $data['action'][1]));
+
+        if(empty($data['before'])){
+            call_user_func(array($data['action'][0], $data['action'][1]));
+            return;
+        }
+
+        $this->middlewareBefore();
     }
 
     private function middlewareBefore(){

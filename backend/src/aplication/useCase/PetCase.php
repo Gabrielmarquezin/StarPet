@@ -8,6 +8,7 @@ use Boringue\Backend\config\Database;
 use Boringue\Backend\domain\entities\CategoriaEntity;
 use Boringue\Backend\domain\entities\FichaPetEntity;
 use Boringue\Backend\domain\entities\PetEntity;
+use Boringue\Backend\file\RenderFile;
 use Exception;
 
 class PetCase implements PetCaseInterface{
@@ -25,6 +26,12 @@ class PetCase implements PetCaseInterface{
         $produto_repository = new ProductRepository(new Database());
 
         $categoria = $dados['categoria'];
+
+        if(!empty($dados['photo'])) {
+            $arquivo = $dados['photo'];
+            $file = new RenderFile($arquivo);
+            $dados['photo'] = $file->Render();            
+        }
 
         $pet->setPhoto($dados['photo'])
             ->setDesc($dados['descricao'])
@@ -68,6 +75,12 @@ class PetCase implements PetCaseInterface{
         $produto_repository = new ProductRepository(new Database());
 
         $categoria = $dados['categoria'];
+
+        if(!empty($dados['photo'])) {
+            $arquivo = $dados['photo'];
+            $file = new RenderFile($arquivo);
+            $dados['photo'] = $file->Render();            
+        }
 
         $pet->setPhoto($dados['photo'])
             ->setDesc($dados['descricao'])
@@ -179,6 +192,13 @@ class PetCase implements PetCaseInterface{
     public function updatePet(PetEntity $pet, PetRepository $pet_repository)
     {
         $dados = $this->dados;
+
+        if(!empty($dados['photo'])) {
+            $arquivo = $dados['photo'];
+            $file = new RenderFile($arquivo);
+            $dados['photo'] = $file->Render();            
+        }
+
         $pet->setCod($dados['cod'])
             ->setDesc($dados['descricao'])
             ->setNome($dados['nome'])
@@ -197,6 +217,13 @@ class PetCase implements PetCaseInterface{
     public function updatePetAdocao(PetEntity $pet, PetRepository $pet_repository)
     {
         $dados = $this->dados;
+
+        if(!empty($dados['photo'])) {
+            $arquivo = $dados['photo'];
+            $file = new RenderFile($arquivo);
+            $dados['photo'] = $file->Render();            
+        }
+
         $pet->setCod($dados['cod'])
             ->setDesc($dados['descricao'])
             ->setNome($dados['nome'])

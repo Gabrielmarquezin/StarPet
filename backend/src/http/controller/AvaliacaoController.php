@@ -14,6 +14,28 @@ class AvaliacaoController implements AvaliacaoControllerInterface{
     {
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
+
+        $headers = getallheaders();
+        $contentType = $headers["Content-Type"];
+
+        if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $dados = [
+                "stars" => $_POST["stars"],
+                "message" => $_POST["message"],
+                "cod_user" => $_POST["cod_user"],
+            ];
+
+            if(isset($_POST["cod_adocao_pet"])){
+              $dados["cod_adocao_pet"] = $_POST["cod_adocao_pet"];
+            }
+            if(isset($_POST["cod_pet"])){
+              $dados["cod_pet"] = $_POST["cod_pet"];
+            }
+            if(isset($_POST["cod_produto"])){
+              $dados["cod_produto"] = $_POST["cod_produto"];
+            }
+        }
+
         $avalicao_case = new AvaliacaoCase($dados);
 
         try{
@@ -99,6 +121,16 @@ class AvaliacaoController implements AvaliacaoControllerInterface{
     {
       $body = file_get_contents('php://input');
       $dados = json_decode($body, true);
+
+      $headers = getallheaders();
+      $contentType = $headers["Content-Type"];
+
+        if(strpos($contentType, 'multipart/form-data;') !== false) {
+            $dados = [
+                "cod_mensagem" => $_POST["cod_mensagem"],
+                "message" => $_POST["message"]
+            ];
+        }
       
       $avalicao_case = new AvaliacaoCase($dados);
       try{
@@ -114,6 +146,16 @@ class AvaliacaoController implements AvaliacaoControllerInterface{
     {
       $body = file_get_contents('php://input');
       $dados = json_decode($body, true);
+
+      $headers = getallheaders();
+      $contentType = $headers["Content-Type"];
+
+        if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $dados = [
+                "cod_mensagem" => $_POST["cod_mensagem"],
+                "message" => $_POST["message"]
+            ];
+        }
       
       $avalicao_case = new AvaliacaoCase($dados);
       try{
@@ -129,6 +171,16 @@ class AvaliacaoController implements AvaliacaoControllerInterface{
     {
       $body = file_get_contents('php://input');
       $dados = json_decode($body, true);
+
+      $headers = getallheaders();
+      $contentType = $headers["Content-Type"];
+
+        if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $dados = [
+                "cod_mensagem" => $_POST["cod_mensagem"],
+                "message" => $_POST["message"]
+            ];
+        }
       
       $avalicao_case = new AvaliacaoCase($dados);
       try{

@@ -3,7 +3,7 @@ namespace Boringue\Backend\domain\contract;
 
 use Boringue\Backend\domain\contract\pedido\PedidoInterface;
 
-interface AdocaoEntityInterface extends PedidoInterface{
+interface AdocaoEntityInterface{
     public function setDataAdocao($date);
     public function getDataAdocao();
 }
