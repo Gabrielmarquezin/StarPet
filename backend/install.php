@@ -1,4 +1,4 @@
 <?php
 
-exec('composer update -y');
+exec('composer update');
 exec(__DIR__ . '/vendor/bin/phinx migrate');

@@ -1,0 +1,25 @@
+{
+    "builds": [
+      {
+        "src": "index.php",
+        "use": "@vercel/php"
+      }
+    ],
+    "routes": [
+      {
+        "src": "(.*)",
+        "dest": "/index.php" 
+      }
+    ],
+    "functions": {
+      "composer": {
+        "runtime": "@vercel/php@1.0.0",
+        "memory": 128,
+        "maxDuration": 5000,
+        "includeFiles": [
+          "composer.phar"
+        ],
+        "handler": "composer.phar"
+      }
+    }
+  }
