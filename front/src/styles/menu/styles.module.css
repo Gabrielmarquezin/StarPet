@@ -1,0 +1,72 @@
+:root{
+    --cor-icon: white;
+    --cor-icon-search: rgba(0, 0, 0, 0.32);
+}
+
+.search_container
+{
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.79);
+    max-width: 620px;
+    width: 520px;
+    border-radius: 5px;
+    max-height: 35px;
+}
+#icon_search{
+    color: var(--cor-icon-search);
+    font-size: 1.8rem;
+}
+
+.container_icon_info{
+    display: flex;
+    gap: 40px;
+}
+#icon{
+    color: var(--cor-icon);
+    font-size: 2rem;
+}
+
+.container_paws{
+    display: grid;
+    height: 100px;
+    width: 100px;
+    grid-template-areas: 
+    "p1 p2 p3"
+    "p5 p6 p7"
+    "p9 p10 p11"
+    "p13 p14 p15"
+    "p16 p17 p18"
+    ;
+}
+
+#paws_icon{
+    font-size: 1.5rem;
+    color: var(--cor-icon);
+    rotate: -45deg;
+}
+
+.container_list ul{
+    display: flex;
+    gap: 30px;
+}
+
+.container_list ul li ul{
+    display: none;
+}
+
+.container_list ul li{
+    position: relative;
+}
+
+.container_list ul li ul{
+    position: absolute;
+    min-width: 100%;
+    top: 100%;
+    left: 0;
+}
+
+.container_list ul li ul:hover,
+.container_list ul li:hover ul{
+    display: block;
+}

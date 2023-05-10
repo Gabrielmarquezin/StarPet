@@ -1,0 +1,10 @@
+.container_carrossel{
+
+}
+
+#icon_moviment{
+    rotate: 180deg;
+    background-color: transparent;
+    border: rgba(3, 4, 94, 0.5) 1px solid;
+    border-radius: 50%;
+}
