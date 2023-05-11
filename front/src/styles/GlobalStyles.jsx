@@ -2,7 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
 
-    @import url('https://fonts.googleapis.com/css2?family=K2D:wght@600&display=swap');
+    @font-face {
+        font-family: 'K2D';
+        font-style: normal;
+        font-weight: 600;
+        src: url('https://fonts.googleapis.com/css2?family=K2D:wght@600&display=swap');
+    }
 
     *{
         margin: 0;
@@ -12,6 +17,12 @@ export const GlobalStyle = createGlobalStyle`
     }
     
     body{
-        height: 100%;
+        min-height: 100vh;
     }
 `;
+
+export const theme = {
+    font: "'K2D', sans-serif",
+    backgroundColor: "#00509D"
+}
+

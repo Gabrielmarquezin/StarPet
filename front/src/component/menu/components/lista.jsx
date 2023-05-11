@@ -43,7 +43,7 @@ export function Lista(){
                 <Li>
                     <StyledLink to={"#"}>Serviços</StyledLink>
                     <Ul theme={"pet-blue"}>
-                        <Li><StyledLink color="#03045E" to={"/contatos"}>Banhos e <br/> Tosas</StyledLink></Li>
+                        <Li><StyledLink color="#03045E" to={"/contatos"}>Banhos e tosas</StyledLink></Li>
                         <Li><StyledLink color="#03045E" to={"/contatos"}>Adoção</StyledLink></Li>
                     </Ul>
                 </Li>

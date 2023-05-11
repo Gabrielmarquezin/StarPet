@@ -7,6 +7,7 @@ export const Imagem = styled.img.attrs((props) => ({
     width: 30%;
     height: 100%;
     object-fit: cover;
+    scroll-snap-align: start;
     flex: none;
 `;
 
@@ -15,11 +16,12 @@ export const ContainerCarrossel = styled.div`
     align-items: center;
     overflow: hidden;
     gap: 10px;
-    width: ${props => props.widthCarrossel};
-    height: ${props => props.heightCarrossel}
+    width: ${props => props.widthcarrossel};
+    height: ${props => props.heightcarrossel};
+    padding: 10px 15px;
 `;
 ContainerCarrossel.defaultProps = {
-    widthCarrossel: "100%"
+    widthcarrossel: "100%"
 }
 
 export const CarrosselImage = styled.div`
@@ -27,11 +29,17 @@ export const CarrosselImage = styled.div`
     width: 100%;
     display: flex;
     overflow: hidden;
-    gap: 8px;
+    overflow: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
 `;
+
 
 export const BoxCarrossel = styled.div`
     overflow: hidden;
     width: 100%;
+    height: 100%;
 `
 
