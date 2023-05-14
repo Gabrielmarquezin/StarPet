@@ -7,12 +7,12 @@ export function Lista(){
         <div className={styles.container_list}>
             <Ul>
                 <Li>
-                    <StyledLink to={"#"}>Cachorros</StyledLink>
+                    <StyledLink to={"produto/cachorro/todos"}>Cachorros</StyledLink>
                     <Ul theme={"pet-blue"}>
-                        <Li><StyledLink color="#03045E" to={"/contatos"}>Coleiras</StyledLink></Li>
-                        <Li><StyledLink color="#03045E" to={"/contatos"}>Ração</StyledLink></Li>
-                        <Li><StyledLink color="#03045E" to={"/contatos"}>Brinquedos</StyledLink></Li>
-                        <Li><StyledLink color="#03045E" to={"/contatos"}>Cama</StyledLink></Li>
+                        <Li><StyledLink color="#03045E" to={"/produto/cachorro/coleira"}>Coleiras</StyledLink></Li>
+                        <Li><StyledLink color="#03045E" to={"/produto/cachorro/racao"}>Ração</StyledLink></Li>
+                        <Li><StyledLink color="#03045E" to={"/produto/cachorro/brinquedo"}>Brinquedos</StyledLink></Li>
+                        <Li><StyledLink color="#03045E" to={"/produto/cachorro/cama"}>Cama</StyledLink></Li>
                     </Ul>
                 </Li>
                 <Li>

@@ -71,3 +71,10 @@
 .container_list ul li:hover ul{
     display: block;
 }
+
+/* evento */
+
+.option_profile{
+    max-height: 87px;
+}
+

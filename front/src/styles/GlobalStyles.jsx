@@ -23,6 +23,8 @@ export const GlobalStyle = createGlobalStyle`
 
 export const theme = {
     font: "'K2D', sans-serif",
-    backgroundColor: "#00509D"
+    backgroundColor: "#00509D",
+    color: "#03045E",
+    fontPreco: "Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif"
 }
 
