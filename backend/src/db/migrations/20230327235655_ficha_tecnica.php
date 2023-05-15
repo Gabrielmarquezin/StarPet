@@ -24,7 +24,7 @@ final class FichaTecnica extends AbstractMigration
               ->addColumn('marca', 'string', ['limit' => '45'])
               ->addColumn('tamanho', 'string', ['limit' => '45'])
               ->addColumn('cor', 'string', ['limit' => '20'])
-              ->addColumn('estoque', 'string', ['limit' => '20'])
+              ->addColumn('estoque', 'integer')
               ->create();
     }
 }

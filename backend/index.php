@@ -21,6 +21,8 @@ use Boringue\Backend\routes\UserRoutes;
 $path = explode("?", $_SERVER['REQUEST_URI']);
 $method = $_SERVER['REQUEST_METHOD'];
 
+header('Access-Control-Allow-Origin: *');
+
 $RotasUser = new UserRoutes(new Router($method, $path[0]), new UserController());
 $RotasProducts = new ProdutoRoutes(new Router($method, $path[0]), new ProdutoController());
 $RotasAvaliacao = new AvaliacaoRoutes(new Router($method, $path[0]), new AvaliacaoController());

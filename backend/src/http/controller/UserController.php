@@ -32,13 +32,11 @@ class UserController implements UserControllerInterface{
             ];
         }
         
-        
-
         try{
             $UseCase = new UserCase($dados);
             $response = $UseCase->add(new UserEntity(), new UserRepository(new Database));
 
-            echo json_encode($response);
+            echo json_encode(["message"=>"user create", "cod_user"=>$response]);
         }catch(Exception $e){
             echo json_encode($e->getMessage());
         }

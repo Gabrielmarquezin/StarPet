@@ -8,7 +8,7 @@ interface FichaProdutoEntityInterface{
     public function setMarca(string $marca);
     public function setTamanho(string $tamanho);
     public function setCor(string $cor);
-    public function setEstoque(string $estoque);
+    public function setEstoque(int $estoque);
 
     public function getCod();
     public function getLinha() :string;

@@ -4,8 +4,11 @@ namespace Boringue\Backend\aplication\useCase;
 require_once "./global.php";
 include "src/config/gatewayPayment.php";
 
+use Boringue\Backend\aplication\repositories\PetRepository;
+use Boringue\Backend\aplication\repositories\ProductRepository;
 use Boringue\Backend\aplication\repositories\ProdutoPedidoRepository;
 use Boringue\Backend\aplication\useCase\contract\pedido\PedidoCaseInterface;
+use Boringue\Backend\config\Database;
 use Boringue\Backend\domain\contract\pedido\PedidoInterface;
 use Boringue\Backend\domain\entities\CategoriaEntity;
 use Boringue\Backend\domain\entities\MethodPaymentEntity;
@@ -32,6 +35,8 @@ class PedidoProdutoCase implements PedidoCaseInterface{
         $repository_pedido = $this->repository;
         $dados = $this->dados;
         $method_payment = new MethodPaymentEntity();
+        $produto_repository = new ProductRepository(new Database());
+        $pet_repository = new PetRepository(new Database());
 
         $pedido->setCodUser($dados["cod_user"])
                ->setCodProduto(isset($dados["cod_produto"]) ? $dados["cod_produto"] : $dados['cod_pet'])
@@ -45,7 +50,6 @@ class PedidoProdutoCase implements PedidoCaseInterface{
                ->setCep($dados['cep'])
                ->setNome($dados['nome']);
 
-        
         $nome_user = explode(" ",$dados['nome']);
 
         \MercadoPago\SDK::setAccessToken(TOKEN);
@@ -76,7 +80,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
         );
 
         if ($payment->save()) {
-            $dados = [
+            $response = [
                 'qr_code_base64' => $payment->point_of_interaction->transaction_data->qr_code_base64,
                 'qr_code' => $payment->point_of_interaction->transaction_data->qr_code,
                 'payment_id' => $payment->id
@@ -86,9 +90,16 @@ class PedidoProdutoCase implements PedidoCaseInterface{
                            ->setCodTransaction($payment->id)
                            ->setState("approved");
 
-            $qr_code = $dados['qr_code_base64'];
+            $qr_code = $response['qr_code_base64'];
             echo "<img src=data:image/jpeg;base64,$qr_code style='width: 350px; height:350px'/>";
             try{
+               
+                if(isset($dados['cod_produto'])){
+                    $produto_repository->updateEstoque($pedido, (int) $dados["quantidade"]);
+                }else{
+                    $pet_repository->updateEstoque($pedido, (int) $dados["quantidade"]);
+                }
+
                 if(empty($repository_pedido->findPedido($pedido))){
                     $repository_pedido->addPedido($pedido, $method_payment);
                 }else{
@@ -96,7 +107,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
                     $repository_pedido->addPedido($pedido, $method_payment);
                 }
 
-                return $dados;
+                return $response;
             }catch(Exception $e){
                 throw new Exception($e->getMessage());
             }

@@ -12,6 +12,12 @@ class ProductEntity implements ProductEntityInterface{
     private static $nome;
     private static $cod_fichatec;
     private static $cod_categoria;
+    private static $type;
+
+    public function setType(string $type){
+        self::$type = $type;
+        return $this;
+    }
 
     public function setPhoto($photo)
     {
@@ -98,6 +104,10 @@ class ProductEntity implements ProductEntityInterface{
     public function getCodCategoria()
     {
         return self::$cod_categoria;
+    }
+
+    public function getType(){
+        return self::$type;
     }
 
 }

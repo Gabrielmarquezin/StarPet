@@ -36,9 +36,9 @@ class UserCase implements UserCaseInterface{
         $cont = $UserRepository->findUser($UserEntity);
 
         if(count($cont) == 0){
-            $UserRepository->addUser($UserEntity);
+            $cod_user = $UserRepository->addUser($UserEntity);
 
-            return "user create";
+            return $cod_user;
         }
         
         throw new Exception("user have been exist");

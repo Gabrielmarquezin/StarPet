@@ -61,14 +61,23 @@ class ProdutoController implements ProdutoControllerInterface{
     public function getByCategoria()
     {
         $categoria = empty($_GET['name']) == 1 ? 0 : $_GET['name'];
-        $product_case = new ProductCase(null);
+        $tipo = $_GET['tipo'];
+        $dados = [
+            "tipo" => $tipo
+        ];
 
+        $product_case = new ProductCase($dados);
+        global $datas;
         try{
-            $datas = $product_case->getProductByCategoria(new CategoriaEntity($categoria), new ProductRepository(new Database()));
+            if(!empty($tipo)){
+                $datas = $product_case->getProductByType(new ProductEntity(), new CategoriaEntity($categoria), new ProductRepository(new Database()));
+            }else{
+                $datas = $product_case->getProductByCategoria(new CategoriaEntity($categoria), new ProductRepository(new Database()));
+            }
 
             echo json_encode($datas);
         }catch(Exception $e){
-            echo json_encode(["repository"=>$e->getMessage()]);
+            echo json_encode(["message"=>$e->getMessage()]);
         }
     }
 

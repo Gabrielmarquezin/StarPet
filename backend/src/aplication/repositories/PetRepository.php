@@ -5,6 +5,7 @@ use Boringue\Backend\aplication\repositories\contract\PetRepositoryInterface;
 use Boringue\Backend\config\Database;
 use Boringue\Backend\domain\entities\CategoriaEntity;
 use Boringue\Backend\domain\entities\FichaPetEntity;
+use Boringue\Backend\domain\entities\pedido\PedidoProdutoEntity;
 use Boringue\Backend\domain\entities\PetEntity;
 use Cake\Database\Query;
 use Exception;
@@ -453,6 +454,30 @@ class PetRepository implements PetRepositoryInterface{
             throw new Exception($e->getMessage());
         }
 
+    }
+
+    public function updateEstoque(PedidoProdutoEntity $produto, int $produto_quantidade)
+    {
+        $cnt = $this->db;
+        $cod_produto = $produto->getCodProduto();
+        try{
+            $sql = "UPDATE ficha_pet AS f
+            INNER JOIN pet AS p
+            ON p.cod_fichatec = f.cod
+            SET f.estoque = f.estoque - '$produto_quantidade'
+            WHERE p.cod = '$cod_produto'";
+
+            $query = $cnt->prepare($sql);
+            $query->execute();
+
+            if(!$query->rowCount()){
+                throw new Exception("Produto nao existe ou produto nao tem o que atualizar");
+            }
+
+            return "atualizado";
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function updatePet(PetEntity $pet)

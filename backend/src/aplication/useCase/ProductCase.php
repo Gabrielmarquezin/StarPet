@@ -26,15 +26,16 @@ class ProductCase implements ProductCaseInterface{
    
         if(!empty($dados['photo'])){
             $arquivo = $dados['photo'];
-            $file = new RenderFile($arquivo);
-            $dados['photo'] = $file->Render();            
+            //$file = new RenderFile($arquivo);
+            //$dados['photo'] = $file->Render();            
          }
 
         $product->setPhoto($dados['photo'])
                 ->setDescricao($dados['descricao'])
                 ->setPreco($dados['preco'])
                 ->setQuantidade($dados['quantidade'])
-                ->setNome($dados['nome']);
+                ->setNome($dados['nome'])
+                ->setType($dados['tipo']);
 
 
         $nomeCategoria = $this->dados['categoria'];
@@ -59,7 +60,7 @@ class ProductCase implements ProductCaseInterface{
                     ->setTamanho($dados['fichatecnica']['tamanho'])
                     ->setCor($dados['fichatecnica']['cor'])
                     ->setEstoque($dados['fichatecnica']['estoque']);
-
+     
         $idFichatec = $productRepository->addFichaTec($ficha_tecnica);
         $product->setCodFichaTec($idFichatec);
         
@@ -86,6 +87,20 @@ class ProductCase implements ProductCaseInterface{
      {
        try{
          $respose_data = $productRepository->findByCategoria($categoria_entity);
+
+         return $respose_data;
+       }catch(Exception $e){
+         throw new Exception($e->getMessage());
+       }
+     }
+
+     public function getProductByType(ProductEntity $product, CategoriaEntity $categoria_entity, ProductRepository $productRepository)
+     {
+       try{
+         $dados = $this->dados;
+   
+         $product->setType($dados['tipo']);
+         $respose_data = $productRepository->findByType($product,$categoria_entity);
 
          return $respose_data;
        }catch(Exception $e){

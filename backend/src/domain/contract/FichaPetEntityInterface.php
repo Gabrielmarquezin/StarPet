@@ -7,7 +7,7 @@ interface FichaPetEntityInterface{
     public function setAlergias(string $alergias);
     public function setObservacoes(string $observacoes);
     public function setTamanho(string $tamanho);
-    public function setEstoque(string $estoque);
+    public function setEstoque(int $estoque);
 
     public function getCod();
     public function getRaca();

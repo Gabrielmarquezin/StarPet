@@ -26,7 +26,7 @@ final class Produto extends AbstractMigration
                 ->addColumn('preco', 'decimal', ['null' => false, 'scale' => '2', 'precision' => '7'] )
                 ->addColumn('quantidade', 'integer', ['null' => false])
                 ->addColumn('nome', 'string', ['limit' => '45'])
-
+                ->addColumn("tipo", "string", ['limit' => '45'])
                 ->addForeignKey('cod_fichatec', 'ficha_tecnica', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
                 ->addForeignKey('cod_categoria', 'produto_categoria', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
                 

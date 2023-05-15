@@ -35,7 +35,7 @@ class FichaPetEntity implements FichaPetEntityInterface{
         return $this;
     }
 
-    public function setEstoque(string $estoque)
+    public function setEstoque(int $estoque)
     {
         self::$estoque = $estoque;
         return $this;

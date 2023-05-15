@@ -6,6 +6,7 @@ use Boringue\Backend\config\Database;
 use Boringue\Backend\domain\entities\CategoriaEntity;
 use Boringue\Backend\domain\entities\FichaProduto;
 use Boringue\Backend\domain\entities\FichaProdutoEntity;
+use Boringue\Backend\domain\entities\pedido\PedidoProdutoEntity;
 use Boringue\Backend\domain\entities\ProductEntity;
 use Exception;
 use FichaTecnica;
@@ -30,10 +31,11 @@ class ProductRepository implements ProductRepositoryInterface{
                 "descricao" => $produto->getDescricao(),
                 "preco" => $produto->getPreco(),
                 "quantidade" => $produto->getQuantidade(),
-                "nome" => $produto->getNome()
+                "nome" => $produto->getNome(),
+                "tipo" => $produto->getType()
             ];
 
-            $sql = "INSERT INTO produto (photo, cod_fichatec, cod_categoria, descricao, preco, quantidade, nome) VALUES (:photo, :cod_fichatec, :cod_categoria, :descricao, :preco, :quantidade, :nome)";
+            $sql = "INSERT INTO produto (photo, cod_fichatec, cod_categoria, descricao, preco, quantidade, nome, tipo) VALUES (:photo, :cod_fichatec, :cod_categoria, :descricao, :preco, :quantidade, :nome, :tipo)";
             $query = $db->prepare($sql);
             $query->execute($data);
 
@@ -72,7 +74,7 @@ class ProductRepository implements ProductRepositoryInterface{
             "marca" => $ficha->getMarca(),
             "tamanho" => $ficha->getTamanho(),
             "cor" => $ficha->getCor(),
-            "estoque" => $ficha->getTamanho()
+            "estoque" => (int) $ficha->getEstoque()
         ];
 
         try{
@@ -115,60 +117,6 @@ class ProductRepository implements ProductRepositoryInterface{
         }
     }
 
-    // public function findCategoriaForId($idcategoria)
-    // {
-    //     $cnt = $this->db;
-    //     try{
-    //         $sql = "SELECT nome_categoria FROM produto_categoria WHERE cod = '$idcategoria'";
-    //         $query = $cnt->prepare($sql);
-    //         $query->execute();
-
-    //         $dados = $query->fetchAll();
-            
-    //         return $dados[0];
-    //     }catch(Exception $e){
-    //         echo $e->getMessage();
-    //     }
-    // }
-
-    // public function findFichaTecnica(FichaProdutoEntity $fichaTecnica)
-    // {
-    //     $cnt = $this->db;
-    //     $idTec = $fichaTecnica->getCod();
-
-    //     try{
-    //         $sql = "SELECT * FROM ficha_tecnica WHERE cod = '$idTec'";
-    //         $query = $cnt->prepare($sql);
-    //         $query -> execute();
-
-    //         $dados = $query->fetchAll();
-    //         $fichas = [];
-
-    //         foreach($dados as $f){
-    //             $fichaTecnica->setCod($f['cod'])
-    //                          ->setLinha($f['linha'])
-    //                          ->setModelo($f['modelo'])
-    //                          ->setMarca($f['marca'])
-    //                          ->setTamanho($f['tamanho'])
-    //                          ->setCor($f['cor'])
-    //                          ->setEstoque($f['estoque']);
-    //             $fichas[] = [
-    //                 "cod" => $fichaTecnica->getCod(),
-    //                 "linha" => $fichaTecnica->getLinha(),
-    //                 "modelo" => $fichaTecnica->getModelo(),
-    //                 "marca" => $fichaTecnica->getMarca(),
-    //                 "tamanho" => $fichaTecnica->getTamanho(),
-    //                 "cor" => $fichaTecnica->getCor(),
-    //                 "estoque" => $fichaTecnica->getEstoque()
-    //             ];
-    //         }
-            
-    //         return $fichas;
-    //     }catch(Exception $e){
-    //         echo $e->getMessage();
-    //     }
-    // }
-
     public function find(ProductEntity $produto, FichaProdutoEntity $ficha_tecnica)
     {
         $cnt = $this->db;
@@ -196,7 +144,8 @@ class ProductRepository implements ProductRepositoryInterface{
                         ->setDescricao($p['descricao'])
                         ->setPreco($p['preco'])
                         ->setQuantidade($p['quantidade'])
-                        ->setNome($p['nome']);
+                        ->setNome($p['nome'])
+                        ->setType($p['tipo']);
 
                 if (ctype_xdigit(bin2hex($produto->getPhoto()))) {
                     // o campo é binário
@@ -229,7 +178,8 @@ class ProductRepository implements ProductRepositoryInterface{
                     "descricao" => $produto->getDescricao(),
                     "preco" => $produto->getPreco(),
                     "quantidade" => $produto->getQuantidade(),
-                    "nome" => $produto->getNome() 
+                    "nome" => $produto->getNome(),
+                    "tipo" => $produto->getType()
                 ];
                         
             }
@@ -280,7 +230,8 @@ class ProductRepository implements ProductRepositoryInterface{
                     "descricao" => $p["descricao"],
                     "preco" => $p["preco"],
                     "quantidade" => $p["quantidade"],
-                    "nome" => $p["nome"]
+                    "nome" => $p["nome"],
+                    "tipo" => $p["tipo"]
                 ];
 
            };
@@ -337,7 +288,67 @@ class ProductRepository implements ProductRepositoryInterface{
                     "descricao" => $p["descricao"],
                     "preco" => $p["preco"],
                     "quantidade" => $p["quantidade"],
-                    "nome" => $p["nome"]
+                    "nome" => $p["nome"],
+                    "tipo" => $p["tipo"]
+                ];
+
+            }
+            return $produtos;
+
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function findByType(ProductEntity $produto, CategoriaEntity $categoria_entity)
+    {
+        $cnt = $this->db;
+        $nome_categoria = $categoria_entity->getCategoriaName();
+        $tipo = $produto->getType();
+        try{
+            $sql = "SELECT DISTINCT produto.*, c.nome_categoria, f.linha, f.modelo, f.marca, f.tamanho, f.cor, f.estoque FROM produto INNER JOIN produto_categoria AS c
+            ON produto.cod_categoria = c.cod
+            AND c.nome_categoria = '$nome_categoria'
+            AND produto.tipo = '$tipo'
+            INNER JOIN ficha_tecnica AS f
+            ON produto.cod_fichatec = f.cod";
+
+            $query = $cnt->prepare($sql);
+            $query->execute();
+
+            $dados = $query->fetchAll();
+
+            if(empty($dados)){
+                throw new Exception("empty products");
+            }
+
+            $produtos = [];
+
+            foreach($dados as $p){
+                if (ctype_xdigit(bin2hex($p["photo"]))) {
+                    // o campo é binário
+                    $base64Image = base64_encode($p["photo"]);
+                    $p["photo"] = $base64Image;
+                }
+
+                $produtos[] = [
+                    "cod" => $p["cod"],
+                    "photo" => $p["photo"],
+                    "ficha_tec" => [
+                        "cod" => $p["cod_fichatec"],
+                        "linha" => $p["linha"],
+                        "modelo" => $p["modelo"],
+                        "marca" => $p["marca"],
+                        "tamanho" => $p["tamanho"],
+                        "cor" => $p["cor"],
+                        "estoque" => $p["estoque"]
+                    ],
+                    "categoria" => $p["nome_categoria"],
+                    "descricao" => $p["descricao"],
+                    "preco" => $p["preco"],
+                    "quantidade" => $p["quantidade"],
+                    "nome" => $p["nome"],
+                    "tipo" => $p["tipo"]
                 ];
 
             }
@@ -374,6 +385,30 @@ class ProductRepository implements ProductRepositoryInterface{
         }
     }
 
+    public function updateEstoque(PedidoProdutoEntity $produto, int $produto_quantidade)
+    {
+        $cnt = $this->db;
+        $cod_produto = $produto->getCodProduto();
+        try{
+            $sql = "UPDATE ficha_tecnica AS f
+            INNER JOIN produto AS p
+            ON p.cod_fichatec = f.cod
+            SET f.estoque = f.estoque - '$produto_quantidade'
+            WHERE p.cod = '$cod_produto'";
+
+            $query = $cnt->prepare($sql);
+            $query->execute();
+
+            if(!$query->rowCount()){
+                throw new Exception("Produto nao existe ou produto nao tem o que atualizar");
+            }
+
+            return "atualizado";
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function delete($idProduto)
     {
         $cnt = $this->db;
@@ -391,4 +426,6 @@ class ProductRepository implements ProductRepositoryInterface{
             throw new Exception($e->getMessage());
         }
     }
+
+
 }

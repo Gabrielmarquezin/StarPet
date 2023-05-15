@@ -23,7 +23,7 @@ final class FichaPet extends AbstractMigration
                    ->addColumn('alergias', 'string', ['limit' => '500'])
                    ->addColumn('observacoes', 'string', ['limit' => '1000'])
                    ->addColumn('tamanho', 'string', ['limit' => '45'])
-                   ->addColumn('estoque', 'string', ['limit' => '20'])
+                   ->addColumn('estoque', 'integer')
 
                    ->create();
     }
