@@ -27,8 +27,10 @@ export const Article = styled.article`
 /*produtos selecionados */
 
 export const Main = styled.main`
+    display: flex;
+    flex-direction: column;
     min-height: 50vh;
-    padding: 50px 20px 20px 50px;
+    padding: 50px 20px 20px 20px;
 `;
 
 export const ContainerImage = styled.div`
@@ -40,7 +42,8 @@ export const SectionMainImage = styled.section`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    max-width: 90%;
+    width: 80%;
+    align-self: center;
     padding: 0px 50px
 `;
 
@@ -97,3 +100,8 @@ export const ContainerValor = styled.div`
     gap: 10px;
      margin-bottom: 30px;
 `;
+
+export const SectionCarrossel = styled.div`
+   
+
+`
