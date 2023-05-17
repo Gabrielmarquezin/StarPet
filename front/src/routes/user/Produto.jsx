@@ -102,6 +102,7 @@ export function Produto(){
         setLoading(true)
         fetchData(id[4]).then(data => {
             setProduto(data)
+            console.log(data)
             setLoading(false)
         })
     }, [])

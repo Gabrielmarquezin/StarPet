@@ -3,11 +3,14 @@ import { theme } from "../GlobalStyles";
 
 export const FooterP = styled.footer`
     display: flex;
+    width: 100%;
     background-color: ${props => props.theme.backgroundColor};
     justify-content: space-between;
     align-items: center;
     padding: 30px;
-    margin-top: 60px;
+    position: absolute;
+    bottom: 0;
+    transform: translateY(calc(100% + 60px));
 `;
 FooterP.defaultProps = {
     theme
