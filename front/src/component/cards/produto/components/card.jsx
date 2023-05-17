@@ -1,18 +1,28 @@
 import React from "react";
+import { useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ContainerCardProduto, ContainerImageProduto, ContainerInfoProduto, P } from "../../../../styles/card/produtoStyles/produtoStyleCard";
 import { Image,Span } from "../../../../styles/ui/uis";
-import { theme } from "../../../../styles/GlobalStyles";
+import NoImage from "../../../../assets/noimage.png"
 
-export function CardProduto({src, nome, preco}){
+export function CardProduto({src, nome, preco, id}){
+    const Navigate = useNavigate();
+    const path = useLocation();
+    const img = useRef('');
 
-    function handleImage(){
-        console.log("imagem carregou")
+    function handleProduto(){
+        const location = path.pathname;
+
+        Navigate(location+`/${id}`)
     }
-
+    function ErrorPhoto(){
+        
+        img.current.src = NoImage;
+    }
     return(
-       <ContainerCardProduto>
+       <ContainerCardProduto onClick={handleProduto}>
             <ContainerImageProduto>
-                <Image src={src} alt={"imagem produto"} onLoad={handleImage}/>
+                <Image src={src} alt={"imagem produto"} onError={ErrorPhoto} ref={img}/>
             </ContainerImageProduto>
 
             <ContainerInfoProduto>

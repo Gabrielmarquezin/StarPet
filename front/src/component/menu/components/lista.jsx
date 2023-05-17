@@ -6,6 +6,7 @@ export function Lista(){
     return(
         <div className={styles.container_list}>
             <Ul>
+                <Li><StyledLink to={"/"}>Home</StyledLink></Li> 
                 <Li>
                     <StyledLink to={"produto/cachorro/todos"}>Cachorros</StyledLink>
                     <Ul theme={"pet-blue"}>

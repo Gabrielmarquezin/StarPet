@@ -1,15 +1,24 @@
 import React, { Component } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Loading } from "../styles/loading";
 
 export function withLoading(Component){
     return function withLoadingComponent({isloading}){
-        const [showLoading, setShowloading] = useState(isloading)
+        const [showLoading, setShowloading] = useState(isloading);
+       
+        useEffect(()=>{
+            setShowloading(isloading)
+        }, [isloading])
 
-        if(showLoading){
-            return <Loading />
+        function toggleLoading(bool){
+            setShowloading(bool)
         }
 
-        return <Component setLoading={setShowloading} />
+        return (
+            <>
+                {showLoading ? <Loading /> : <Component setLoading={toggleLoading} />}
+            </>
+        )
     }
 }
