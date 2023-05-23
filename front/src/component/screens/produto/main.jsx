@@ -1,19 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ContainerContador, ContainerDescricao, ContainerImage, ContainerPay, ContainerPayment, ContainerValor, ProdutoName, SectionMainImage } from "../../../styles/routes/produto/ProdutoStyle";
+import { ContainerButton, ContainerContador, ContainerDescricao, ContainerImage, ContainerPay, ContainerPayment, ContainerValor, ProdutoName, SectionMainImage } from "../../../styles/routes/produto/ProdutoStyle";
 import { Button, Image, Input, P, Span } from "../../../styles/ui/uis";
-import { AiOutlinePlus } from 'react-icons/ai';
-import {AiOutlineMinus} from 'react-icons/ai';  
+import { AiOutlinePlus, AiOutlineHeart, AiOutlineMinus, AiFillHeart} from 'react-icons/ai'; 
 import {MdOutlinePix} from 'react-icons/md';
 import Noimage from "../../../assets/noimage.png";
 import { ProdutoContext } from "../../../routes/user/Produto";
-import { withLoading } from "../../../HOC/withLoading";
 
-function SectionProduto({setLoading}){
+export function SectionProduto(){
     const {data} = useContext(ProdutoContext)
     const [produto, setProduto] = useState({})
     const [fichatecnica, setFichatecnica] = useState({});
-
-    const [cont, setCont] = useState(1)
 
     useEffect(()=>{
        if(data.length !== 0){
@@ -22,16 +18,7 @@ function SectionProduto({setLoading}){
        }
     }, [data])
 
-    useEffect(()=>{
-        if(cont < 1){
-            setCont(1)
-        }
-
-        if(cont >= fichatecnica.estoque){
-            setCont(5)
-        }
-    }, [cont])
-
+   
     function ErrorPhoto(e){
         e.target.src = Noimage;
     }
@@ -53,21 +40,63 @@ function SectionProduto({setLoading}){
                     <MdOutlinePix size={25} style={{color: "#00b0e8"}}/>
                </ContainerPayment>
 
-               <ContainerPay>
-                    <P theme={{color: "#00000083"}}>Estoque: {fichatecnica.estoque}</P>
-                    <ContainerValor>
-                        <ContainerContador>
-                            <Span onClick={()=>setCont(cont + 1)}><AiOutlinePlus /></Span>
-                            <Input type={"text"} value={cont} readOnly/>
-                            <Span onClick={()=>setCont(cont-1)}><AiOutlineMinus /></Span>
-                        </ContainerContador>
-                        <P theme={{color: "#000000b7"}}>Valor total: R${produto.preco * cont}</P>
-                    </ContainerValor>
-                    <Button type={"button"}>COMPRAR</Button>
-               </ContainerPay>
+               <Pay estoque={fichatecnica.estoque} preco={produto.preco} /> 
             </ContainerDescricao>
         </SectionMainImage>
     )
 }
 
-export const SectionWithLoading = withLoading(SectionProduto);
+
+function Pay({estoque, preco}){
+    const [cont, setCont] = useState(1)
+    const [fillHeart, setFillheart] = useState(false)
+
+    useEffect(()=>{
+        if(cont < 1){
+            setCont(1)
+        }
+        if(cont >= estoque){
+            setCont(5)
+        }
+    }, [cont])
+
+    function changeHeart(){
+        setFillheart((value) => !value)
+    }
+
+    return(
+        <ContainerPay>
+            <P theme={{color: "#00000083"}}>Estoque: {estoque}</P>
+
+            <ContainerValor>
+                <ContainerContador>
+                    <Span onClick={()=>setCont(cont + 1)}><AiOutlinePlus /></Span>
+                    <Input type={"text"} value={cont} readOnly/>
+                    <Span onClick={()=>setCont(cont-1)}><AiOutlineMinus /></Span>
+                </ContainerContador>
+
+                <P theme={{color: "#000000b7"}}>Valor total: R${preco * cont}</P>
+                {fillHeart 
+                    ? <AiFillHeart size={30}  onClick={changeHeart} style={{cursor: "pointer", color: "red"}} />
+                    : <AiOutlineHeart size={30} onClick={changeHeart} style={{cursor: "pointer"}}/>
+                }
+            </ContainerValor>
+
+            <Buttons />
+        </ContainerPay>
+    )
+}
+
+
+
+function Buttons(){
+    
+
+    return(
+        <ContainerButton>
+            <Button type={"button"}>COMPRAR</Button>
+            <Button type={"button"}>ADICIONAR NO CARRINHO</Button>
+        </ContainerButton>
+    )
+}
+

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Loading } from "../styles/loading";
 
 export function withLoading(Component){
-    return function withLoadingComponent({isloading}){
+    return function withLoadingComponent({isloading, data}){
         const [showLoading, setShowloading] = useState(isloading);
        
         useEffect(()=>{
@@ -17,7 +17,7 @@ export function withLoading(Component){
 
         return (
             <>
-                {showLoading ? <Loading /> : <Component setLoading={toggleLoading} />}
+                {showLoading ? <Loading /> : <Component setLoading={toggleLoading} data={data} />}
             </>
         )
     }

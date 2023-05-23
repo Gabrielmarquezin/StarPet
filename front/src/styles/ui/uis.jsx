@@ -2,13 +2,15 @@ import { styled } from "styled-components";
 import { Produto } from "../../routes/user/Produto";
 import { theme } from "../GlobalStyles";
 
-export const P = styled.p`
+export const P = styled.p.attrs(props => ({
+    className: "ui-p"
+}))`
     color: ${props => props.theme.color};
     font-family: ${props => props.theme.font}
 `;
 P.defaultProps = {
     theme
-}
+};
 
 export const ButtonSignin = styled.button.attrs((props)=>({
     id: "button-sgnin",
@@ -77,3 +79,11 @@ export const Button = styled.button.attrs((props)=>({
 Button.defaultProps = {
     theme
 }
+
+export const Hr = styled.hr`
+    color:  rgba(0,0,0,0.09); 
+`;
+
+export const Div = styled.div.attrs(props =>({
+    className: props.className
+}))``;

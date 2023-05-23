@@ -7,12 +7,42 @@ import { useAuth } from "../../../hook/useAuth";
 import { ButtonSignin } from "../../../styles/ui/uis";
 import { Perfil } from "./perifl";
 
+const dominio = process.env.API_KEY;
 
 function Button(){
     const {signInWithPopUp} = useAuth()
 
     function SignIn(){
-        signInWithPopUp()
+        signInWithPopUp().then(data => {
+            cadastrar(data).then(response =>{
+                localStorage.setItem("cod_user",parseInt(response.cod_user))
+            })
+        })
+    }
+
+   async function cadastrar({email}){
+        try{
+            const request = await fetch(dominio+'/StarPet/backend/login', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
+                body: JSON.stringify(
+                    {
+                        nome: "",
+                        email: email,
+                        photo: "",
+                        bairro: "",
+                        rua: "",
+                        casa_numero: ""
+                    }
+                )
+            })
+            const response = await request.json();
+            return JSON.parse(response)
+        }catch(error){
+            console.log(error)
+        }
     }
 
     return(

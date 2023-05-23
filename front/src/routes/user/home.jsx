@@ -24,12 +24,14 @@ export default function Home(){
                                 heightcarrossel="172px" 
                                 autoscroll={false}
                                 sizebutton={25}
+                                id={7}
                     />
                     <Carrossel img={[img1, img2, img2, img2, img1]} 
                                 widthcarrossel="100%" 
                                 heightcarrossel="172px" 
                                 autoscroll={false}
                                 sizebutton={25}
+                                id={7}
                     />
                 </ProdutosRecomendados>
                 
@@ -40,6 +42,7 @@ export default function Home(){
                             heightcarrossel="172px" 
                             autoscroll={false}
                             sizebutton={25}
+                            id={7}
                     />
                 </ProdutosAvaliados>
             </ContainerProdutos>

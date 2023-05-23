@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { ContainerImageProduto } from "../../card/produtoStyles/produtoStyleCard";
 import { theme } from "../../GlobalStyles";
 
 
@@ -29,22 +30,22 @@ export const Article = styled.article`
 export const Main = styled.main`
     display: flex;
     flex-direction: column;
+    gap: 50px;
     min-height: 50vh;
     padding: 50px 20px 20px 20px;
 `;
 
 export const ContainerImage = styled.div`
     max-width: 100%;
+    min-width: 450px;
     height: 457px;
 `;
 
 export const SectionMainImage = styled.section`
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    width: 80%;
+    width: 90%;
     align-self: center;
-    padding: 0px 50px
 `;
 
 export const ContainerDescricao = styled.div`
@@ -52,6 +53,7 @@ export const ContainerDescricao = styled.div`
     flex-direction: column;
     justify-content: space-between;
     max-width: 400px;
+    padding: 30px 0px 0px;
 `;
 
 export const ProdutoName = styled.div`
@@ -70,10 +72,25 @@ export const ContainerPay = styled.div`
     display: flex;
     flex-direction: column;
 
+    
+`;
+
+export const ContainerButton = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
     button{
         padding: 10px;
-        font-size: 1.2rem;
-        background-color: #000000c5
+        font-size: 0.9rem;
+    }
+
+    button:first-child{
+        background-color: #3483fa
+    }
+    button:last-child{
+        background-color: #e2edfc;
+        color: #3483fa;
     }
 `;
 
@@ -97,11 +114,172 @@ export const ContainerContador = styled.div`
 export const ContainerValor = styled.div`
     display: flex;
     align-items: center;
-    gap: 10px;
-     margin-bottom: 30px;
+    justify-content: space-between;
+    margin-bottom: 30px;
 `;
 
 export const SectionCarrossel = styled.div`
    
 
+`;
+
+export const SectionOpt = styled.section`
+    margin-top: 50px;
+    width: 90%;
+    align-self: center;
+`;
+
+export const Descricao = styled.div`
+     width: 100%;
+     word-wrap: break-word; overflow-wrap: break-word;
+
+     p{
+        margin-bottom: 30px;
+     }
+`;
+
+export const ContainerTable = styled.div`
+    table{
+       width: 100%;
+    }
+    table tbody tr th,
+    table tbody tr td{
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+    table tbody tr th{
+        background-color: rgba(0, 0, 0, 0.17);
+        font-family: Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+        font-weight: normal;
+        -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.09); 
+        box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.09); 
+    }
+`;
+ContainerTable.defaultProps = {
+    theme
+};
+
+export const SectionComments = styled.section.attrs(props =>({
+    
+}))`
+    width: 90%;
+    min-height: 250px;
+    align-self: center;
+    position: relative;
+
+    .ui-p-title{
+        margin-bottom: 20px;
+        color: rgba(0, 0, 0, 0.884);
+        font-family: Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+        font-size: min(calc(1vw + 12px), 1.2rem);
+    }
+`;
+
+export const ContainerComment = styled.div`
+    display: grid;
+    grid-template-areas:
+    "img nome"
+    "img star"
+    "comment comment";
+    grid-template-columns: 40px minmax(auto, 60%);
+    grid-template-rows: 20px 20px auto;
+    grid-column-gap: 10px;
+
+    img{
+        border-radius: 50%;
+        grid-area: img;
+    }
+
+    p{
+        color: rgba(0, 0, 0, 0.884);
+        font-family: Proxima Nova,-apple-system,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+        font-size: min(calc(1vw + 9px), 0.9rem);
+    }
+
+    .ui-p{
+        grid-area: nome;
+        align-self: center;
+    }
+    .stars-container{
+        grid-area: star;
+        align-self: center;
+    }
+
+    .comments-container{
+        grid-area: comment;
+        max-height: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 10px;
+    }
 `
+
+export const ContainerStar = styled.div.attrs(props => ({
+    className: "stars-container"
+}))`
+    display: flex;
+`;
+
+export const BoxComments = styled.div.attrs(props =>({
+    className: "comments-container"
+}))`
+    
+`;
+
+export const ContainerMaster = styled.div.attrs(props =>({
+    id: "section-comment",
+    className: "ui-section-comment"
+}))`
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    overflow: hidden;
+`;
+
+export const ContainerInput = styled.div`
+    width: 90%;
+    align-self: center;
+   
+
+    input{
+        padding: 10px;
+        border-radius: 5px;
+    }
+    span{
+        display:none;
+        font-size: 0.9rem;
+    }
+
+    .stars-group{
+        cursor: pointer;
+        display: flex
+    }
+    
+    .input-group{
+        display: flex;
+        gap: 15px;
+        padding: 10px 0px;
+    }
+    .input-group input:first-child{
+        width: 50%;
+        border-radius: 5px;
+        border: 1px solid #0c0c0c85;
+    }
+    .input-group input:last-child{
+        font-size: 0.9rem;
+        color: #ffffff;
+        background-color:  #3483fa;
+        border: 1px solid #3483fa;
+        cursor: pointer;
+    }
+
+/*  error*/ 
+    .input-group input:first-child.input-error{
+        border: 1px solid #ee3030;
+    }
+
+    .span-error{
+        display: block;
+        color: #ee3030;
+    }
+`;

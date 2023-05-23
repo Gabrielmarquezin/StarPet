@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider} from 'react-router-dom'
 import { MenuH } from './component/menu/menu'
 import { AuthContextProvider } from './hook/useAuth'
 import Home from './routes/user/home'
-import { Produto } from './routes/user/Produto'
+import { Produto, ProdutoWithLoading } from './routes/user/Produto'
 import { ProdutoAmostra } from './routes/user/ProdutoAmostra'
 import { GlobalStyle } from './styles/GlobalStyles'
 
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/produto/:animal/:categoria/:id",
-        element: <Produto />
+        element: <ProdutoWithLoading />
       }
     ]
   }

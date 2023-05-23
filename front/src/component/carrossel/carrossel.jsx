@@ -5,12 +5,15 @@ import { GrFormNext } from 'react-icons/gr';
 import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
-export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, sizebutton}){
+export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, sizebutton, id}){
     
     const carrosselEl = useRef(null);
+    const Navigate = useNavigate();
+    const path = useLocation();
     
     useEffect(()=>{
         if(autoscroll){
@@ -27,6 +30,12 @@ export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, siz
         }
     }, [autoscroll])
 
+    function NavigateProduto(){
+        const location = path.pathname;
+
+        Navigate(location+`produto/home/search/${id}`)
+    }
+
     function handleNext(){     
         carrosselEl.current.scrollLeft += carrosselEl.current.offsetWidth;
     }
@@ -35,11 +44,12 @@ export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, siz
         carrosselEl.current.scrollLeft -= carrosselEl.current.offsetWidth;
     }
 
+    
     return (
         <ContainerCarrossel widthcarrossel={widthcarrossel} heightcarrossel={heightcarrossel}>
             <GrFormNext size={sizebutton || 35} id={styles.icon_moviment} onClick={handleBack}/>
                 <BoxCarrossel>
-                    <CarrosselImage ref={carrosselEl}>
+                    <CarrosselImage ref={carrosselEl} onClick={NavigateProduto}>
                         {img.map((src, i) =>(
                             <Imagem src={src} alt={"Imagem Carrossel"} key={i}/>
                         ))}
