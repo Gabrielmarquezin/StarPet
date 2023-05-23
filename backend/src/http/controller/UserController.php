@@ -14,14 +14,15 @@ class UserController implements UserControllerInterface{
         if($_SERVER['REQUEST_METHOD'] !== 'POST'){
             die('Method invalid');
         }
-
+        
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
-
+        
         $headers = getallheaders();
         $contentType = $headers["Content-Type"];
 
         if (strpos($contentType, 'multipart/form-data;') !== false) {
+           
             $dados = [
                 "nome" => $_POST["nome"],
                 "email" => $_POST["email"],
@@ -35,7 +36,7 @@ class UserController implements UserControllerInterface{
         try{
             $UseCase = new UserCase($dados);
             $response = $UseCase->add(new UserEntity(), new UserRepository(new Database));
-
+            
             echo json_encode(["message"=>"user create", "cod_user"=>$response]);
         }catch(Exception $e){
             echo json_encode($e->getMessage());

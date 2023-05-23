@@ -17,6 +17,7 @@
         "vlucas/phpdotenv": "^5.5",
         "fakerphp/faker": "^1.21",
         "phpmailer/phpmailer": "^6.8",
-        "mercadopago/dx-php": "2.5.3"
+        "mercadopago/dx-php": "2.5.3",
+        "cboden/ratchet": "^0.4.1"
     }
 }

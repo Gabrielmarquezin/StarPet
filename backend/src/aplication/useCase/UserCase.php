@@ -19,12 +19,12 @@ class UserCase implements UserCaseInterface{
         $dados = $this->dados;
 
         // Verifica se o arquivo foi enviado com sucesso
+        
         if(!empty($dados['photo'])) {
             $arquivo = $dados['photo'];
             $file = new RenderFile($arquivo);
             $dados['photo'] = $file->Render();            
         }
-
         
         $UserEntity->setNome($dados['nome'])
              ->setEmail($dados['email'])
@@ -41,7 +41,7 @@ class UserCase implements UserCaseInterface{
             return $cod_user;
         }
         
-        throw new Exception("user have been exist");
+        throw new Exception(json_encode(["cod_user" => $cont[0]["cod"], "message" => "user ja cadastrado"]));
     }
 
     public function addAdm(UserEntity $userEntity, UserRepository $UserRepository)

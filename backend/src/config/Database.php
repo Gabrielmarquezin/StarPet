@@ -4,7 +4,7 @@ namespace Boringue\Backend\config;
 use \PDO;
 use PDOException;
 
-require_once './global.php';
+require_once __DIR__ . "../../../global.php";
 
 class Database{
     private static $instancia;
