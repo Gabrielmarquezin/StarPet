@@ -13,6 +13,7 @@ import { createContext } from "react";
 import { ErrorData } from "../../error/EmptyDataError";
 import { useAuth } from "../../../hook/useAuth";
 import { useRef } from "react";
+
 const dominio = process.env.API_KEY;
 
 function Comments({data}){
@@ -47,9 +48,9 @@ function Comments({data}){
 
 const CommentsWithLoading = withLoading(Comments);
 
-export const ComentarioContext = createContext('');
 
-export function SectionComentaios(){
+export const ComentarioContext = createContext('');
+export function ContainerSectionComentario({socket}){
     const [loading, setLoading] = useState(false);
     const [comentario, setComentario] = useState([])
 
@@ -62,6 +63,13 @@ export function SectionComentaios(){
 
         return ()=>setComentario([])
     }, [])
+
+
+    socket.onmessage = function(event) {
+        let response = JSON.parse(JSON.parse(event.data));
+        setComentario(response)
+      };
+
 
     async function fetchData(){
         const id = window.location.pathname.split("/");
@@ -78,6 +86,17 @@ export function SectionComentaios(){
             console.log(error)
         }
     }
+    
+
+    return(
+        <SectionComentaios comentario={comentario} 
+                           setComentario={setComentario}
+                           isloading={loading}
+        />
+    )
+}
+
+export function SectionComentaios({comentario, setComentario, isloading, socket}){
 
     return(
        <ComentarioContext.Provider value={[comentario, setComentario]}>
@@ -88,7 +107,7 @@ export function SectionComentaios(){
                         ? <>
                             <ContainerMaster  className={styles.ui_section_comment}>
                                {comentario.map((e, i)=>(
-                                     <CommentsWithLoading isloading={loading} data={e} key={i}/>
+                                     <CommentsWithLoading isloading={isloading} data={e} key={i}/>
                                ))}
                             </ContainerMaster>
                             <Arrow />
@@ -96,8 +115,6 @@ export function SectionComentaios(){
                         : <ErrorData message={"nenhum comentario"} />
                     }
             </SectionComments>
-
-            <InputMsg /> 
        </ComentarioContext.Provider>
     )
 }

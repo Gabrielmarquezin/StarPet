@@ -7,28 +7,27 @@ import { Input, Div, Span} from "../../../styles/ui/uis";
 import { ComentarioContext } from "./SectionComments";
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 
-const socket = new WebSocket("ws://localhost:3001/produto");
-
-socket.onopen = ()=>{
-    console.log("conexao aberta")
-}
-
-export function InputMsg(){
+export function InputMsg({socket}){
     const [value, setValue] = useState('');
     const [click, setClick] = useState(1);
 
     const input = useRef();
     const span = useRef();
-
+ 
     const [,setComentario] = useContext(ComentarioContext);
     const stars = [1,2,3,4,5];
    
-    socket.onmessage = function(event) {
-        let response = JSON.parse(JSON.parse(event.data));
-        setComentario(response)
-      };
-
     useEffect(()=>{
+        socket.onopen = ()=>{
+            console.log("conexao aberta")
+        }
+
+        socket.onmessage = function(event) {
+
+          let response = JSON.parse(JSON.parse(event.data));
+          setComentario(response)
+        };
+
         return () => {
             return socket.onclose = ()=>{
                     console.log('Conexão fechada');
@@ -38,6 +37,7 @@ export function InputMsg(){
 
     function handleInput(e){
         let ValueInput = e.target.value
+
         if(ValueInput.length >= 1400){
             ValueInput = value + "";
             input.current.classList.add("input-error")
@@ -49,13 +49,17 @@ export function InputMsg(){
         setValue(ValueInput)
     }
 
-    function submitMessage(e){       
+    function submitMessage(e){  
+    
+        const path = window.location.pathname.split("/");
+        const cod_user = localStorage.getItem("cod_user");
+
         if(value !== ""){     
             socket.send(JSON.stringify({
                 stars: click,
                 message: value,
-                cod_user: 2,
-                cod_produto: 9
+                cod_user: 5,
+                cod_produto: path[4]
             }));
         }
     }

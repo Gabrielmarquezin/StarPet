@@ -9,11 +9,14 @@ import { Carrossel } from "../../component/carrossel/carrossel";
 import { SectionOptions } from "../../component/screens/produto/sectionOptions";
 import { SectionProduto } from "../../component/screens/produto/main";
 import { withLoadingAndFetch } from "../../HOC/withLoadingAndFetch";
-import {SectionComentaios } from "../../component/screens/produto/SectionComments";
+import {ContainerSectionComentario } from "../../component/screens/produto/SectionComments";
 import { Hr} from "../../styles/ui/uis";
+import { InputMsg } from "../../component/screens/produto/Input";
 
 
 const dominio = process.env.API_KEY;
+const socket = new WebSocket("ws://localhost:3001/produto");
+
 export const ProdutoContext = createContext();
 
 async function fetchData(){
@@ -45,9 +48,10 @@ export function Produto({data}){
                 <SectionOptions />
                 <Hr />  
                 
-                <SectionComentaios />
-
+               <ContainerSectionComentario socket={socket}/>
+               <InputMsg socket={socket}/> 
                 <Hr />
+                
                 <SectionCarrossel>
                     <Carrossel img={[Image, Image, Image, Image]} 
                                widthcarrossel="100%" 
