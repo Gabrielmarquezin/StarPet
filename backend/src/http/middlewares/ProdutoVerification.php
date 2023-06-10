@@ -2,7 +2,7 @@
 namespace Boringue\Backend\http\middlewares;
 
 use Boringue\Backend\http\middlewares\contract\ProdutoVerificationInterface;
-
+use Exception;
 
 class ProdutoVerification implements ProdutoVerificationInterface{
     private $dados;
@@ -37,6 +37,7 @@ class ProdutoVerification implements ProdutoVerificationInterface{
          if(!empty($dados['descricao'])){
             if(strlen($dados['descricao']) > 1500){
                 $response = "descricao too long";
+                throw new Exception("descricao too long");
              }
          }else{
             $response = "ok";

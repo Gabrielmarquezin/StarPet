@@ -69,9 +69,9 @@ class UserRepository implements UserRepositoryInterface{
     {
         try {
             $db = $this->ctn;
-            $userData = ['email' => $user->getEmail()];
+            $userData = ['cod' => $user->getId()];
 
-            $sql = "SELECT * FROM users WHERE email = :email";
+            $sql = "SELECT * FROM users WHERE cod = :cod";
             $query = $db->prepare($sql);
             
             $query->execute($userData);

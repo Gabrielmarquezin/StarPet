@@ -7,6 +7,7 @@ use Boringue\Backend\config\Database;
 use Boringue\Backend\domain\entities\UserEntity;
 use Boringue\Backend\http\controller\contract\UserControllerInterface;
 use Exception;
+use React\Dns\Query\RetryExecutor;
 
 class UserController implements UserControllerInterface{
     public function createUser()
@@ -46,19 +47,35 @@ class UserController implements UserControllerInterface{
 
     public function getUser()
     {
-        $email = empty($_GET['email']) == 1 ? 0 : $_GET['email'];
+        $cod = empty($_GET['cod']) == 1 ? 0 : $_GET['cod'];
         $UseCase = new UserCase([]);
          
-        $data = $UseCase->find(new UserEntity, new UserRepository(new Database), $email);
+        $data = $UseCase->find(new UserEntity, new UserRepository(new Database), $cod);
         
         echo json_encode($data);
     }
 
+    public function getAdm()
+    {
+        $email = $_GET["email"];
+        $senha = $_GET["senha"];
+
+        $UseCase = new UserCase(["email" => $email, "senha" => $senha]);
+         
+        try{
+            $data = $UseCase->findAdm(new UserEntity, new UserRepository(new Database));
+        
+            echo json_encode($data);
+        }catch(Exception $e){
+            echo json_encode(["message" => $e->getMessage()]);
+        }
+    }
+
     public function updateUser()
     {
-        if($_SERVER['REQUEST_METHOD'] !== 'PUT'){
-            die('Method invalid');
-        }
+        // if($_SERVER['REQUEST_METHOD'] !== 'PUT' || $_SERVER['REQUEST_METHOD'] !== 'POST'){
+        //     die('Method invalid');
+        // }
 
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
@@ -67,19 +84,21 @@ class UserController implements UserControllerInterface{
         $contentType = $headers["Content-Type"];
 
         if(strpos($contentType, 'multipart/form-data;') !== false) {
+    
             $dados = [
                 "photo" => isset($_FILES["photo"]) ? $_FILES["photo"] : "",
                 "bairro" => $_POST["bairro"],
                 "rua" => $_POST["rua"],
-                "casa_numero" => $_POST["casa_numero"]
+                "casa_numero" => $_POST["casa_numero"],
+                "cod_user" => (int)$_POST["cod_user"]
             ];
         }
 
         $UseCase = new UserCase($dados);
         try{
-            $response = $UseCase->updateUser(new UserEntity(), new UserRepository(new Database));
-
-            echo json_encode(["message" => "adm ".$response." atualizado"]);
+            $UseCase->updateUser(new UserEntity(), new UserRepository(new Database));
+        
+            echo json_encode(["message" => "atualizado"]);
         }catch(Exception $e){
             echo json_encode(["message" => $e->getMessage()]);
         }

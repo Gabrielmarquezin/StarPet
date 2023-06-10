@@ -18,12 +18,13 @@ use Boringue\Backend\routes\PetRoutes;
 use Boringue\Backend\routes\ProdutoRoutes;
 use Boringue\Backend\routes\UserRoutes;
 
-$path = explode("?", $_SERVER['REQUEST_URI']);
-$method = $_SERVER['REQUEST_METHOD'];
-
 header("Content-Type: application/json");
 header("Access-Control-Allow-Headers: *");
 header('Access-Control-Allow-Origin: *');
+header("Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
+$path = explode("?", $_SERVER['REQUEST_URI']);
+$method = $_SERVER['REQUEST_METHOD'];
 
 $RotasUser = new UserRoutes(new Router($method, $path[0]), new UserController());
 $RotasProducts = new ProdutoRoutes(new Router($method, $path[0]), new ProdutoController());
@@ -31,7 +32,6 @@ $RotasAvaliacao = new AvaliacaoRoutes(new Router($method, $path[0]), new Avaliac
 $RotasPet = new PetRoutes(new Router($method, $path[0]), new PetController());
 $RotasAdocao = new AdocaoRoutes(new Router($method, $path[0]), new AdocaoController());
 $RotasPedidoProduto = new PedidoProdutoRoutes(new Router($method, $path[0]), new PedidoProdutoController());
-
 
 $RotasUser->initRoutes()
            ->execute();

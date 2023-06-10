@@ -179,7 +179,8 @@ class ProductRepository implements ProductRepositoryInterface{
                     "preco" => $produto->getPreco(),
                     "quantidade" => $produto->getQuantidade(),
                     "nome" => $produto->getNome(),
-                    "tipo" => $produto->getType()
+                    "tipo" => $produto->getType(),
+                    "creat_at" => $p["creat_at"]
                 ];
                         
             }
@@ -231,7 +232,8 @@ class ProductRepository implements ProductRepositoryInterface{
                     "preco" => $p["preco"],
                     "quantidade" => $p["quantidade"],
                     "nome" => $p["nome"],
-                    "tipo" => $p["tipo"]
+                    "tipo" => $p["tipo"],
+                    "creat_at" => $p["creat_at"]
                 ];
 
            };
@@ -289,7 +291,8 @@ class ProductRepository implements ProductRepositoryInterface{
                     "preco" => $p["preco"],
                     "quantidade" => $p["quantidade"],
                     "nome" => $p["nome"],
-                    "tipo" => $p["tipo"]
+                    "tipo" => $p["tipo"],
+                    "creat_at" => $p["creat_at"]
                 ];
 
             }
@@ -348,7 +351,8 @@ class ProductRepository implements ProductRepositoryInterface{
                     "preco" => $p["preco"],
                     "quantidade" => $p["quantidade"],
                     "nome" => $p["nome"],
-                    "tipo" => $p["tipo"]
+                    "tipo" => $p["tipo"],
+                    "creat_at" => $p["creat_at"]
                 ];
 
             }

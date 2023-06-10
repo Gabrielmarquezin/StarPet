@@ -28,45 +28,72 @@ class ProdutoRoutes implements RoutesInterface{
                     $body = file_get_contents('php://input');
                     $dados = json_decode($body, true);
 
-                    $middlewarebefore = new ProdutoVerification($dados);
-                    $null = $middlewarebefore->ValuesNotNull();
-                    $lenght = $middlewarebefore->ValuesLength();
+                     if($dados == null){
+                         $dados = [
+                            "photo" => $_FILES["photo"],
+                            "preco" => $_POST["preco"],
+                            "quantidade" => $_POST["quantidade"],
+                            "categoria" => $_POST["categoria"],
+                            "descricao" => $_POST["descricao"]
+                         ];
+                     }
 
-                    if(!$null){
-                        echo json_encode(["message" => "valores obrigatorios: photo, preco, quantidade e categoria"]);       
+                     try{
+                        $middlewarebefore = new ProdutoVerification($dados);
+                        $null = $middlewarebefore->ValuesNotNull();
+                        $lenght = $middlewarebefore->ValuesLength();
+
+                        if(!$null){
+                            echo json_encode(["message" => "valores obrigatorios: photo, preco, quantidade e categoria"]);       
+                            return false;
+                        }
+                        
+                        if($lenght !== "ok" ){
+                            echo json_encode(["message" => $lenght]);
+                            return false; 
+                        }
+
+                        return true;
+                    
+                     }catch(Exception $e){
+                        echo json_encode(["message"=>$e->getMessage()]);
+                        http_response_code(400);
                         return false;
-                    }
-                    
-                     if($lenght != "ok" ){
-                        echo json_encode(["message" => $lenght]);
-                         return false; 
-                    }
-
-                    return true;
-                    
+                     }
               });
 
         $route->get('/StarPet/backend/products', [$controller, "get"]);
         $route->get('/StarPet/backend/products/categoria', [$controller, "getByCategoria"]);
 
-        $route->put('/StarPet/backend/products/update', [$controller, "update"])
+        $route->post('/StarPet/backend/products/update', [$controller, "update"])
               ->before(function(){
                 $body = file_get_contents('php://input');
                 $dados = json_decode($body, true);
 
                 $middleware = new DataVerification();
-                $data_produto = [
-                    "photo" => $dados['photo'],
-                    "cod" => $dados['cod'],
-                    "descricao" => $dados['descricao'],
-                    "preco" => $dados['preco'],
-                    "nome" => $dados['nome']
-                ];
+
+                if($dados == null){
+                    $dados = [
+                       "photo" => $_FILES["photo"],
+                       "preco" => $_POST["preco"],
+                       "descricao" => $_POST["descricao"],
+                       "nome" => $_POST['nome'],
+                       "cod" => $_POST['cod']
+                    ];
+                }
+
+                // $data_produto = [
+                //     "photo" => $dados['photo'],
+                //     "cod" => $dados['cod'],
+                //     "descricao" => $dados['descricao'],
+                //     "preco" => $dados['preco'],
+                //     "nome" => $dados['nome']
+                // ];
 
                 try{
-                    $middleware->EmptyValues($data_produto);
-                    $middleware->ValueLenght($data_produto['descricao'], 1500);
-                    $middleware->ValueLenght($data_produto['nome'], 45);
+                    $middleware->EmptyValues($dados);
+                    $middleware->ValueLenght($dados['descricao'], 1500);
+                    $middleware->ValueLenght($dados['nome'], 45);
 
                     return true;
                 }catch(Exception $e){
@@ -76,7 +103,7 @@ class ProdutoRoutes implements RoutesInterface{
                 }
               });
 
-        $route->delete('/StarPet/backend/products/delete', [$controller, "delete"])
+        $route->post('/StarPet/backend/products/delete', [$controller, "delete"])
         ->before(function(){
             $body = file_get_contents('php://input');
             $dados = json_decode($body, true);

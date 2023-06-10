@@ -8,6 +8,7 @@ use Boringue\Backend\domain\entities\CategoriaEntity;
 use Boringue\Backend\domain\entities\FichaProdutoEntity;
 use Boringue\Backend\domain\entities\UserEntity;
 use Boringue\Backend\file\RenderFile;
+use Error;
 use Exception;
 use FichaProduto;
 
@@ -23,11 +24,11 @@ class ProductCase implements ProductCaseInterface{
      {
         global $idCat;
         $dados = $this->dados;
-   
-        if(!empty($dados['photo'])){
-            $arquivo = $dados['photo'];
-            //$file = new RenderFile($arquivo);
-            //$dados['photo'] = $file->Render();            
+
+         if(!empty($dados['photo'])){
+             $arquivo = $dados['photo'];
+             $file = new RenderFile($arquivo);
+             $dados['photo'] = $file->Render();            
          }
 
         $product->setPhoto($dados['photo'])

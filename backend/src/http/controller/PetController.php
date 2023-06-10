@@ -21,6 +21,7 @@ class PetController implements ProdutoControllerInterface{
         $contentType = $headers["Content-Type"];
 
         if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $ficha = json_decode($_POST["ficha_pet"], true);
             $dados = [
                 "nome" => $_POST["nome"],
                 "categoria" => $_POST["categoria"],
@@ -29,11 +30,11 @@ class PetController implements ProdutoControllerInterface{
                 "preco" => $_POST["preco"],
                 "quantidade" => $_POST["quantidade"],
                 "ficha_pet" => [
-                    "raca" => $_POST["raca"],
-                    "alergias" => $_POST["alergias"],
-                    "observacoes" => $_POST["observacoes"],
-                    "tamanho" => $_POST["tamanho"],
-                    "estoque" => $_POST["estoque"]
+                    "raca" => $ficha["raca"],
+                    "alergias" => $ficha["alergias"],
+                    "observacoes" => $ficha["observacoes"],
+                    "tamanho" => $ficha["tamanho"],
+                    "estoque" => $ficha["estoque"]
                 ]
             ];
         }
@@ -48,6 +49,7 @@ class PetController implements ProdutoControllerInterface{
         }
     }
 
+    
     public function addPetAdocao()
     {
         $body = file_get_contents('php://input');
@@ -57,29 +59,28 @@ class PetController implements ProdutoControllerInterface{
         $contentType = $headers["Content-Type"];
 
         if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $ficha = json_decode($_POST["ficha_pet"], true);
             $dados = [
-                "cod_user" => $_POST["cod_user"],
-                "cod_pet" => $_POST["cod_pet"],
-                "email" => $_POST["email"],
-                "cpf" => $_POST["cpf"],
-                "rua" => $_POST["rua"],
-                "bairro" => $_POST["bairro"],
-                "telefone" => $_POST["telefone"],
-                "casa_number" => $_POST["casa_number"]
+                "photo" => $_FILES["photo"],
+                "descricao" => $_POST["descricao"],
+                "categoria" => $_POST["categoria"],
+                "nome" => $_POST["nome"],
+                "ficha_pet" => [
+                    "raca" => $ficha["raca"],
+                    "alergias" => $ficha["alergias"],
+                    "observacoes" => $ficha["observacoes"],
+                    "tamanho" => $ficha["tamanho"],
+                    "estoque" => $ficha["estoque"]
+                ]
             ];
         }
 
         $pet_case = new PetCase($dados);
-        $middleware = new CPF($dados['cpf']);
         try{
-            $middleware->lenghtCPF();
-            $middleware->isInvalid();
-
             $response = $pet_case->addPetAdocao(new PetEntity(), new FichaPetEntity(),new PetRepository(new Database()));
-
             echo json_encode(["idPet" => $response, "data" => date("Y-m-d H:i:s"), "status" => "adicionado"]);
         }catch(Exception $e){
-            echo json_encode($e->getMessage());
+            echo json_encode(["message" => $e->getMessage()]);
         }
     }
 
@@ -188,7 +189,7 @@ class PetController implements ProdutoControllerInterface{
         if (strpos($contentType, 'multipart/form-data;') !== false) {
             $dados = [
                 "nome" => $_POST["nome"],
-                "photo" => isset($_FILES["photo"]) ? $_FILES["photo"] : "",
+                "photo" => $_FILES['photo'],
                 "descricao" => $_POST["descricao"],
                 "preco" => $_POST["preco"],
                 "cod" => $_POST["cod"],
@@ -208,7 +209,7 @@ class PetController implements ProdutoControllerInterface{
     {
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
-
+    
         $data = [
             "idPet" => $dados['idPet']
         ];

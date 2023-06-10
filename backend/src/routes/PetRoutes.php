@@ -24,24 +24,25 @@ class PetRoutes implements RoutesInterface{
 
         $route->post('/StarPet/backend/products/pet/add', [$controller, "add"])
               ->before(function(){
-                $body = file_get_contents('php://input');
-                $dados = json_decode($body, true);
                 $middleware = new DataVerification();
-
+                
+                $ficha = json_decode($_POST["ficha_pet"], true);
+               
                 $verification = [
-                    "photo" => $dados['photo'],
-                    "nome" => $dados['nome'],
-                    "preco" => $dados['preco'],
-                    "quantidade" => $dados['quantidade'],
+                    "photo" => $_FILES['photo']['size'] == 0 ? "" : $_FILES['photo'],
+                    "nome" => $_POST['nome'],
+                    "preco" => $_POST['preco'],
+                    "quantidade" => $_POST['quantidade'],
                 ];
 
+               
                 try{
-                    $middleware->ValueLenght($dados['descricao'], 1500);
-                    $middleware->ValueLenght($dados['nome'], 100);
-                    $middleware->ValueLenght($dados['ficha_pet']['alergias'], 500);
-                    $middleware->ValueLenght($dados['ficha_pet']['observacoes'], 1000);
                     $middleware->EmptyValues($verification);
-
+                    $middleware->ValueLenght($_POST['descricao'], 1500);
+                    $middleware->ValueLenght($_POST['nome'], 100);
+                    $middleware->ValueLenght($ficha['alergias'], 500);
+                    $middleware->ValueLenght($ficha['observacoes'], 1000);
+                    
                     return true;
                 }catch(Exception $e){
                     echo json_encode(["message" => $e->getMessage()]);
@@ -51,25 +52,27 @@ class PetRoutes implements RoutesInterface{
 
         $route->post('/StarPet/backend/products/pet/adocao/add', [$controller, "addPetAdocao"])
               ->before(function(){
-                $body = file_get_contents('php://input');
-                $dados = json_decode($body, true);
+                $ficha = json_decode($_POST["ficha_pet"], true);
                 $middleware = new DataVerification();
 
                 $verification = [
-                    "photo" => $dados['photo'],
-                    "nome" => $dados['nome']
+                    "photo" => isset($_FILES['photo']) ? $_FILES['photo'] : "",
+                    "nome" => $_POST['nome'],
+                    "descricao" => isset($_POST['descricao']) ? $_POST['descricao'] : ""
                 ];
 
                 try{
-                    $middleware->ValueLenght($dados['descricao'], 1500);
-                    $middleware->ValueLenght($dados['nome'], 100);
-                    $middleware->ValueLenght($dados['ficha_pet']['alergias'], 500);
-                    $middleware->ValueLenght($dados['ficha_pet']['observacoes'], 1000);
                     $middleware->EmptyValues($verification);
+                    $middleware->ValueLenght($verification["photo"]["size"], 3000000);
+                    $middleware->ValueLenght($verification['descricao'], 1500);
+                    $middleware->ValueLenght($verification['nome'], 100);
+                    $middleware->ValueLenght($ficha['alergias'], 500);
+                    $middleware->ValueLenght($ficha['observacoes'], 1000);
 
                     return true;
                 }catch(Exception $e){
                     echo json_encode(["message" => $e->getMessage()]);
+                    http_response_code(400);
                     return false;
                 }
               });
@@ -101,21 +104,21 @@ class PetRoutes implements RoutesInterface{
                 return true;
               });
         
-        $route->delete('/StarPet/backend/products/pet/delete', [$controller, "delete"]);
-        $route->delete('/StarPet/backend/products/pet/adocao/delete', [$controller, "deletePetAdocao"]);
+        $route->post('/StarPet/backend/products/pet/delete', [$controller, "delete"]);
+        $route->post('/StarPet/backend/products/pet/adocao/delete', [$controller, "deletePetAdocao"]);
 
-        $route->put('/StarPet/backend/products/pet/update', [$controller, "update"])
+        $route->post('/StarPet/backend/products/pet/update', [$controller, "update"])
               ->before(function(){
                 $body = file_get_contents('php://input');
                 $dados = json_decode($body, true);
                 $middleware = new DataVerification();
 
                 $data_pet = [
-                    "cod" => $dados['cod'],
-                    "photo" => $dados['photo'],
-                    "descricao" => $dados['descricao'],
-                    "preco" => $dados['preco'],
-                    "nome" => $dados['nome']
+                    "cod" => isset($_POST['cod']) ? $_POST['cod'] : "",
+                    "photo" => isset($_FILES['photo']) ? $_FILES['photo'] : "",
+                    "descricao" => isset($_POST['descricao']) ? $_POST['descricao'] : "",
+                    "preco" => isset($_POST['preco']) ? $_POST['preco'] : "",
+                    "nome" => isset($_POST['nome']) ? $_POST['nome'] : ""
                 ];
 
                 try{
@@ -131,17 +134,16 @@ class PetRoutes implements RoutesInterface{
                 }
               });
         
-        $route->put('/StarPet/backend/products/pet/adocao/update', [$controller, "updatePetAdocao"])
+        $route->post('/StarPet/backend/products/pet/adocao/update', [$controller, "updatePetAdocao"])
               ->before(function(){
-                $body = file_get_contents('php://input');
-                $dados = json_decode($body, true);
+                
                 $middleware = new DataVerification();
 
                 $data_pet = [
-                    "cod" => $dados['cod'],
-                    "photo" => $dados['photo'],
-                    "descricao" => $dados['descricao'],
-                    "nome" => $dados['nome']
+                    "cod" => $_POST['cod'],
+                    "photo" => isset($_FILES['photo']) ? $_FILES['photo'] : "",
+                    "descricao" => $_POST['descricao'],
+                    "nome" => $_POST['nome']
                 ];
 
                 try{
@@ -156,9 +158,10 @@ class PetRoutes implements RoutesInterface{
                     return false;
                 }
               });
-        
-        return $this;
+
+            return $this;
     }
+
 
     public function execute()
     {

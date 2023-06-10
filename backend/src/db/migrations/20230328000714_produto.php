@@ -27,6 +27,7 @@ final class Produto extends AbstractMigration
                 ->addColumn('quantidade', 'integer', ['null' => false])
                 ->addColumn('nome', 'string', ['limit' => '45'])
                 ->addColumn("tipo", "string", ['limit' => '45'])
+                ->addTimestamps("creat_at", "update_at")
                 ->addForeignKey('cod_fichatec', 'ficha_tecnica', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
                 ->addForeignKey('cod_categoria', 'produto_categoria', 'cod', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
                 

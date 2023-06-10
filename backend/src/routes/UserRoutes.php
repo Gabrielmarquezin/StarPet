@@ -44,10 +44,11 @@ class UserRoutes implements RoutesInterface{
           });
 
         $route->get('/StarPet/backend/users', [$controller, "getUser"]);
+        $route->get('/StarPet/backend/adm', [$controller, "getAdm"]);
 
-        $route->put('/StarPet/backend/users/update', [$controller, "updateUser"]);
+        $route->post('/StarPet/backend/users/update', [$controller, "updateUser"]);
 
-        $route->put('/StarPet/backend/users/adm/update', [$controller, "updateUser"]);
+        $route->post('/StarPet/backend/users/adm/update', [$controller, "updateUser"]);
 
         return $this;
     }

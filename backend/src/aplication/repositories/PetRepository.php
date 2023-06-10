@@ -99,7 +99,7 @@ class PetRepository implements PetRepositoryInterface{
         $cod_pet = $pet->getCod();
 
         try{
-            $sql = "SELECT p.cod AS cod_pet, p.photo, p.descricao, p.quantidade, p.nome, p.cod_fichapet, p.cod_categoria, p.preco, c.nome_categoria, f.raca, f.alergias, f.observacoes, f.tamanho, f.estoque
+            $sql = "SELECT p.cod AS cod_pet, p.photo, p.descricao, p.quantidade, p.nome, p.cod_fichapet, p.cod_categoria,p.creat_at, p.preco, c.nome_categoria, f.raca, f.alergias, f.observacoes, f.tamanho, f.estoque
             FROM pet AS p INNER JOIN produto_categoria AS c
             ON p.cod_categoria = c.cod
             AND p.cod = '$cod_pet'
@@ -125,7 +125,8 @@ class PetRepository implements PetRepositoryInterface{
                     ->setEstoque($p['quantidade'])
                     ->setNome($p['nome'])
                     ->setCodCategoria($p['cod_categoria'])
-                    ->setCodFihcaTec($p['cod_fichapet']);
+                    ->setCodFihcaTec($p['cod_fichapet'])
+                    ->setPreco($p["preco"]);
 
                  if (ctype_xdigit(bin2hex($pet->getPhoto()))) {
                     // o campo é binário
@@ -140,6 +141,7 @@ class PetRepository implements PetRepositoryInterface{
                     "quantidade" => $pet->getEstoque(),
                     "nome" => $pet->getNome(),
                     "categoria" => $p['nome_categoria'],
+                    "preco" => $pet->getPreco(),
                     "ficha_pet" => [
                         "cod" => $pet->getCodFihcaTec(),
                         "raca" => $p['raca'],
@@ -147,7 +149,8 @@ class PetRepository implements PetRepositoryInterface{
                         "observacoes" => $p['observacoes'],
                         "tamanho" => $p['tamanho'],
                         "estoque" => $p['estoque']
-                    ]
+                    ],
+                    "creat_at" => $p["creat_at"]
                 ];
             }
 
@@ -208,7 +211,8 @@ class PetRepository implements PetRepositoryInterface{
                         "observacoes" => $p['observacoes'],
                         "tamanho" => $p['tamanho'],
                         "estoque" => $p['estoque']
-                    ]
+                    ],
+                    "creat_at" => $p["creat_at"]
                 ];
            }
 
@@ -269,7 +273,8 @@ class PetRepository implements PetRepositoryInterface{
                         "observacoes" => $p['observacoes'],
                         "tamanho" => $p['tamanho'],
                         "estoque" => $p['estoque']
-                    ]
+                    ],
+                    "creat_at" => $p["creat_at"]
                 ];
             }
 
@@ -284,7 +289,7 @@ class PetRepository implements PetRepositoryInterface{
         $cod_pet = $pet->getCod();
 
         try{
-            $sql = "SELECT p.cod AS cod_pet, p.photo, p.descricao, p.nome, p.adotado, p.cod_fichapet, p.cod_categoria, c.nome_categoria, f.raca, f.alergias, f.observacoes, f.tamanho, f.estoque
+            $sql = "SELECT p.cod AS cod_pet, p.photo, p.descricao, p.nome, p.adotado, p.cod_fichapet, p.cod_categoria, p.creat_at, c.nome_categoria, f.raca, f.alergias, f.observacoes, f.tamanho, f.estoque
             FROM pet_adocao AS p INNER JOIN produto_categoria AS c
             ON p.cod_categoria = c.cod
             AND p.cod = '$cod_pet'
@@ -331,7 +336,8 @@ class PetRepository implements PetRepositoryInterface{
                         "observacoes" => $p['observacoes'],
                         "tamanho" => $p['tamanho'],
                         "estoque" => $p['estoque']
-                    ]
+                    ],
+                    "creat_at" => $p["creat_at"]
                 ];
             }
 
@@ -388,7 +394,8 @@ class PetRepository implements PetRepositoryInterface{
                         "observacoes" => $p['observacoes'],
                         "tamanho" => $p['tamanho'],
                         "estoque" => $p['estoque']
-                    ]
+                    ],
+                    "creat_at" => $p["creat_at"]
                 ];
            }
 
@@ -445,7 +452,8 @@ class PetRepository implements PetRepositoryInterface{
                         "observacoes" => $p['observacoes'],
                         "tamanho" => $p['tamanho'],
                         "estoque" => $p['estoque']
-                    ]
+                    ],
+                    "creat_at" => $p["creat_at"]
                 ];
             }
 

@@ -20,27 +20,28 @@ class ProdutoController implements ProdutoControllerInterface{
         $contentType = $headers["Content-Type"];
 
         if (strpos($contentType, 'multipart/form-data;') !== false) {
+            $ficha = json_decode($_POST["fichatecnica"], true);
             $dados = [
                 "nome" => $_POST["nome"],
                 "categoria" => $_POST["categoria"],
                 "photo" => isset($_FILES["photo"]) ? $_FILES["photo"] : "",
                 "descricao" => $_POST["descricao"],
-                "preco" => $_POST["preco"],
-                "quantidade" => $_POST["quantidade"],
+                "preco" => (float) $_POST["preco"],
+                "quantidade" =>(int) $_POST["quantidade"],
+                "tipo" => $_POST["tipo"],
                 "fichatecnica" => [
-                    "linha" => $_POST["linha"],
-                    "modelo" => $_POST["modelo"],
-                    "marca" => $_POST["marca"],
-                    "tamanho" => $_POST["tamanho"],
-                    "cor" => $_POST["cor"],
-                    "estoque" => $_POST["estoque"]
+                    "linha" => $ficha["linha"] ?? "",
+                    "modelo" => $ficha["modelo"] ?? "",
+                    "marca" => $ficha["marca"] ?? "",
+                    "tamanho" => $ficha["tamanho"] ?? "",
+                    "cor" => $ficha["cor"] ?? "",
+                    "estoque" => $ficha["estoque"] ?? ""
                 ]
             ];
         }
 
         $product_case = new ProductCase($dados);
         $response = $product_case->addProduct(new ProductEntity(), new ProductRepository(new Database()), new FichaProdutoEntity());
-       
         echo json_encode($response);
     }
 

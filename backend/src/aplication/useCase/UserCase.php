@@ -6,6 +6,7 @@ use Boringue\Backend\aplication\useCase\contract\UserCaseInterface;
 use Boringue\Backend\domain\entities\UserEntity;
 use Boringue\Backend\file\RenderFile;
 use Exception;
+use React\Dns\Query\RetryExecutor;
 
 class UserCase implements UserCaseInterface{
     private $dados = [];
@@ -74,13 +75,13 @@ class UserCase implements UserCaseInterface{
         
     }
 
-    public function find(UserEntity $userEntity, UserRepository $userRepository, $email){
-        if($email == 0){
+    public function find(UserEntity $userEntity, UserRepository $userRepository, $cod){
+        if($cod == 0){
             $users = $userRepository->findAll($userEntity);
             
             return $users;
         }else{
-            $userEntity->setEmail($email);
+            $userEntity->setId($cod);
 
             $user = $userRepository->findUser($userEntity);
 
@@ -88,20 +89,40 @@ class UserCase implements UserCaseInterface{
         }
     }
 
+    public function findAdm(UserEntity $userEntity, UserRepository $userRepository)
+    {
+        $dados = $this->dados;
+        $userEntity->setEmail($dados['email'])
+                   ->setSenha($dados['senha']);
+
+        try{
+            $data = $userRepository->findAdm($userEntity);
+
+            if(empty($data)){
+                throw new Exception("nenhum adm");
+            }
+
+            return $data;
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
     public function updateUser(UserEntity $userEntity, UserRepository $userRepository)
     {
         $dados = $this->dados;
-        
+
         if(!empty($dados['photo'])) {
             $arquivo = $dados['photo'];
             $file = new RenderFile($arquivo);
-            $dados['photo'] = $file->Render();            
+            $dados['photo'] = $file->Render();  
         }
+
 
         $userEntity->setPhoto($dados['photo'])
                     ->setBairro($dados['bairro'])
                     ->setRua($dados['rua'])
-                    ->setCasaN($dados['casa_number'])
+                    ->setCasaN($dados['casa_numero'])
                     ->setId($dados['cod_user']);
 
         try{

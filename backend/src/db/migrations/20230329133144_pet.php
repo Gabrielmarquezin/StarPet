@@ -23,6 +23,7 @@ final class Pet extends AbstractMigration
             ->addColumn('descricao', 'string', ['limit' => '1500'])
             ->addColumn('quantidade', 'integer', ['null' => false])
             ->addColumn("nome", "string", ["limit" => '100', "null" => false])
+            ->addTimestamps("creat_at", "update_at")
 
             ->addColumn('cod_categoria', 'integer',["signed" => false])
             ->addColumn('cod_fichapet', 'integer',["signed" => false])
