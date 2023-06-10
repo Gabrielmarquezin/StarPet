@@ -13,3 +13,12 @@ export function Footer(){
         </FooterP>
     )
 }
+
+export function FooterMin(){
+    return(
+        <FooterP>
+            <SocialIcons />
+            <Information />
+        </FooterP>
+    )
+}

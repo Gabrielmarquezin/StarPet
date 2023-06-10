@@ -1,11 +1,11 @@
 import React from "react";
 import { Section } from "../../../styles/card/produtoStyles/produtoStyleCard";
 import { CardProduto } from "./components/card";
-import logo from "../../../assets/starpet.png"
+import NoImage from "../../../assets/noimage.png"
 import { useContext } from "react";
 import { ProdutoContext } from "../../../routes/user/ProdutoAmostra";
-import { useEffect } from "react";
 import { withLoading } from "../../../HOC/withLoading";
+import { useEffect } from "react";
 
 
 function Produto({setLoading}){
@@ -14,7 +14,7 @@ function Produto({setLoading}){
     return(
         <Section>
            {data.map(p => (
-               <CardProduto src={p.photo == "" ? NoImage : p.photo} 
+               <CardProduto src={p.photo == "" ? NoImage : "data:image/jpeg;base64,"+p.photo} 
                             nome={p.nome} 
                             preco={p.preco} 
                             id={p.cod} 

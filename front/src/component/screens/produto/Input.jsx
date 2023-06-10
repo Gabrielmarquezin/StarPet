@@ -58,7 +58,7 @@ export function InputMsg({socket}){
             socket.send(JSON.stringify({
                 stars: click,
                 message: value,
-                cod_user: 5,
+                cod_user: cod_user,
                 cod_produto: path[4]
             }));
         }

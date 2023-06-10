@@ -39,3 +39,37 @@ export function FichaTecnica({data}){
         </Table>
     )
 }
+
+export function FichaPet({data}){
+    const [ficha, setFicha] = useState({})
+
+    useEffect(()=>{
+        if(Object.entries(data).length !== 0){
+            let f = Object.entries(data.ficha_pet)
+            f = SubstituirValues(f, "---")
+
+            setFicha(f)
+        }
+    }, [data])
+
+    return(
+        <Table>
+           <Tbody>
+                <Tr>
+                    <Th scope="col" >Raça</Th>
+                    <Th scope="col" >Alergias</Th>
+                    <Th scope="col" >Observaçoes</Th>
+                    <Th scope="col" >Tamanho</Th>
+                    <Th scope="col" >Estoque</Th>
+                </Tr>
+                <Tr>
+                    <Td>{ficha.raca}</Td>
+                    <Td>{ficha.alergias}</Td>
+                    <Td>{ficha.observacoes}</Td>
+                    <Td>{ficha.tamanho}</Td>
+                    <Td>{ficha.estoque}</Td>
+                </Tr>
+           </Tbody>
+        </Table>
+    )
+}

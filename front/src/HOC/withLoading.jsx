@@ -4,20 +4,21 @@ import { useState } from "react";
 import { Loading } from "../styles/loading";
 
 export function withLoading(Component){
-    return function withLoadingComponent({isloading, data}){
-        const [showLoading, setShowloading] = useState(isloading);
+    return function withLoadingComponent(props){
+        const [showLoading, setShowloading] = useState(props.isloading);
        
         useEffect(()=>{
-            setShowloading(isloading)
-        }, [isloading])
+            setShowloading(props.isloading)
+        }, [props.isloading])
 
         function toggleLoading(bool){
+            console.log(bool)
             setShowloading(bool)
         }
 
         return (
             <>
-                {showLoading ? <Loading /> : <Component setLoading={toggleLoading} data={data} />}
+                {showLoading ? <Loading className="loading"/> : <Component setLoading={toggleLoading} {...props} />}
             </>
         )
     }

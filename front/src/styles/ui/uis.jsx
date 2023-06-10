@@ -39,6 +39,7 @@ export const Image = styled.img.attrs((props)=>({
 `
 
 export const Span = styled.span`
+    position: relative;
     font-family: ${props => props.theme.font};
     color: ${props => props.color};
     font-size: ${props => props.size || "1rem"};

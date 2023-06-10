@@ -6,6 +6,7 @@ export const Section = styled.section`
     flex-wrap: wrap;
     width: 100%;
     gap: 50px;
+    
 `
 export const ContainerCardProduto = styled.div`
     max-width: 180px;
@@ -15,7 +16,13 @@ export const ContainerCardProduto = styled.div`
     border: 1px solid transparent;
     border-radius: 5px;
     -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.09); 
-    box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.09); 
+    box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.09);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+
+    &:hover{
+       transform: scale(1.1);
+    }
 `;
 
 export const ContainerImageProduto = styled.div`
@@ -30,6 +37,21 @@ export const ContainerInfoProduto = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    .ui-preco-cod-group{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .ui-preco-cod-group p:last-child{
+        padding-left: 10px;
+    }
+
+    span{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 `;
 
 export const P = styled.p`

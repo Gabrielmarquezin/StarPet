@@ -1,17 +1,36 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { withFilterList } from "../../../HOC/withFilterList";
 import { Li, Section, UiFilter, Ul } from "../../../styles/menu/MenuFilterStyles/filterProduto";
-import { Div, Location } from "../../../styles/routes/produto/ProdutoStyle";
+import { StyledLink } from "../../../styles/menu/menu_styles";
 import { P } from "../../../styles/ui/uis";
 
 export function FilterProduto({activefilter, desactivefilter,children}){
-    
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const path = location.pathname.split("/");
+   
     function handleFilter(){
         activefilter();
     }
 
     function hiddenFilter(){
         desactivefilter();
+
+        path.splice(path.length -2, 2)
+        path.push("pet")
+        path.push("todos")
+       
+        navigate(path.join("/"))
+    }
+
+    function ChangetPath(prevUri, currentUri){
+        path.splice(path.length - 2, 2)
+        path.push(prevUri);
+        path.push(currentUri);
+
+        return path.join("/")
     }
 
     return(
@@ -28,10 +47,10 @@ export function FilterProduto({activefilter, desactivefilter,children}){
                 <P>Categorias</P>
                 <hr style={{borderColor: "rgba(3, 4, 94, 0.5)"}}/>
                 <Ul>
-                    <Li theme={{color: "#03045EB2"}} onClick={handleFilter}>Coleira</Li>
-                    <Li theme={{color: "#03045EB2"}} onClick={handleFilter}>Ração</Li>
-                    <Li theme={{color: "#03045EB2"}} onClick={handleFilter}>Brinquedos</Li>
-                    <Li theme={{color: "#03045EB2"}} onClick={handleFilter}>Cama</Li>
+                    <Li onClick={handleFilter}><StyledLink style={{color: "#03045E"}} to={ChangetPath("produto","coleira")}>Coleira</StyledLink></Li>
+                    <Li onClick={handleFilter}><StyledLink style={{color: "#03045E"}} to={ChangetPath("produto","racao")}>Ração</StyledLink></Li>
+                    <Li onClick={handleFilter}><StyledLink style={{color: "#03045E"}} to={ChangetPath("produto","brinquedos")}>Brinquedos</StyledLink></Li>
+                    <Li onClick={handleFilter}><StyledLink style={{color: "#03045E"}} to={ChangetPath("produto","cama")}>Cama</StyledLink></Li>
                 </Ul>
             </UiFilter>
             {children}
@@ -47,21 +66,6 @@ export function OtherFilterList(){
             <UiFilter>
                 <P>Faixa de preço</P>
                 <hr style={{borderColor: "rgba(3, 4, 94, 0.5)"}}/>
-                <Ul>
-                    <Li theme={{color: "#03045EB2"}}>Coleira</Li>
-                    <Li theme={{color: "#03045EB2"}}>Ração</Li>
-                    <Li theme={{color: "#03045EB2"}}>Brinquedos</Li>
-                    <Li theme={{color: "#03045EB2"}}>Cama</Li>
-                </Ul>
-            </UiFilter>
-
-            <UiFilter>
-                <P>Tipos</P>
-                <hr style={{borderColor: "rgba(3, 4, 94, 0.5)"}}/>
-                <Ul>
-                    <Li theme={{color: "#03045EB2"}}>peitoral</Li>
-                    <Li theme={{color: "#03045EB2"}}>plana/tradicional</Li>
-                </Ul>
             </UiFilter>
         </>
         

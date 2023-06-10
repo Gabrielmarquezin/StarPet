@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 
 export function SocialIcons(){
     return(
-        <ContainerSocial>
+        <ContainerSocial className="social-icons">
             <Link to={"/facebook"}>
-                <BsFacebook size={38} style={{color: "#3b5998"}}/>
+                <BsFacebook size={38} style={{color: "#ffffff"}}/>
             </Link>
             <Link to={"/whatzapp"}>
                 <AiOutlineWhatsApp size={40} style={{color: "#25D366"}}/>

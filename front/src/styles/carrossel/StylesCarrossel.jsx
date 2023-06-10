@@ -11,7 +11,9 @@ export const Imagem = styled.img.attrs((props) => ({
     flex: none;
 `;
 
-export const ContainerCarrossel = styled.div`
+export const ContainerCarrossel = styled.div.attrs(()=>({
+    className: "ui-carrossel"
+}))`
     display: flex;
     align-items: center;
     overflow: hidden;

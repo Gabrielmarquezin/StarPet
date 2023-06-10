@@ -35,20 +35,26 @@ export const Main = styled.main`
     padding: 50px 20px 20px 20px;
 `;
 
-export const ContainerImage = styled.div`
+export const ContainerImage = styled.div.attrs(()=>({
+    className: "container-img-produto"
+}))`
     max-width: 100%;
     min-width: 450px;
     height: 457px;
 `;
 
-export const SectionMainImage = styled.section`
+export const SectionMainImage = styled.section.attrs(()=>({
+    className: "ui-container-main-img"
+}))`
     display: flex;
     justify-content: space-between;
     width: 90%;
     align-self: center;
 `;
 
-export const ContainerDescricao = styled.div`
+export const ContainerDescricao = styled.div.attrs(()=>({
+    className: "ui-container-info-produto"
+}))`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -111,7 +117,9 @@ export const ContainerContador = styled.div`
     }
 `
 
-export const ContainerValor = styled.div`
+export const ContainerValor = styled.div.attrs(()=>({
+    className: "container-cunt-produto"
+}))`
     display: flex;
     align-items: center;
     justify-content: space-between;

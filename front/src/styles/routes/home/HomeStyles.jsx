@@ -10,6 +10,14 @@ export const SectionBody = styled.section`
     p{
         padding-left: 51px;
     }
+
+    .ui-carrossel:first-child img{
+        width: 100%;
+    }
+
+    .ui-carrossel:first-child{
+        margin-top: 50px;
+    }
 `;
 
 export const ContainerProdutos = styled.div`

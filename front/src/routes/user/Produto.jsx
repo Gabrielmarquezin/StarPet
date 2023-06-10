@@ -12,6 +12,7 @@ import { withLoadingAndFetch } from "../../HOC/withLoadingAndFetch";
 import {ContainerSectionComentario } from "../../component/screens/produto/SectionComments";
 import { Hr} from "../../styles/ui/uis";
 import { InputMsg } from "../../component/screens/produto/Input";
+import { FichaTecnica } from "../../component/table/produto/table";
 
 
 const dominio = process.env.API_KEY;
@@ -20,10 +21,10 @@ const socket = new WebSocket("ws://localhost:3001/produto");
 export const ProdutoContext = createContext();
 
 async function fetchData(){
-    const id = window.location.pathname.split("/");
+    const id = window.location.pathname.split("/").pop();
     
     try{
-        const request = await fetch(dominio+`/StarPet/backend/products?id=${id[4]}`);
+        const request = await fetch(dominio+`/StarPet/backend/products?id=${id}`);
         const produto = await request.json();
 
         return produto;
@@ -45,7 +46,9 @@ export function Produto({data}){
                 <SectionProduto />
                 <Hr />
 
-                <SectionOptions />
+                <SectionOptions>
+                    {produto.length !== 0 && <FichaTecnica data={produto[0]}/>}
+                </SectionOptions>
                 <Hr />  
                 
                <ContainerSectionComentario socket={socket}/>

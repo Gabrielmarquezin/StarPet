@@ -20,7 +20,7 @@ function Button(){
         })
     }
 
-   async function cadastrar({email}){
+   async function cadastrar({email, nome}){
         try{
             const request = await fetch(dominio+'/StarPet/backend/login', {
                 method: "POST",
@@ -29,7 +29,7 @@ function Button(){
                   },
                 body: JSON.stringify(
                     {
-                        nome: "",
+                        nome: nome,
                         email: email,
                         photo: "",
                         bairro: "",

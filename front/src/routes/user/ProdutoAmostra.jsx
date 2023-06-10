@@ -25,11 +25,12 @@ export function ProdutoAmostra(){
     
     useEffect(()=>{
         const location = path.pathname.split("/");
-        setCategoria(location[2])
+        setCategoria(location[1])
         setType(location[3])
-        fetchProduto(location[2], location[3]).then(data => {
+
+        fetchProduto(location[1], location[3]).then(data => {
           
-          if(data.message == "empty products"){
+          if(data.message == "empty products" || data.message == "nenhum pet registrado"){
             setErro(true)
             return;
           }
@@ -41,9 +42,19 @@ export function ProdutoAmostra(){
     }, [path.pathname])
 
     async function fetchProduto(categoria, tipo){
+      const location = path.pathname.split("/");
       const dominio = process.env.API_KEY;
+      let link = dominio;
+
+      if(location[2] == "produto"){
+        link+=`/StarPet/backend/products/categoria?name=${categoria}&tipo=${tipo}`
+      }
+      if(location[2] == "pet"){
+        link+=`/StarPet/backend/products/pet/categoria?nome=${categoria}`
+      }
+     
       try{
-        const request = await fetch(dominio+`/StarPet/backend/products/categoria?name=${categoria}&tipo=${tipo}`)
+        const request = await fetch(link)
         const response = await request.json()
 
         return response;

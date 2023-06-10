@@ -2,10 +2,10 @@ import React from "react";
 import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ContainerCardProduto, ContainerImageProduto, ContainerInfoProduto, P } from "../../../../styles/card/produtoStyles/produtoStyleCard";
-import { Image,Span } from "../../../../styles/ui/uis";
+import { Div, Image,Span } from "../../../../styles/ui/uis";
 import NoImage from "../../../../assets/noimage.png"
 
-export function CardProduto({src, nome, preco, id}){
+export function CardProduto({src, nome, preco, id, date}){
     const Navigate = useNavigate();
     const path = useLocation();
     const img = useRef('');
@@ -26,8 +26,14 @@ export function CardProduto({src, nome, preco, id}){
             </ContainerImageProduto>
 
             <ContainerInfoProduto>
-                <Span size={"1.5rem"} color="#000">{preco}</Span>
-                <P>{nome}</P>
+                <Span size={"1.5rem"} color="#000">
+                    {preco}
+                    <P>{date}</P>
+                </Span>
+                <Div className="ui-preco-cod-group">
+                    <P>{nome}</P>
+                    <P>{"cod: "+id}</P>
+                </Div>
             </ContainerInfoProduto>
        </ContainerCardProduto>
     )

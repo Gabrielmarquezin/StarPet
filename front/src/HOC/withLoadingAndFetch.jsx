@@ -15,9 +15,13 @@ export function withLoadingAndFetch(Component, fetchData){
             })
         }, [])
 
+        function toggleLoading(bool){
+            setLoading(bool)
+        }
+
         return(
             <>
-                {loading ? <Loading /> : <Component data={dados}/>}
+                {loading ? <Loading /> : <Component data={dados} setLoading={toggleLoading} />}
             </>
         )
     }
