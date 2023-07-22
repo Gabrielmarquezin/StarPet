@@ -40,8 +40,7 @@ class ProdutoPedidoRepository implements PedidoProdutoRepositoryInterface{
         ];
 
         try{
-            $sql = "INSERT INTO forma_pagamento (method, cod_transaction, estado) 
-            VALUES (:method, :cod_transaction, :estado)";
+            $sql = "INSERT INTO forma_pagamento (method, cod_transaction, estado) VALUES (:method, :cod_transaction, :estado)";
 
             $query = $cnt->prepare($sql);
             $query->execute($dados_forma_pagamento);
@@ -213,7 +212,7 @@ class ProdutoPedidoRepository implements PedidoProdutoRepositoryInterface{
         $cnt = $this->db;
         $id_user = $pedido->getCodUser();
         try{
-            $sql = "SELECT u.nome, u.photo AS photo_user, p.data_payment, p.email, p.cep, p.bairro, p.rua, p.casa_number, p.cod_user, p.cod_produto, p.telefone, p.preco_total, produto.photo AS produto_photo, produto.preco, produto.nome AS produto_name, c.nome_categoria, f.method, f.cod_transaction, f.estado
+            $sql = "SELECT u.nome, u.photo AS photo_user, p.data_payment, p.email, p.cep, p.bairro, p.rua, p.casa_number, p.cod_user, p.cod_produto, p.telefone, p.preco_total, produto.photo AS produto_photo, produto.preco, produto.nome AS produto_name, produto.descricao, c.nome_categoria, f.method, f.cod_transaction, f.estado
             FROM produto_pedido AS p
             INNER JOIN users AS u
             ON p.cod_user = u.cod
@@ -266,7 +265,8 @@ class ProdutoPedidoRepository implements PedidoProdutoRepositoryInterface{
                         "photo" => $p['produto_photo'],
                         "preco_unit" => (float)$p['preco'],
                         "nome" => $p['produto_name'],
-                        "categoria" => $p['nome_categoria']
+                        "categoria" => $p['nome_categoria'],
+                        "descricao" => $p["descricao"]
                     ],
                     "payment" => [
                         "method" => $p['method'],

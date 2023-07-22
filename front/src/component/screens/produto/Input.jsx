@@ -4,36 +4,35 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { ContainerInput } from "../../../styles/routes/produto/ProdutoStyle";
 import { Input, Div, Span} from "../../../styles/ui/uis";
-import { ComentarioContext } from "./SectionComments";
+import { ComentarioContext, ComentarioProdutoWithLoading } from "./SectionComments";
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import { useAuth } from "../../../hook/useAuth";
+import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
-export function InputMsg({socket}){
+const dominio = process.env.API_KEY;
+
+export function InputMsg({submit}){
     const [value, setValue] = useState('');
     const [click, setClick] = useState(1);
+    const [comentarios, setComentarios] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    const location = useLocation();
+
+    const params = window.location.search;
+    const query = new URLSearchParams(params);
+    let type = query.get("type")
 
     const input = useRef();
     const span = useRef();
+
+    const {user} = useAuth();
  
     const [,setComentario] = useContext(ComentarioContext);
     const stars = [1,2,3,4,5];
    
-    useEffect(()=>{
-        socket.onopen = ()=>{
-            console.log("conexao aberta")
-        }
-
-        socket.onmessage = function(event) {
-
-          let response = JSON.parse(JSON.parse(event.data));
-          setComentario(response)
-        };
-
-        return () => {
-            return socket.onclose = ()=>{
-                    console.log('Conexão fechada');
-                 };
-        }
-    }, [])
+   
 
     function handleInput(e){
         let ValueInput = e.target.value
@@ -49,18 +48,71 @@ export function InputMsg({socket}){
         setValue(ValueInput)
     }
 
-    function submitMessage(e){  
-    
+    function submitMessage(e){ 
+
+        let link;
+
+        if(user == null || Object.keys(user) == 0){
+            Swal.fire({
+                title: "Ops!",
+                text: "Você não esta logado",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+            return;
+        }
+
+       
+
+        setLoading(true)
+        setMessage(click, value) 
+        .then(data => {
+            console.log(data)
+            setLoading(false)
+        })       
+
+    }
+   
+ 
+
+    async function setMessage(click, value){
         const path = window.location.pathname.split("/");
         const cod_user = localStorage.getItem("cod_user");
 
-        if(value !== ""){     
-            socket.send(JSON.stringify({
-                stars: click,
-                message: value,
-                cod_user: cod_user,
-                cod_produto: path[4]
-            }));
+        let link;
+        
+        let obj = {
+            stars: click,
+            message: value,
+            cod_user: cod_user,
+        }
+
+        switch(type){
+            case "produto":
+                link = "/StarPet/backend/products/messages/add"
+                obj.cod_produto = path[4]
+            break;
+
+            case "pet":
+                link = "/StarPet/backend/products/messages/pet/add"
+                obj.cod_pet = path[4]
+            break;
+        }
+
+        try {
+            const request = await fetch(dominio+link, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
+                body: JSON.stringify(obj),
+            })
+            const response = await request.json()
+
+            return response;
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
         }
     }
 
@@ -68,7 +120,12 @@ export function InputMsg({socket}){
         setClick(index)
     }
 
+
+
     return(
+       <>
+        <ComentarioProdutoWithLoading comentario={comentarios} 
+                                        isloading={loading}/>
         <ContainerInput>
             <Div className="stars-group">
                 {stars.map((e, i)=>{
@@ -80,10 +137,12 @@ export function InputMsg({socket}){
                 })}
             </Div>
             <Div className="input-group">
-                <Input onChange={handleInput} value={value} ref={input}/>
+                <Input onChange={handleInput} value={value} ref={input} id="input-msg" />
                 <Input type={"button"} value={"ENVIAR"} onClick={submitMessage}/>
             </Div>
             <Span ref={span}>Valor maximo atingido</Span>
         </ContainerInput>
+       
+       </>
     )
 }

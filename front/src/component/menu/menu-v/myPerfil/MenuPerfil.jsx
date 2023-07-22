@@ -10,20 +10,27 @@ import { BsCardChecklist, BsFillTrashFill} from "react-icons/bs";
 import {BiEdit} from "react-icons/bi";
 
 export function MenuPerfil(){
+
+    const codUser = localStorage.getItem("cod_user");
+
     return(
        <StyleMenuPerfil>
             <Ul>
                 <Li>
                     <HiOutlineUserCircle size={35}/>
-                    <StyledLink to={"/user/perfil"}>Meu Perfil</StyledLink>
+                    <StyledLink to={`/perfil/user?cod=${codUser}`}>Meu Perfil</StyledLink>
                 </Li>
                 <Li>
                     <BsFillBasketFill size={30}/>
-                    <StyledLink to={"/user/perfil"}>Meus Pedidos</StyledLink>
+                    <StyledLink to={`/perfil/vendidos/user?cod=${codUser}`}>Meus Pedidos</StyledLink>
                 </Li>
                 <Li>
                     <GiRainbowStar size={30}/>
-                    <StyledLink to={"/user/perfil"}>Meus Favoritos</StyledLink>
+                    <StyledLink to={`/perfil/favorite/user?cod=${codUser}`}>Meus Favoritos</StyledLink>
+                </Li>
+                <Li>
+                    <GiRainbowStar size={30}/>
+                    <StyledLink to={`/perfil/carrinho/user?cod=${codUser}`}>Carrinho</StyledLink>
                 </Li>
             </Ul>
        </StyleMenuPerfil>
@@ -52,7 +59,7 @@ export function MenuAdm(){
                 </Li>
                 <Li>
                     <BsFillBasket2Fill size={30}/>
-                    <StyledLink to={"/user/perfil"}>Vendidos</StyledLink>
+                    <StyledLink to={"/adm/home/vendidos"}>Vendidos</StyledLink>
                 </Li>
                 <Li>
                     <BsCardChecklist size={30}/>

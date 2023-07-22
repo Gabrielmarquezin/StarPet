@@ -18,7 +18,7 @@ class UserController implements UserControllerInterface{
         
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
-        
+
         $headers = getallheaders();
         $contentType = $headers["Content-Type"];
 
@@ -38,7 +38,7 @@ class UserController implements UserControllerInterface{
             $UseCase = new UserCase($dados);
             $response = $UseCase->add(new UserEntity(), new UserRepository(new Database));
             
-            echo json_encode(["message"=>"user create", "cod_user"=>$response]);
+            echo json_encode($response);
         }catch(Exception $e){
             echo json_encode($e->getMessage());
         }

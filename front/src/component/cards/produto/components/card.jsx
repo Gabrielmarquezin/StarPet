@@ -5,7 +5,7 @@ import { ContainerCardProduto, ContainerImageProduto, ContainerInfoProduto, P } 
 import { Div, Image,Span } from "../../../../styles/ui/uis";
 import NoImage from "../../../../assets/noimage.png"
 
-export function CardProduto({src, nome, preco, id, date}){
+export function CardProduto({src, nome, preco, type,id, date, descricao}){
     const Navigate = useNavigate();
     const path = useLocation();
     const img = useRef('');
@@ -13,7 +13,7 @@ export function CardProduto({src, nome, preco, id, date}){
     function handleProduto(){
         const location = path.pathname;
 
-        Navigate(location+`/${id}`)
+        Navigate(`${id}?type=${type}`)
     }
     function ErrorPhoto(){
         
@@ -29,6 +29,9 @@ export function CardProduto({src, nome, preco, id, date}){
                 <Span size={"1.5rem"} color="#000">
                     {preco}
                     <P>{date}</P>
+                </Span>
+                <Span id="desc">
+                    {descricao}
                 </Span>
                 <Div className="ui-preco-cod-group">
                     <P>{nome}</P>

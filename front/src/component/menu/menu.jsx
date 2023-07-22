@@ -6,10 +6,11 @@ import { Paws } from "./components/paws";
 import { Search } from "./components/search";
 import Imagem from "../../assets/starpet.png";
 import { Outlet } from "react-router-dom";
+import { ProdutoProvider } from "../../contexts/ProdutoContext";
 
 export function MenuH(){
     return (
-      <>
+      <ProdutoProvider>
          <Section>
             <MenuTopInfoStyles>
                <Logo src={Imagem} alt="Logo" />
@@ -20,7 +21,7 @@ export function MenuH(){
             <Lista />
          </Section>
          <Outlet />
-      </>
+      </ProdutoProvider>
     )
 }
 

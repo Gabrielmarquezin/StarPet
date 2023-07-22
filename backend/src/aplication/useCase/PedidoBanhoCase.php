@@ -80,7 +80,6 @@ class PedidoBanhoCase implements PedidoBanhoCaseInterface{
                     ->setState("approved");
 
             $qr_code = $dados['qr_code_base64'];
-            echo "<img src=data:image/jpeg;base64,$qr_code style='width: 350px; height:350px'/>";
             try{
                 $banho_repository->addBanho($agenda, $pedido, $method);
                 return $dados;

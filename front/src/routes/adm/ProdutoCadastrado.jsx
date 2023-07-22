@@ -11,6 +11,7 @@ import { getProducts } from "../../functions/FetchProdutos";
 import { withLoading } from "../../HOC/withLoading";
 import { StylesProdutosCadastrados } from "../../styles/routes/home/HomeStylesAdm";
 import { Div, P } from "../../styles/ui/uis";
+import { Pet } from "../user/Pet";
 
 const DataContext = createContext('');
 
@@ -107,19 +108,33 @@ export function ProdutosCadastrados(){
     }, [])
 
    const getDatas = useCallback(async ()=>{
-       const produtos = await getProducts("produto")
+       let produtos = await getProducts("produto")
        let Pets = await getProducts("pet")
-       Pets = Pets.map(pet => "data:image/jpeg;base64,"+pet.photo)
+
+       if(Pets.message){
+        Pets = []
+       }else{
+        Pets = Pets.map(pet => ({photo: "data:image/jpeg;base64,"+pet.photo, id: pet.cod}))
+       }
+
+       if(produtos.message){
+         produtos = [];
+       }
+
+       if(produtos.message && Pets.message){
+        return {Pets: Pets, Produtos: produtos}
+       }
+
 
        const newData = produtos.reduce((accumulator, produto) => {
             if (produto.tipo === "coleira") {
-                accumulator.coleira.push("data:image/jpeg;base64,"+produto.photo);
+                accumulator.coleira.push({photo: "data:image/jpeg;base64,"+produto.photo, id: produto.cod});
             } else if (produto.tipo === "racao") {
-                accumulator.racao.push("data:image/jpeg;base64,"+produto.photo);
+                accumulator.racao.push({photo: "data:image/jpeg;base64,"+produto.photo, id: produto.cod});
             } else if (produto.tipo === "gaiola") {
-                accumulator.gaiola.push("data:image/jpeg;base64,"+produto.photo);
+                accumulator.gaiola.push({photo: "data:image/jpeg;base64,"+produto.photo, id: produto.cod});
             } else if (produto.tipo === "aquario") {
-                accumulator.aquario.push("data:image/jpeg;base64,"+produto.photo);
+                accumulator.aquario.push({photo: "data:image/jpeg;base64,"+produto.photo, id: produto.cod});
             }
             return accumulator;
         }, {

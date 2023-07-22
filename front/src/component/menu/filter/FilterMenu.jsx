@@ -60,15 +60,29 @@ export function FilterProduto({activefilter, desactivefilter,children}){
 
 export function OtherFilterList(){
 
-
     return(
         <>
             <UiFilter>
-                <P>Faixa de preço</P>
-                <hr style={{borderColor: "rgba(3, 4, 94, 0.5)"}}/>
             </UiFilter>
         </>
         
+    )
+}
+
+export function FilterSearchProdutos(){
+   
+    return(
+        <Section>
+            <UiFilter style={{marginTop: "0px"}}>
+                <P>PETS</P>
+                <hr style={{borderColor: "rgba(3, 4, 94, 0.5)"}}/>
+                <Ul style={{marginTop: "30px"}}>
+                    <Li><StyledLink style={{color: "#03045E"}} to={"/cachorro/pet/todos"}>Cachorro</StyledLink></Li>
+                    <Li><StyledLink style={{color: "#03045E"}} to={"/gato/pet/todos"}>Gatos</StyledLink></Li>
+                    <Li><StyledLink style={{color: "#03045E"}} to={"/peixe/pet/todos"}>Peixes</StyledLink></Li>
+                </Ul>
+            </UiFilter>
+        </Section>
     )
 }
 

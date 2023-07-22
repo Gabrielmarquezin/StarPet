@@ -13,6 +13,12 @@
     border-radius: 5px;
     max-height: 35px;
 }
+
+.search_container:focus-within{
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
 #icon_search{
     color: var(--cor-icon-search);
     font-size: 1.8rem;
@@ -25,6 +31,7 @@
 #icon{
     color: var(--cor-icon);
     font-size: 2rem;
+    cursor: pointer;
 }
 
 .container_paws{
@@ -38,6 +45,33 @@
     "p13 p14 p15"
     "p16 p17 p18"
     ;
+}
+
+.container_all{
+    position: relative;
+}
+
+.list_sugestion{
+    position: absolute;
+    width: 100%;
+    max-height: 160px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+    z-index: 1;
+}
+
+.list_toggle{
+    max-height: 0;
+}
+
+.list_sugestion li{
+    height: 40px;
+    background-color: rgb(185, 221, 236);
+    cursor: pointer;
+}
+
+.list_sugestion li:hover{
+    background-color: rgb(125, 203, 206);
 }
 
 #paws_icon{

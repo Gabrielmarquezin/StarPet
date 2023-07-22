@@ -20,7 +20,7 @@ export const Section = styled.section`
     .line div{
         position: absolute;
         background-color: blue;
-        width: calc(25% - 20px);
+        width: calc(20% - 20px);
         height: 100%;
         top: 0;
         transition: 0.3s ease-in-out;

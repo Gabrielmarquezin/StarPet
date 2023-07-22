@@ -5,7 +5,7 @@ use Boringue\Backend\domain\contract\UserInterface;
 
 class UserEntity implements UserInterface{
     private static $nome;
-    private static $email;
+    public static $email;
     private static $photo;
     private static $rua;
     private static $bairro;

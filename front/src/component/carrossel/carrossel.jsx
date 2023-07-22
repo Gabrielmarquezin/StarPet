@@ -6,10 +6,12 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ErrorData } from "../error/EmptyDataError";
+import Noimage from "../../assets/noimage.png"
 
 
 
-export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, sizebutton, id}){
+export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, sizebutton, navigate}){
     
     const carrosselEl = useRef(null);
     const Navigate = useNavigate();
@@ -30,10 +32,11 @@ export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, siz
         }
     }, [autoscroll])
 
-    function NavigateProduto(){
-        const location = path.pathname;
-
-        Navigate(location+`produto/home/search/${id}`)
+    const NavigateProduto = (cod)=>{
+        if(!navigate){
+            return;
+        }
+        Navigate(`carrossel/${navigate}/${cod}`)
     }
 
     function handleNext(){     
@@ -44,18 +47,27 @@ export function Carrossel({img, widthcarrossel, heightcarrossel, autoscroll, siz
         carrosselEl.current.scrollLeft -= carrosselEl.current.offsetWidth;
     }
 
+
+    function errorImage(e){
+        e.target.src = Noimage;
+    }
     
     return (
         <ContainerCarrossel widthcarrossel={widthcarrossel} heightcarrossel={heightcarrossel}>
-            <GrFormNext size={sizebutton || 35} id={styles.icon_moviment} onClick={handleBack}/>
-                <BoxCarrossel>
-                    <CarrosselImage ref={carrosselEl} onClick={NavigateProduto}>
-                        {img.map((src, i) =>(
-                            <Imagem src={src} alt={"Imagem Carrossel"} key={i}/>
-                        ))}
-                    </CarrosselImage>
-                </BoxCarrossel>
-            <GrFormNext size={sizebutton || 35} id={styles.icon_moviment} style={{rotate: "360deg"}} onClick={handleNext}/>
+            {img.length == 0
+                ? <ErrorData message={"nenhum produto registrado"} />
+                : <>        
+                    <GrFormNext size={sizebutton || 35} id={styles.icon_moviment} onClick={handleBack}/>
+                        <BoxCarrossel>
+                            <CarrosselImage ref={carrosselEl}>
+                                {img.map((src, i) =>(
+                                    <Imagem src={src.photo} alt={"Imagem Carrossel"} key={i} onError={errorImage} onClick={()=> NavigateProduto(src.id)}/>
+                                ))}
+                            </CarrosselImage>
+                        </BoxCarrossel>
+                    <GrFormNext size={sizebutton || 35} id={styles.icon_moviment} style={{rotate: "360deg"}} onClick={handleNext}/>
+                 </>
+            }  
         </ContainerCarrossel>
     );
 }

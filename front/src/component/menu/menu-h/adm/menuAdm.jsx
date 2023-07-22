@@ -7,9 +7,10 @@ export function AdmRoutes(){
         <StylesMenu>
             <Ul>
                 <Li><StyledLink to={"quantidade-produto-cadastrado"}>Quantidade de <br/> produtos cadastrados</StyledLink></Li>
-                <Li><StyledLink to={"quantidade-vendidos"}>Quantidade de <br/> produtos vendidos</StyledLink></Li>
                 <Li><StyledLink to={"produtos-cadastrados"}>Produtos cadastrados</StyledLink></Li>
                 <Li><StyledLink to={"perfil"}>Perfil</StyledLink></Li>
+                <Li><StyledLink to={"vendidos"}>Produtos <br /> vendidos</StyledLink></Li>
+                <Li><StyledLink to={"vendidos_banho"}>Pedidos <br /> banho/tosa</StyledLink></Li>
             </Ul>
         </StylesMenu>
     )

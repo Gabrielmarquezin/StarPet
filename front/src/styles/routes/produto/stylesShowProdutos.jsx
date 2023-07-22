@@ -56,3 +56,8 @@ export const StylesProdutoFromAdm = styled.div`
         gap: 50px;
    }
 `;
+
+
+export const Main = styled.main `
+    padding: 50px;
+`

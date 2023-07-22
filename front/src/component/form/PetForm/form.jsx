@@ -43,7 +43,6 @@ function FormPet({submit}){
                             <Option value={"cachorro"}>Cachorro</Option>
                             <Option value={"gato"}>Gato</Option>
                             <Option value={"peixe"}>Peixe</Option>
-                            <Option value={"passaro"}>Pássaro</Option>
                         </Select>
                         
                         <Div className="box">

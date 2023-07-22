@@ -86,6 +86,7 @@ class PetController implements ProdutoControllerInterface{
 
     public function getByCategoria()
     {
+        
         $dados = [
             "categoria" => $_GET['nome']
         ];
@@ -118,6 +119,7 @@ class PetController implements ProdutoControllerInterface{
 
     public function get()
     {
+
         $idPet = empty($_GET['id']) == 1 ? 0 : intval($_GET['id']);
         $dados = [
             "idPet" => $idPet

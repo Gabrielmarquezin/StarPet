@@ -1,5 +1,13 @@
 <?php
 
+exec('composer update');
+exec(__DIR__ . '/vendor/bin/phinx migrate');
+
+header("Content-Type: application/json");
+header("Access-Control-Allow-Headers: *");
+header('Access-Control-Allow-Origin: *');
+header("Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
 require './vendor/autoload.php';
 
 use Boringue\Backend\aplication\useCase\PedidoProdutoCase;
@@ -17,11 +25,6 @@ use Boringue\Backend\routes\PedidoProdutoRoutes;
 use Boringue\Backend\routes\PetRoutes;
 use Boringue\Backend\routes\ProdutoRoutes;
 use Boringue\Backend\routes\UserRoutes;
-
-header("Content-Type: application/json");
-header("Access-Control-Allow-Headers: *");
-header('Access-Control-Allow-Origin: *');
-header("Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
 $path = explode("?", $_SERVER['REQUEST_URI']);
 $method = $_SERVER['REQUEST_METHOD'];
@@ -50,3 +53,4 @@ $RotasAdocao->initRoutes()
 
 $RotasPedidoProduto->initRoutes()
                    ->execute();
+

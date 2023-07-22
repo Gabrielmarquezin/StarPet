@@ -3,7 +3,9 @@ import { createContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import {Main, SectionCarrossel} from "../../styles/routes/produto/ProdutoStyle";
-import Image from "../../assets/1.jpeg";
+import f from "../../assets/f.jpg";
+import g from "../../assets/g.jpeg";
+import h from "../../assets/h.webp";
 import { Footer } from "../../component/footer/footer";
 import { Carrossel } from "../../component/carrossel/carrossel";
 import { SectionOptions } from "../../component/screens/produto/sectionOptions";
@@ -16,7 +18,7 @@ import { FichaTecnica } from "../../component/table/produto/table";
 
 
 const dominio = process.env.API_KEY;
-const socket = new WebSocket("ws://localhost:3001/produto");
+
 
 export const ProdutoContext = createContext();
 
@@ -51,14 +53,14 @@ export function Produto({data}){
                 </SectionOptions>
                 <Hr />  
                 
-               <ContainerSectionComentario socket={socket}/>
-               <InputMsg socket={socket}/> 
+               <InputMsg />
+    
                 <Hr />
                 
                 <SectionCarrossel>
-                    <Carrossel img={[Image, Image, Image, Image]} 
+                    <Carrossel img={[{photo: f}, {photo: g}, {photo: h}, {photo: f}]} 
                                widthcarrossel="100%" 
-                               heightcarrossel="200px" 
+                               heightcarrossel="300px" 
                                autoscroll={true}
                     /> 
                 </SectionCarrossel>

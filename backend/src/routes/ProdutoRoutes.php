@@ -64,6 +64,18 @@ class ProdutoRoutes implements RoutesInterface{
 
         $route->get('/StarPet/backend/products', [$controller, "get"]);
         $route->get('/StarPet/backend/products/categoria', [$controller, "getByCategoria"]);
+        $route->get('/StarPet/backend/products/find', [$controller, "Search"])
+              ->before(function(){
+                $nome = $_GET["search"];
+
+                if(empty($nome)){
+                    echo json_encode("Esta faltando parametros");
+                    http_response_code(400);
+                    return false;
+                }
+
+                return true;
+              });
 
         $route->post('/StarPet/backend/products/update', [$controller, "update"])
               ->before(function(){

@@ -58,7 +58,7 @@ final class ChatServer implements MessageComponentInterface
                             break;
 
                         case "pet":
-                            $message->setCodProduto($data['cod_pet']);
+                            $message->setCodProduto($data['cod_produto']);
                             $response->addMessagePet($message);
                             $allmsg = json_encode($response->findMessagePet($message));
                             break;

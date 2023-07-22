@@ -13,6 +13,7 @@ import { createContext } from "react";
 import { ErrorData } from "../../error/EmptyDataError";
 import { useAuth } from "../../../hook/useAuth";
 import { useRef } from "react";
+import { useAsyncError, useLocation } from "react-router-dom";
 
 const dominio = process.env.API_KEY;
 
@@ -50,7 +51,8 @@ const CommentsWithLoading = withLoading(Comments);
 
 
 export const ComentarioContext = createContext('');
-export function ContainerSectionComentario({socket}){
+
+export function ContainerSectionComentario(){
     const [loading, setLoading] = useState(false);
     const [comentario, setComentario] = useState([])
 
@@ -65,10 +67,10 @@ export function ContainerSectionComentario({socket}){
     }, [])
 
 
-    socket.onmessage = function(event) {
-        let response = JSON.parse(JSON.parse(event.data));
-        setComentario(response)
-      };
+    // socket.onmessage = function(event) {
+    //     let response = JSON.parse(JSON.parse(event.data));
+    //     setComentario(response)
+    //   };
 
 
     async function fetchData(){
@@ -87,12 +89,19 @@ export function ContainerSectionComentario({socket}){
         }
     }
     
+    function submitMessage(){
+        const msg = document.getElementById("input-msg");
+       
+    }
 
     return(
+        <>
         <SectionComentaios comentario={comentario} 
                            setComentario={setComentario}
                            isloading={loading}
         />
+
+        </>
     )
 }
 
@@ -118,3 +127,65 @@ export function SectionComentaios({comentario, setComentario, isloading, socket}
        </ComentarioContext.Provider>
     )
 }
+
+
+//tentativa
+
+function ComentarioProduto(){
+    const [comentario, setComentario] = useState([])
+
+    const location = useLocation();
+
+    const params = window.location.search;
+    const query = new URLSearchParams(params);
+    let type = query.get("type")
+
+    useEffect(()=>{
+        const id = location.pathname.split('/')
+        
+        let link;
+        switch(type){
+            case "produto":
+                link = `/StarPet/backend/products/messages?produto=${id[4]}`;
+            break;
+
+            case "pet":
+                link = `/StarPet/backend/products/messages/pet?produto=${id[4]}`;
+            break;
+        }
+
+        fetch(dominio+link)
+        .then(response => response.json())
+        .then(data => {
+            if(data == "nenhum usuario comentou"){
+                setComentario([])
+                return;
+            }
+            setComentario(data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }, [])
+
+
+    return(
+        <SectionComments>
+                    <P className="ui-p-title">OPNIÕES DO PRODUTO</P>
+
+                    {comentario.length !== 0
+                        ? <>
+                            <ContainerMaster  className={styles.ui_section_comment}>
+                               {comentario.map((e, i)=>(
+                                     <CommentsWithLoading data={e} key={i}/>
+                               ))}
+                            </ContainerMaster>
+                            <Arrow />
+                          </>
+                        : <ErrorData message={"nenhum comentario"} />
+                    }
+        </SectionComments>
+    )
+}
+
+export const ComentarioProdutoWithLoading = withLoading(ComentarioProduto)

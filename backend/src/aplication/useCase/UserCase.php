@@ -34,15 +34,15 @@ class UserCase implements UserCaseInterface{
              ->setRua($dados['rua'])
              ->setCasaN($dados['casa_numero']);
 
-        $cont = $UserRepository->findUser($UserEntity);
+        $cont = $UserRepository->findUserByEmail($UserEntity);
 
         if(count($cont) == 0){
             $cod_user = $UserRepository->addUser($UserEntity);
 
-            return $cod_user;
+            return  ["cod_user" => $cod_user, "message" => "user cadastrado"];
         }
         
-        throw new Exception(json_encode(["cod_user" => $cont[0]["cod"], "message" => "user ja cadastrado"]));
+        return ["cod_user" => $cont[0]["cod"], "message" => "user ja esta cadastrado"];
     }
 
     public function addAdm(UserEntity $userEntity, UserRepository $UserRepository)

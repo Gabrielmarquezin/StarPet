@@ -26,6 +26,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
     
     public function __construct(array $dados, $repository)
     {
+        
         $this->dados = $dados;
         $this->repository = $repository;
     }
@@ -37,9 +38,9 @@ class PedidoProdutoCase implements PedidoCaseInterface{
         $method_payment = new MethodPaymentEntity();
         $produto_repository = new ProductRepository(new Database());
         $pet_repository = new PetRepository(new Database());
-
+        
         $pedido->setCodUser($dados["cod_user"])
-               ->setCodProduto(isset($dados["cod_produto"]) ? $dados["cod_produto"] : $dados['cod_pet'])
+               ->setCodProduto(isset($dados["cod_produto"]) ? $dados["cod_produto"] : $dados["cod_pet"])
                ->setCPF($dados["cpf"])
                ->setRua($dados["rua"])
                ->setBairro($dados["bairro"])
@@ -89,9 +90,7 @@ class PedidoProdutoCase implements PedidoCaseInterface{
             $method_payment->setMethod("pix")
                            ->setCodTransaction($payment->id)
                            ->setState("approved");
-
-            $qr_code = $response['qr_code_base64'];
-            echo "<img src=data:image/jpeg;base64,$qr_code style='width: 350px; height:350px'/>";
+ 
             try{
                
                 if(isset($dados['cod_produto'])){

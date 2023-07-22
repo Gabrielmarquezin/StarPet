@@ -28,7 +28,7 @@ class AvaliacaoRoutes implements RoutesInterface{
 
                     $body = file_get_contents('php://input');
                     $dados = json_decode($body, true);
-
+                    
                     if(!isset($dados['cod_produto'])){
                         throw new Exception("cod_produto obrigatorio");
                     }

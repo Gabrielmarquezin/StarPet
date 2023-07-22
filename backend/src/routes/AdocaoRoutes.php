@@ -26,7 +26,7 @@ class AdocaoRoutes implements RoutesInterface{
         $route->post('/StarPet/backend/pedido/adocao/add', [$controller, "addPedido"])
               ->before(function(){
                 $body = file_get_contents('php://input');
-                $post = json_decode($body, true);
+                $post = $_POST;
 
                 $data = [
                     "cod_user" => !isset($post['cod_user']) ? null : $post['cod_user'],

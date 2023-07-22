@@ -5,6 +5,7 @@ import { ProdutoWithLoading } from "../user/Produto";
 import { AiOutlineClose } from "react-icons/ai";
 import { Div } from "../../styles/ui/uis";
 import { useNavigate } from "react-router-dom";
+import { ProdutoProvider } from "../../contexts/ProdutoContext";
 
 export function Produto({children}){
     const navigate = useNavigate();
@@ -14,14 +15,16 @@ export function Produto({children}){
     }
     
     return(
-        <AdmMenuV>
-            <StylesProdutoFromAdm>
-                <Div className="close">
-                    <AiOutlineClose size={35} style={{float: "right"}} onClick={handleNavigate} />
-                </Div>
-                {children}
-            </StylesProdutoFromAdm>
-        </AdmMenuV>
+       <ProdutoProvider>
+            <AdmMenuV>
+                <StylesProdutoFromAdm>
+                    <Div className="close">
+                        <AiOutlineClose size={35} style={{float: "right"}} onClick={handleNavigate} />
+                    </Div>
+                    {children}
+                </StylesProdutoFromAdm>
+            </AdmMenuV>
+       </ProdutoProvider>
         
     )
 }

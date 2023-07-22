@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Form, TextArea } from "../../../styles/ui/form";
+import { Form, Option, Select, TextArea } from "../../../styles/ui/form";
 import { Div, Input } from "../../../styles/ui/uis";
 import { InputFile } from "../components/inputFile";
 import Swal from 'sweetalert2';
@@ -36,10 +36,20 @@ function ProdutoCadastro({submit}){
                     <TextArea placeholder="Descrição" name="descricao" />
                 </Div>
                 <Div className="input-group">
-                    <Input type={"text"} name={"categoria"} placeholder="Categoria" />
+                    <Select placeholder="categoria" name="categoria">
+                        <Option value={"cachorro"}>Cachorro</Option>
+                        <Option value={"gato"}>Gato</Option>
+                        <Option value={"peixe"}>Peixe</Option>
+                        <Option value={"passaro"}>Pássaro</Option>
+                    </Select>
                 </Div>
                 <Div className="input-group">
-                    <Input type={"text"} name={"tipo"} placeholder="Tipo" />
+                    <Select name="tipo">
+                        <Option value={"coleira"}>Coleira</Option>
+                        <Option value={"racao"}>Ração</Option>
+                        <Option value={"brinquedos"}>Brinquedos</Option>
+                        <Option value={"cama"}>Cama</Option>
+                    </Select>
                 </Div>
                 <Div className="input-group">
                     <Div className="input-box">
@@ -92,6 +102,7 @@ export function ContainerProduto(){
 
         const form = document.getElementById("form-produto-add");
         const formData = new FormData(form);
+        
         const fichaTecnica = {
             linha: formData.get("linha"),
             modelo: formData.get("modelo"),

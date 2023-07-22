@@ -92,9 +92,10 @@ export function ContainerForm(){
         }
         
         try {
+            
             const response = await fetchUp(formData);
             e.target.disabled = false;
-
+            console.log(response)
             if(response.message == "atualizado"){
                 Swal.fire({
                     title: "Hellow",
@@ -104,7 +105,7 @@ export function ContainerForm(){
                 })
             }
 
-           if(response.message == "Produto nao existe ou produto nao tem o que atualizar"){
+           if(response.message == "Produto nao existe ou produto nao tem o que atualizar" || response.message == "Pet nao existe ou pet nao tem o que atualizar"){
                 Swal.fire({
                     title: "Error",
                     text: "Modifique algum dado para atualizar",

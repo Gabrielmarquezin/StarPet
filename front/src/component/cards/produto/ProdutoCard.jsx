@@ -13,12 +13,14 @@ function Produto({setLoading}){
     
     return(
         <Section>
-           {data.map(p => (
+           {data.map((p, i) => (
                <CardProduto src={p.photo == "" ? NoImage : "data:image/jpeg;base64,"+p.photo} 
                             nome={p.nome} 
-                            preco={p.preco} 
+                            preco={"R$"+p.preco} 
                             id={p.cod} 
-                            key={p.cod}
+                            type={p.ficha_pet ? "pet" : "produto"}
+                            descricao={p.descricao}
+                            key={i}
                 />
            ))}
         </Section>

@@ -14,6 +14,7 @@ class PedidoProdutoRoutes implements RoutesInterface{
 
     public function __construct(Router $route, PedidoProdutoController $pedido_controller)
     {
+        
         $this->route = $route;
         $this->controller = $pedido_controller;
     }
@@ -25,8 +26,11 @@ class PedidoProdutoRoutes implements RoutesInterface{
 
         $route->post('/StarPet/backend/pedido_produto/add', [$controller, "addPedido"])
               ->before(function(){
+                session_start();
+            
                 $body = file_get_contents('php://input');
-                $dados = json_decode($body, true);
+                $dados = $_POST;
+                
 
                 $pedido_data = [
                     "cod_user" => !isset($dados['cod_user']) ? null : $dados['cod_user'],
@@ -54,6 +58,7 @@ class PedidoProdutoRoutes implements RoutesInterface{
 
                     $CPF->lenghtCPF();
                     $CPF->isInvalid();
+
                     return true;
                 }catch(Exception $e){
                     echo json_encode(["message" => $e->getMessage()]);
@@ -81,11 +86,11 @@ class PedidoProdutoRoutes implements RoutesInterface{
         $route->post('/StarPet/backend/pedido_produto/pet/add', [$controller, "addPedidoPet"])
             ->before(function(){
                 $body = file_get_contents('php://input');
-                $dados = json_decode($body, true);
+                $dados = $_POST;
 
                 $pedido_data = [
                     "cod_user" => !isset($dados['cod_user']) ? null : $dados['cod_user'],
-                    "cod_pet" => !isset($dados['cod_pet']) ? null : $dados['cod_pet'],
+                    "cod_pet" => !isset($dados['cod_produto']) ? null : $dados['cod_produto'],
                     "cpf" => !isset($dados['cpf']) ? null : $dados['cpf'],
                     "rua" => !isset($dados['rua']) ? null : $dados['rua'],
                     "bairro" => !isset($dados['bairro']) ? null : $dados['bairro'],
@@ -134,7 +139,7 @@ class PedidoProdutoRoutes implements RoutesInterface{
         $route->post('/StarPet/backend/pedido_produto/banho/add', [$controller, "addBanho"])
               ->before(function(){
                 $body = file_get_contents('php://input');
-                $dados = json_decode($body, true);  
+                $dados = $_POST;  
 
                 $pedido_data = [
                     "pet_name" => !isset($dados['pet_name']) ? null : $dados['pet_name'],
@@ -161,8 +166,10 @@ class PedidoProdutoRoutes implements RoutesInterface{
                     $middleware->EmptyValues($pedido_data);
                     $middleware->ValueLenght($pedido_data['cep'], 9);
 
+
                     $CPF->lenghtCPF();
                     $CPF->isInvalid();
+                    
                     return true;
                 }catch(Exception $e){
                     echo json_encode(["message" => $e->getMessage()]);

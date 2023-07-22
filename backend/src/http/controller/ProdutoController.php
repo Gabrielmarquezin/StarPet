@@ -2,6 +2,7 @@
 namespace Boringue\Backend\http\controller;
 
 use Boringue\Backend\aplication\repositories\ProductRepository;
+use Boringue\Backend\aplication\repositories\SearchRepository;
 use Boringue\Backend\aplication\useCase\ProductCase;
 use Boringue\Backend\config\Database;
 use Boringue\Backend\domain\entities\CategoriaEntity;
@@ -98,6 +99,19 @@ class ProdutoController implements ProdutoControllerInterface{
         
     }
 
+    public function Search()
+    {
+        $nome_produto = $_GET["search"];
+        $product_case = new ProductCase(["nome" => $nome_produto]);
+
+        try {
+            $dados = $product_case->searchProduct(new ProductEntity(), new SearchRepository(new Database()));
+
+            echo json_encode($dados);
+        } catch (Exception $e) {
+            echo json_encode(["message" => $e->getMessage()]);
+        }
+    }
     public function update()
     {
         $body = file_get_contents('php://input');

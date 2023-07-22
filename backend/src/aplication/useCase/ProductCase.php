@@ -2,6 +2,7 @@
 namespace Boringue\Backend\aplication\useCase;
 
 use Boringue\Backend\aplication\repositories\ProductRepository;
+use Boringue\Backend\aplication\repositories\SearchRepository;
 use Boringue\Backend\aplication\useCase\contract\ProductCaseInterface;
 use Boringue\Backend\domain\entities\ProductEntity;
 use Boringue\Backend\domain\entities\CategoriaEntity;
@@ -11,6 +12,7 @@ use Boringue\Backend\file\RenderFile;
 use Error;
 use Exception;
 use FichaProduto;
+use Throwable;
 
 class ProductCase implements ProductCaseInterface{
      private $dados;
@@ -105,6 +107,23 @@ class ProductCase implements ProductCaseInterface{
 
          return $respose_data;
        }catch(Exception $e){
+         throw new Exception($e->getMessage());
+       }
+     }
+
+     public function searchProduct(ProductEntity $product, SearchRepository $searchRepository)
+     {
+       $dados = $this->dados;
+       $product->setNome($dados["nome"]);
+
+       try {
+         $dados = $searchRepository->search($product);
+         if(empty($dados)){
+            throw new Exception("produto inexistente");
+         }
+
+         return $dados;
+       } catch (Exception $e) {
          throw new Exception($e->getMessage());
        }
      }

@@ -138,7 +138,7 @@ class PetPedidoRepository implements PedidoProdutoRepositoryInterface{
         $cnt = $this->db;
         $id_user = $pedido->getCodUser();
         try{
-            $sql = "SELECT u.nome, u.photo AS photo_user, p.data_pedido, p.email, p.cep, p.bairro, p.rua, p.casa_number, p.cod_user, p.cod_pet, p.telefone, p.preco_total, pet.photo AS pet_photo, pet.preco, pet.nome AS pet_name, c.nome_categoria, f.method, f.cod_transaction, f.estado
+            $sql = "SELECT u.nome, u.photo AS photo_user, p.data_pedido, p.email, p.cep, p.bairro, p.rua, p.casa_number, p.cod_user, p.cod_pet, p.telefone, p.preco_total, pet.photo AS pet_photo, pet.preco, pet.nome AS pet_name, pet.descricao, c.nome_categoria, f.method, f.cod_transaction, f.estado
             FROM pet_pedido AS p
             INNER JOIN users AS u
             ON p.cod_user = u.cod
@@ -190,7 +190,8 @@ class PetPedidoRepository implements PedidoProdutoRepositoryInterface{
                         "photo" => $p['pet_photo'],
                         "preco_unit" => (float)$p['preco'],
                         "nome" => $p['pet_name'],
-                        "categoria" => $p['nome_categoria']
+                        "categoria" => $p['nome_categoria'],
+                        "descricao" => $p["descricao"]
                     ],
                     "payment" => [
                         "method" => $p['method'],

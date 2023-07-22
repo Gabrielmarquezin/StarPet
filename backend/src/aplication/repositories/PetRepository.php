@@ -471,7 +471,7 @@ class PetRepository implements PetRepositoryInterface{
         try{
             $sql = "UPDATE ficha_pet AS f
             INNER JOIN pet AS p
-            ON p.cod_fichatec = f.cod
+            ON p.cod_fichapet = f.cod
             SET f.estoque = f.estoque - '$produto_quantidade'
             WHERE p.cod = '$cod_produto'";
 

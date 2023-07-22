@@ -38,7 +38,7 @@ export const Main = styled.main`
 export const ContainerImage = styled.div.attrs(()=>({
     className: "container-img-produto"
 }))`
-    max-width: 100%;
+    max-width: 700px;
     min-width: 450px;
     height: 457px;
 `;
@@ -97,6 +97,10 @@ export const ContainerButton = styled.div`
     button:last-child{
         background-color: #e2edfc;
         color: #3483fa;
+    }
+
+    button:disabled{
+        cursor: not-allowed;
     }
 `;
 

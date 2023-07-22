@@ -2,6 +2,7 @@
 namespace Boringue\Backend\aplication\useCase\contract;
 
 use Boringue\Backend\aplication\repositories\ProductRepository;
+use Boringue\Backend\aplication\repositories\SearchRepository;
 use Boringue\Backend\domain\entities\CategoriaEntity;
 use Boringue\Backend\domain\entities\FichaProdutoEntity;
 use Boringue\Backend\domain\entities\ProductEntity;
@@ -11,6 +12,7 @@ interface ProductCaseInterface{
      public function addProduct(ProductEntity $product, ProductRepository $productRepository, FichaProdutoEntity $fichaTecnica);
      public function getProduct(ProductEntity $product,ProductRepository $productRepository, $id);
      public function getProductByCategoria(CategoriaEntity $categoria_entity, ProductRepository $productRepository);
+     public function searchProduct(ProductEntity $product, SearchRepository $searchRepository);
      public function updateProduct(ProductEntity $product,ProductRepository $productRepository);
      public function deleteProduct(ProductRepository $productRepository,$idProduto);
 }

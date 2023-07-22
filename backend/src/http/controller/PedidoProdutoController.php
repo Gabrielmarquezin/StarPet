@@ -27,16 +27,16 @@ class PedidoProdutoController implements PedidoInterface{
 
         if (strpos($contentType, 'multipart/form-data;') !== false) {
             $dados = [
-                "cod_user" => $_POST["cod_user"],
-                "cod_produto" => $_POST["cod_produto"],
+                "cod_user" => (int)$_POST["cod_user"],
+                "cod_produto" => (int) $_POST["cod_produto"],
                 "cpf" => $_POST["cpf"],
                 "rua" => $_POST["rua"],
                 "bairro" => $_POST["bairro"],
                 "casa_number" => $_POST["casa_number"],
                 "telefone" => $_POST["telefone"],
                 "email" => $_POST["email"],
-                "preco" => $_POST["preco"],
-                "quantidade" => $_POST["quantidade"],
+                "preco" => (float) $_POST["preco"],
+                "quantidade" => (int) $_POST["quantidade"],
                 "nome" => $_POST["nome"],
                 "cep" => $_POST["cep"],
                 "city" => $_POST["city"],
@@ -49,7 +49,7 @@ class PedidoProdutoController implements PedidoInterface{
         try{
             $qr_code = $pedido_case->addPedido(new PedidoProdutoEntity());
 
-            echo json_encode(["id_pedido" => $dados['cod_user'].$dados['cod_user'], "data" =>  date("Y-m-d H:i:s"), "qr_code" => $qr_code]);
+            echo json_encode(["id_pedido" => $dados['cod_user'], "data" =>  date("Y-m-d H:i:s"), "qr_code" => $qr_code]);
         }catch(Exception $e){
             echo json_encode($e->getMessage());
         }
@@ -105,7 +105,7 @@ class PedidoProdutoController implements PedidoInterface{
         if (strpos($contentType, 'multipart/form-data;') !== false) {
             $dados = [
                 "cod_user" => $_POST["cod_user"],
-                "cod_pet" => $_POST["cod_pet"],
+                "cod_pet" => $_POST["cod_produto"],
                 "cpf" => $_POST["cpf"],
                 "rua" => $_POST["rua"],
                 "bairro" => $_POST["bairro"],
@@ -118,15 +118,16 @@ class PedidoProdutoController implements PedidoInterface{
                 "cep" => $_POST["cep"],
                 "city" => $_POST["city"],
                 "uf" => $_POST["uf"],
+                "type" => "pet"
             ];
         }
 
         $pedido_case = new PedidoProdutoCase($dados, new PetPedidoRepository(new Database()));
 
         try{
-            $response = $pedido_case->addPedido(new PedidoProdutoEntity());
+            $qr_code = $pedido_case->addPedido(new PedidoProdutoEntity());
 
-            echo json_encode($response);
+            echo json_encode(["id_pedido" => $dados['cod_user'], "data" =>  date("Y-m-d H:i:s"), "qr_code" => $qr_code]);
         }catch(Exception $e){
             echo json_encode($e->getMessage());
         }
@@ -175,12 +176,12 @@ class PedidoProdutoController implements PedidoInterface{
     public function addBanho(){
         $body = file_get_contents('php://input');
         $dados = json_decode($body, true);
-        $banho_case = new PedidoBanhoCase($dados, new BanhoPedidoRepository(new Database()));
-
+       
         $headers = getallheaders();
         $contentType = $headers["Content-Type"];
 
         if (strpos($contentType, 'multipart/form-data;') !== false) {
+
             $dados = [
                 "cod_user" => $_POST["cod_user"],
                 "cod_horario" => $_POST["cod_horario"],
@@ -192,14 +193,18 @@ class PedidoProdutoController implements PedidoInterface{
                 "email" => $_POST["email"],
                 "preco" => $_POST["preco"],
                 "kit" => $_POST["kit"],
-                "pet_name" => $_POST["nome"],
+                "pet_name" => $_POST["pet_name"],
                 "cep" => $_POST["cep"],
                 "city" => $_POST["city"],
                 "uf" => $_POST["uf"],
                 "observacoes" => $_POST["observacoes"],
                 "nome" => $_POST["nome"]
             ];
+
+            
         }
+
+        $banho_case = new PedidoBanhoCase($dados, new BanhoPedidoRepository(new Database()));
 
         try{
             $response = $banho_case->addBanho(new AgendaBanhoEntity(), new PedidoBanhoEntity(), new MethodPaymentEntity());

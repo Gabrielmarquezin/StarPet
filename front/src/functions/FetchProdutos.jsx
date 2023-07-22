@@ -13,7 +13,10 @@ export async function getProducts(type){
     }
 
     try {
-        const request = await fetch(link);
+        const request = await fetch(link, {
+            method: "GET",
+            mode: "cors"
+        });
         const response = await request.json();
 
         return response;

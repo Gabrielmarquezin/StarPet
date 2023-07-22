@@ -40,6 +40,7 @@ export function FormPerfil({setLoading}){
         formData.append("photo", filee, "user.jpg")
         formData.append("cod_user", DataUser[0].cod)
 
+        console.log(formData);
         try {
             const request = await fetch(dominio+"/StarPet/backend/users/update", {
                 method: "POST",

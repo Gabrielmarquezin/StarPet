@@ -10,7 +10,7 @@ import { withLoadingAndFetch } from "../../HOC/withLoadingAndFetch";
 import { MainPerfil, SectionForm, SectionMenu, StyleForm } from "../../styles/routes/perfil/PerfilStyles";
 import { P } from "../../styles/ui/uis";
 import { AiOutlineClose } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const dominio = process.env.API_KEY;
 
@@ -46,16 +46,22 @@ function MyPerfil({data}){
                     <FooterMin />
                 </SectionMenu>
 
-                <SectionForm>
-                   <StyleForm className="ui-style-form-perfil">
-                        <P>PERFIL</P>
-                        <FormPerfil />
-                   </StyleForm>
-                   <Link to={"/"}><AiOutlineClose  size={35} /></Link>
-                </SectionForm>
+               <Outlet />
             </MainPerfil>
        </PerfilContext.Provider>
     )
 }
 
+
+export function Perfil(){
+    return(
+        <SectionForm>
+            <StyleForm className="ui-style-form-perfil">
+                <P>PERFIL</P>
+                <FormPerfil />
+            </StyleForm>
+            <Link to={"/"}><AiOutlineClose  size={35} /></Link>
+        </SectionForm>
+    )
+}
 export const MyPerfilWithLoading = withLoadingAndFetch(MyPerfil, FetchUser)

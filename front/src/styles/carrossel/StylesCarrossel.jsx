@@ -21,6 +21,7 @@ export const ContainerCarrossel = styled.div.attrs(()=>({
     width: ${props => props.widthcarrossel};
     height: ${props => props.heightcarrossel};
     padding: 10px 15px;
+    position: relative;
 `;
 ContainerCarrossel.defaultProps = {
     widthcarrossel: "100%"
@@ -36,6 +37,10 @@ export const CarrosselImage = styled.div`
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     gap: 10px;
+
+    img{
+        cursor: pointer;
+    }
 `;
 
 

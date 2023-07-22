@@ -16,7 +16,6 @@ import { FichaPet } from "../../component/table/produto/table";
 
 
 const dominio = process.env.API_KEY;
-const socket = new WebSocket("ws://localhost:3001/pet");
 
 export const PetContext = createContext();
 
@@ -50,18 +49,11 @@ export function Pet({data}){
                     {produto.length !== 0 && <FichaPet data={produto[0]} />}
                 </SectionOptionsPet>
                 <Hr />  
-                
-               <ContainerSectionComentario socket={socket}/>
-               <InputMsg socket={socket}/> 
+              
+               <InputMsg /> 
+
                 <Hr />
-                
-                <SectionCarrossel>
-                    <Carrossel img={[Image, Image, Image, Image]} 
-                               widthcarrossel="100%" 
-                               heightcarrossel="200px" 
-                               autoscroll={true}
-                    /> 
-                </SectionCarrossel>
+                    
             </Main>
             <Footer />
        </PetContext.Provider>
